@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: foodapi 
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: foodapi 
+    spec:
+      containers:
+        - name: foodapi 
+          image: integrationsonline.azurecr.io/foodapi
+          ports:
+          - containerPort: 80
