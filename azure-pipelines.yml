@@ -12,9 +12,7 @@ variables:
 
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'af77fdef-3547-492e-bc38-19bd64e9f506'
-  imageRepository: 'foodapi'
   containerRegistry: 'integrationsonline.azurecr.io'
-  dockerfilePath: 'FoodApi/dockerfile'
   tag: '$(Build.BuildId)'
   imagePullSecret: 'integrationsonline7d77-auth'
 
@@ -27,22 +25,43 @@ stages:
   displayName: Build Api
   jobs:  
   - job: BuildApi
-    displayName: Build
+    displayName: BuildApi
     pool:
-      vmImage: $(vmImageName)
+      vmImage: '$(vmImageName)'
     steps:
     - task: Docker@2
       displayName: Build and push an image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
+        repository: 'foodapi'
+        dockerfile: 'FoodApi/dockerfile'
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
           
     - upload: manifests
       artifact: manifests
+
+- stage: BuildUI
+  displayName: Build UI
+  jobs:  
+    - job: BuildUI
+      displayName: BuildUI
+      pool:
+        vmImage: $(vmImageName)
+      steps:
+      - task: Docker@2
+        displayName: Build and push an image to container registry
+        inputs:
+          command: buildAndPush
+          repository: 'foodui'
+          dockerfile: 'FoodUI/dockerfile'
+          containerRegistry: $(dockerRegistryServiceConnection)
+          tags: |
+            $(tag)
+            
+      - upload: manifests
+        artifact: manifests
 
 - stage: Deploy
   displayName: Deploy stage

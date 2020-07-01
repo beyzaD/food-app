@@ -1,10 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-    name: foodapi
+  name: foodapp
 spec:
-    type: LoadBalancer
-    ports:
-    - port: 80 
-    selector:
-        app: foodapi
+  type: LoadBalancer
+  ports:
+  - port: 8081
+    targetPort: 80
+  selector:
+    app: foodapp
