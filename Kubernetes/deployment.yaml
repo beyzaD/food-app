@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: foodui
+  name: foodapp
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: foodui
+      app: foodapp
   template:
     metadata:
       labels:
-        app: foodui                 
+        app: foodapp                 
     spec:
       containers:
       - name: foodui
@@ -22,16 +22,3 @@ spec:
           limits:            
             cpu: "500m"
             memory: "128Mi"
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: foodui
-spec:
-  type: LoadBalancer
-  ports:
-  - port: 8081
-    targetPort: 80
-  selector:
-    app: foodui
----
