@@ -1,0 +1,18 @@
+rnd=$RANDOM
+grp=az400-t03-deploydocker-$rnd
+appPlan=deploydocker-$rnd
+loc=westeurope
+reg=az400cr$rnd
+plan=deploydocker-$rnd
+
+# create a resource group
+az group create -n $grp -l $loc
+
+# create an App Service plan
+az appservice plan create -n $appPlan -g $grp --sku FREE
+
+az acr create -g $grp -n $reg --sku Basic -l westeurope --admin-enabled true
+
+az appservice plan create -n $plan -g $grp --sku b1 --is-linux
+
+az webapp create -g $grp -p $plan -n az400-foodservice -i $reg.azurecr.io/foodservice
