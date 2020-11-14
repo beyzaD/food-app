@@ -1,23 +1,23 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
-import { NavbarComponent } from "./shared/navbar/navbar.component";
-import { SidebarComponent } from "./shared/sidebar/sidebar.component";
-import { MainComponent } from "./main/main.component";
-import { HomeComponent } from "./home/home.component";
-import { AboutComponent } from "./about/about.component";
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { MaterialModule } from "./material.module";
-import { StoreModule } from "@ngrx/store";
-import { reducers, metaReducers } from "./store";
-import { EffectsModule } from "@ngrx/effects";
-import { environment } from "src/environments/environment";
-import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { FoodModule } from "./food/food.module";
-import { FlexLayoutModule } from "@angular/flex-layout";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { NavbarComponent } from './shared/navbar/navbar.component';
+import { SidebarComponent } from './shared/sidebar/sidebar.component';
+import { MainComponent } from './main/main.component';
+import { HomeComponent } from './home/home.component';
+import { AboutComponent } from './about/about.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { StoreModule } from '@ngrx/store';
+import { reducers, metaReducers } from './store';
+import { EffectsModule } from '@ngrx/effects';
+import { environment } from 'src/environments/environment';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { FoodModule } from './food/food.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { FooterComponent } from './shared/footer/footer.component';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { FooterComponent } from './shared/footer/footer.component';
     MainComponent,
     HomeComponent,
     AboutComponent,
-    FooterComponent
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,13 +44,13 @@ import { FooterComponent } from './shared/footer/footer.component';
       metaReducers,
       runtimeChecks: {
         strictStateImmutability: true,
-        strictActionImmutability: true
-      }
+        strictActionImmutability: true,
+      },
     }),
     EffectsModule.forRoot([]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
