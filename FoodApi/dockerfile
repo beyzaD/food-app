@@ -1,5 +1,6 @@
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /build
+
 COPY . .
 RUN dotnet restore "FoodApi.csproj"
 RUN dotnet publish -c Release -o /app
@@ -10,13 +11,15 @@ COPY --from=build /app .
 ENTRYPOINT ["dotnet", "FoodApi.dll"]
 
 # Build Image
-# docker build --rm -f "app.prod.dockerfile" -t foodapi .
-
-# Publish Image to dockerhub
-# docker tag foodapi arambazamba/foodapi
-# docker push arambazamba/foodapi
+# docker build --rm -f "dockerfile" -t foodservice .
 
 # Run Image
-# docker run foodapi -d --rm -it -p 8080:5000
+# docker run -it --rm -p 5051:80 foodservice
 
-# Browse using: http://localhost:8080
+# Browse using: 
+# http://localhost:5051/api/food
+
+# Publish Image to dockerhub
+# docker tag foodservice arambazamba/foodservice
+# docker push arambazamba/foodservice
+
