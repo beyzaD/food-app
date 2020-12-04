@@ -1,24 +1,24 @@
-import { Action } from '@ngrx/store';
-import { FoodItem } from '../../food.model';
+import { Action } from "@ngrx/store";
+import { FoodItem } from "../../food.model";
 
 export enum FoodActionTypes {
-  LoadFoods = '[Food] Load Foods',
-  LoadFoods_Success = '[Food] LoadFoods_Success',
-  LoadFoods_Error = '[Food] LoadFoods_Error',
-  SelectFood = '[Food] SelectFood'
+  LoadFood = "[Food] Load Foods",
+  LoadFood_Success = "[Food] LoadFood_Success",
+  LoadFood_Error = "[Food] LoadFood_Error",
+  SelectFood = "[Food] SelectFood",
 }
 
-export class LoadFoods implements Action {
-  readonly type = FoodActionTypes.LoadFoods;
+export class LoadFood implements Action {
+  readonly type = FoodActionTypes.LoadFood;
 }
 
 export class LoadFood_Success implements Action {
-  readonly type = FoodActionTypes.LoadFoods_Success;
+  readonly type = FoodActionTypes.LoadFood_Success;
   constructor(public payload: FoodItem[]) {}
 }
 
 export class LoadFood_Error implements Action {
-  readonly type = FoodActionTypes.LoadFoods_Error;
+  readonly type = FoodActionTypes.LoadFood_Error;
   constructor(public payload: Error) {}
 }
 
@@ -28,7 +28,7 @@ export class SelectFood implements Action {
 }
 
 export type FoodActions =
-  | LoadFoods
+  | LoadFood
   | LoadFood_Success
   | LoadFood_Error
   | SelectFood;

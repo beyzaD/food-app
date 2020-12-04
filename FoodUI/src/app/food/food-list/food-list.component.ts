@@ -4,15 +4,15 @@ import {
   Input,
   Output,
   EventEmitter,
-  SimpleChanges
-} from '@angular/core';
-import { FoodItem } from 'src/app/food/food.model';
-import { MatTableDataSource } from '@angular/material/table';
+  SimpleChanges,
+} from "@angular/core";
+import { FoodItem } from "src/app/food/food.model";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
-  selector: 'app-food-list',
-  templateUrl: './food-list.component.html',
-  styleUrls: ['./food-list.component.scss']
+  selector: "app-food-list",
+  templateUrl: "./food-list.component.html",
+  styleUrls: ["./food-list.component.scss"],
 })
 export class FoodListComponent implements OnInit {
   constructor() {}
@@ -20,9 +20,13 @@ export class FoodListComponent implements OnInit {
   @Input()
   food: FoodItem[];
   @Output()
-  editSelected: EventEmitter<FoodItem> = new EventEmitter();
+  onEditSelected: EventEmitter<FoodItem> = new EventEmitter();
   @Output()
-  deleteSelected: EventEmitter<FoodItem> = new EventEmitter();
+  onDeleteSelected: EventEmitter<FoodItem> = new EventEmitter();
+  @Output()
+  onAddToCart: EventEmitter<FoodItem> = new EventEmitter();
+  @Output()
+  onDeleteFromCart: EventEmitter<FoodItem> = new EventEmitter();
 
   ngOnInit() {}
 
@@ -32,12 +36,13 @@ export class FoodListComponent implements OnInit {
   }
 
   displayedColumns: string[] = [
-    'id',
-    'name',
-    'price',
-    'calories',
-    'deleteItem',
-    'editItem'
+    "name",
+    "price",
+    "calories",
+    "addItemToCart",
+    "removeItemFromCart",
+    "deleteItem",
+    "editItem",
   ];
   dataSource: MatTableDataSource<FoodItem> = new MatTableDataSource([]);
 
@@ -47,11 +52,11 @@ export class FoodListComponent implements OnInit {
 
   addFood() {
     console.log(this.getNextId());
-    this.editSelected.emit({
+    this.onEditSelected.emit({
       id: this.getNextId(),
-      name: '',
+      name: "",
       price: 0,
-      calories: 0
+      calories: 0,
     });
   }
 
@@ -60,10 +65,12 @@ export class FoodListComponent implements OnInit {
   }
 
   selectFood(p: FoodItem) {
-    this.editSelected.emit(p);
+    this.onEditSelected.emit(p);
   }
 
   deleteFood(p: FoodItem) {
-    this.deleteSelected.emit(p);
+    this.onDeleteSelected.emit(p);
   }
+
+  addItemToCart(f: FoodItem) {}
 }

@@ -1,6 +1,6 @@
-<mat-card>
-  <mat-card-content fxLayout="column" fxLayoutAlign="center start">
-    <form [formGroup]="form" (ngSubmit)="saveForm(form)" novalidate>
+<form [formGroup]="form" (ngSubmit)="saveForm(form)" novalidate>
+  <mat-card>
+    <mat-card-content fxLayout="column" fxLayoutAlign="center start">
       <mat-form-field>
         <input matInput type="text" placeholder="Name" formControlName="name" />
       </mat-form-field>
@@ -36,9 +36,15 @@
           formControlName="calories"
         />
       </mat-form-field>
-      <button mat-raised-button color="primary" type="submit">
-        Save
-      </button>
-    </form>
-  </mat-card-content>
-</mat-card>
+
+      <mat-card-actions align="end">
+        <button mat-raised-button color="primary" type="submit">
+          Save
+        </button>
+        <button mat-raised-button color="primary" (click)="mailTo()">
+          Mail to
+        </button>
+      </mat-card-actions>
+    </mat-card-content>
+  </mat-card>
+</form>

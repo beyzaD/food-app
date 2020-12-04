@@ -69,7 +69,6 @@ export class AppInsightsService implements OnDestroy {
     return path;
   }
 
-  //TODO: REfactor to use props like in server side
   logEvent(name: string, data: any) {
     this.appInsights.trackEvent({ name, properties: data });
     this.appInsights.stopTrackEvent(name);

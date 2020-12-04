@@ -1,9 +1,8 @@
-import { Action } from '@ngrx/store';
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { FoodItem } from '../../food.model';
-import { FoodActions, FoodActionTypes } from '../actions/food.actions';
+import { EntityState, EntityAdapter, createEntityAdapter } from "@ngrx/entity";
+import { FoodItem } from "../../food.model";
+import { FoodActions, FoodActionTypes } from "../actions/food.actions";
 
-export const foodFeatureKey = 'food';
+export const foodFeatureKey = "food";
 
 export interface FoodState extends EntityState<FoodItem> {
   selected: FoodItem;
@@ -16,7 +15,7 @@ export const foodAdapter: EntityAdapter<FoodItem> = createEntityAdapter<
 export const defaultFoodState: FoodState = {
   ids: [],
   entities: {},
-  selected: null
+  selected: null,
 };
 
 export const initialState = foodAdapter.getInitialState(defaultFoodState);
@@ -26,15 +25,15 @@ export function FoodReducer(
   action: FoodActions
 ): FoodState {
   switch (action.type) {
-    case FoodActionTypes.LoadFoods: {
+    case FoodActionTypes.LoadFood: {
       return state;
     }
-    case FoodActionTypes.LoadFoods_Success: {
+    case FoodActionTypes.LoadFood_Success: {
       return foodAdapter.addAll(action.payload, {
-        ...state
+        ...state,
       });
     }
-    case FoodActionTypes.LoadFoods_Error: {
+    case FoodActionTypes.LoadFood_Error: {
       return { ...state };
     }
     case FoodActionTypes.SelectFood: {
