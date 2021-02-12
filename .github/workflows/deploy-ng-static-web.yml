@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - master
+    paths:
+      - 'FoodUI/**'
+        
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
