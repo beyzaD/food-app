@@ -1,12 +1,12 @@
-name: Azure Static Web Apps CI/CD
+name: ng to Azure Static Web App
 
 on:
   push:
     branches:
       - master
     paths:
-      - 'FoodUI/**'
-        
+      - "FoodUI/**"
+
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
