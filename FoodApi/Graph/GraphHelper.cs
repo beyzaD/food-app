@@ -47,7 +47,7 @@ namespace FoodApp
             toRecipientsList.Add(toRecipients);
         }
 
-        public static bool Send(string Subject, string Message, string[] Recipient, GraphCfg config)
+        public static bool Send(string Subject, string Message, string[] Recipient, FoodConfig config)
         {
             var result = false;
 
@@ -72,8 +72,8 @@ namespace FoodApp
                 ToRecipients = recipients,
             };
 
-            config.returnUrl = config.frontendUrl;
-            sendMail(config, message, config.mailSender);
+            // config.returnUrl = config.App.FrontendUrl;
+            sendMail(config.GraphCfg, message, config.App.MailSender);
 
             result = true;
             return result;

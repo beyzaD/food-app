@@ -1,3 +1,4 @@
+using FoodApp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -24,15 +25,18 @@ namespace FoodApi
                 .SetBasePath (env.ContentRootPath)
                 .AddJsonFile ("appsettings.json");
             var configuration = cfgBuilder.Build ();
-            services.Configure<FoodApp.AppConfig> (configuration);
+
+            services.Configure<FoodApp.FoodConfig> (configuration);
             services.AddSingleton (typeof (IConfigurationRoot), configuration);
 
             //EF
             var conStrLite = Configuration["ConnectionStrings:SQLiteDBConnection"];
             services.AddEntityFrameworkSqlite ().AddDbContext<FoodDBContext> (options => options.UseSqlite (conStrLite));
 
-            //AI
+            //Aplication Insights
             services.AddApplicationInsightsTelemetry (Configuration["Azure:ApplicationInsights:InstrumentationKey"]);
+
+            services.AddSingleton<AILogger>();
 
             //Swagger
             services.AddSwaggerGen (c => {
