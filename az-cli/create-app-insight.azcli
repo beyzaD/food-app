@@ -1,0 +1,6 @@
+rnd=020
+grp=foodapp
+loc=westeurope
+ai=foodapp
+
+az monitor app-insights component create --app $ai -l $loc --kind web -g $grp --application-type web --retention-time 30

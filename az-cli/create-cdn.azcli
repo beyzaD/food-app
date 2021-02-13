@@ -1,0 +1,20 @@
+rnd=020
+grp=foodapp
+loc=westeurope
+profile=ngprofile
+epname=ngendpoint
+acct=staticwebsite$rnd
+content='/FoodUI/dist/FoodUI/'
+
+# Update value from script create-static-website.azcli without https:// and / at the end
+pep='ngfoodui020.z6.web.core.windows.net'
+
+az cdn profile create -g $grp --name $profile --sku Standard_Microsoft
+
+az cdn endpoint create -g $grp --name $epname --profile-name $profile --origin $pep --origin-host-header $pep
+
+# Url ReWrite
+az cdn endpoint rule add -n $epname -g $grp --profile-name $profile --rule-name sparewrite --order 1 --action-name "UrlRewrite" --source-pattern '/' --destination /index.html --preserve-unmatched-path false --match-variable UrlFileExtension --operator LessThan --match-value 1
+
+# Enforce Https
+az cdn endpoint rule add -n $epname -g $grp --profile-name $profile --rule-name enforcehttps --order 2 --action-name "UrlRedirect"  --redirect-type Found --redirect-protocol HTTPS --match-variable RequestScheme --operator Equal --match-value HTTP

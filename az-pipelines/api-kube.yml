@@ -1,0 +1,91 @@
+trigger:
+  - master
+
+resources:
+  - repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: "af77fdef-3547-492e-bc38-19bd64e9f506"
+  containerRegistry: "integrationsonline.azurecr.io"
+  tag: "$(Build.BuildId)"
+  imagePullSecret: "integrationsonline7d77-auth"
+
+  # Agent VM image name
+  vmImageName: "ubuntu-latest"
+
+stages:
+  - stage: BuildApi
+    displayName: Build Api
+    jobs:
+      - job: BuildApi
+        displayName: BuildApi
+        pool:
+          vmImage: "$(vmImageName)"
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: "foodapi"
+              dockerfile: "FoodApi/dockerfile"
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+          - upload: manifests
+            artifact: manifests
+
+  - stage: BuildUI
+    displayName: Build UI
+    jobs:
+      - job: BuildUI
+        displayName: BuildUI
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              repository: "foodui"
+              dockerfile: "FoodUI/dockerfile"
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+
+          - upload: manifests
+            artifact: manifests
+
+  - stage: Deploy
+    displayName: Deploy stage
+    dependsOn: [BuildApi, BuildUI]
+
+    jobs:
+      - deployment: Deploy
+        displayName: Deploy
+        pool:
+          vmImage: $(vmImageName)
+        environment: "ARambazambaFoodApp.ns-foodapp"
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: KubernetesManifest@0
+                  displayName: Create imagePullSecret
+                  inputs:
+                    action: createSecret
+                    secretName: $(imagePullSecret)
+                    dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
+
+                - task: KubernetesManifest@0
+                  displayName: Deploy to Kubernetes cluster
+                  inputs:
+                    action: "deploy"
+                    kubernetesServiceConnection: "DevCluster-ns-foodapp"
+                    namespace: "ns-foodapp"
+                    manifests: |
+                      $(Pipeline.Workspace)/manifests/deployment.yml
+                      $(Pipeline.Workspace)/manifests/service.yml
+                    containers: "$(containerRegistry)/$(imageRepository):$(tag)"
+                    imagePullSecrets: "$(imagePullSecret)"
