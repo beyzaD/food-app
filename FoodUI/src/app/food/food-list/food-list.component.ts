@@ -55,8 +55,10 @@ export class FoodListComponent implements OnInit {
     this.onEditSelected.emit({
       id: this.getNextId(),
       name: "",
-      price: 0,
-      calories: 0,
+      amount: 1,
+      code: "abc",
+      date: new Date(),
+      pictureUrl: "",
     });
   }
 

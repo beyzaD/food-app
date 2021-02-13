@@ -20,6 +20,7 @@ import { FoodModule } from "./food/food.module";
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { FooterComponent } from "./shared/footer/footer.component";
 import { ConfigService } from "./shared/config/config.service";
+import { ScanComponent } from './scan/scan/scan.component';
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv.init();
@@ -34,6 +35,7 @@ export function appInit(configsrv: ConfigService) {
     HomeComponent,
     AboutComponent,
     FooterComponent,
+    ScanComponent,
   ],
   imports: [
     BrowserModule,
