@@ -24,7 +24,7 @@ namespace FoodApi
                 .SetBasePath (env.ContentRootPath)
                 .AddJsonFile ("appsettings.json");
             var configuration = cfgBuilder.Build ();
-            services.Configure<AppConfig> (configuration);
+            services.Configure<FoodApp.AppConfig> (configuration);
             services.AddSingleton (typeof (IConfigurationRoot), configuration);
 
             //EF
