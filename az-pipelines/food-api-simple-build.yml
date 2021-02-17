@@ -1,9 +1,11 @@
-name: "build-simple-net-core-api-yaml"
+name: "food-api-simple-build-yaml"
 trigger:
   branches:
     include:
       - master
-
+  paths:
+    include:
+      - FoodApi/
 pool:
   vmImage: "ubuntu-latest"
 
