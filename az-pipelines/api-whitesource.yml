@@ -1,0 +1,51 @@
+pool:
+  vmImage: "ubuntu-20.04"
+
+variables:
+  dotnetSdkVersion: "5.x"
+  buildConfiguration: "Release"
+  releaseBranchName: "master"
+  apifolder: "FoodApi"
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - $(apifolder)
+
+steps:
+  - task: UseDotNet@2
+    displayName: "Use .NET Core SDK $(dotnetSdkVersion)"
+    inputs:
+      version: "$(dotnetSdkVersion)"
+
+  - task: DotNetCoreCLI@2
+    displayName: "Restore project dependencies"
+    inputs:
+      command: "restore"
+      projects: "$(apifolder)/*.csproj"
+
+  - task: DotNetCoreCLI@2
+    displayName: "Build the project - $(buildConfiguration)"
+    inputs:
+      command: "build"
+      arguments: "--no-restore --configuration $(buildConfiguration)"
+      projects: "$(apifolder)/*.csproj"
+
+  - task: DotNetCoreCLI@2
+    displayName: "Publish the project - $(buildConfiguration)"
+    inputs:
+      command: "publish"
+      projects: "$(apifolder)/*.csproj"
+      publishWebProjects: false
+      arguments: "--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)"
+      zipAfterPublish: true
+
+  - task: WhiteSource Bolt@20
+    displayName: "Run WhiteSource Bolt"
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifact: drop"
+    condition: succeeded()
