@@ -1,6 +1,6 @@
 name: FoodApi Docker Build
 pool:
-  vmImage: "ubuntu-latest"
+  vmImage: "ubuntu-20.04"
 trigger:
   branches:
     include:
