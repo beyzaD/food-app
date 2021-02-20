@@ -15,7 +15,7 @@ variables:
   dockerReg: "integrationsonline"
   conARM: "scDocker"
   imageName: "foodapi"
-  appService: "az400-foodservice"
+  appService: "foodapi-21482"
 
 stages:
   - stage: "BuildApi"
