@@ -1,16 +1,19 @@
 name: "food-api-simple-build-yaml"
+
+variables:
+  buildConfiguration: "Release"
+  apifolder: "FoodApi"
+
 trigger:
   branches:
     include:
       - master
   paths:
     include:
-      - FoodApi/
+      - $(apifolder)
+
 pool:
   vmImage: "ubuntu-20.04"
-
-variables:
-  buildConfiguration: "Release"
 
 stages:
   - stage: "Build"
@@ -29,7 +32,7 @@ stages:
             displayName: Build
             inputs:
               command: build
-              projects: "**/*.csproj"
+              projects: "$(apifolder)/*.csproj"
               arguments: "--configuration $(buildConfiguration)"
 
           - task: DotNetCoreCLI@2

@@ -1,10 +1,8 @@
-pool:
-  vmImage: "ubuntu-20.04"
+name: "food-api whitesource bolt"
 
 variables:
   dotnetSdkVersion: "5.x"
   buildConfiguration: "Release"
-  releaseBranchName: "master"
   apifolder: "FoodApi"
 
 trigger:
@@ -14,6 +12,9 @@ trigger:
   paths:
     include:
       - $(apifolder)
+
+pool:
+  vmImage: "ubuntu-20.04"
 
 steps:
   - task: UseDotNet@2
