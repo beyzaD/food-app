@@ -13,7 +13,7 @@ variables:
   buildConfiguration: "Release"
   apiPath: "FoodApi/"
   dockerReg: "integrationsonline"
-  conARM: "scDocker"
+  conARM: "az400-m015"
   imageName: "foodapi"
   appService: "foodapi-21482"
 
