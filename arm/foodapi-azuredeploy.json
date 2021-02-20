@@ -1,0 +1,240 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "apiname": {
+      "defaultValue": "foodapi-025",
+      "type": "String"
+    },
+    "apiplan": {
+      "defaultValue": "foodplan-025",
+      "type": "String"
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "type": "Microsoft.Web/serverfarms",
+      "apiVersion": "2018-02-01",
+      "name": "[parameters('apiplan')]",
+      "location": "West Europe",
+      "sku": {
+        "name": "F1",
+        "tier": "Free",
+        "size": "F1",
+        "family": "F",
+        "capacity": 1
+      },
+      "kind": "linux",
+      "properties": {
+        "perSiteScaling": false,
+        "maximumElasticWorkerCount": 1,
+        "isSpot": false,
+        "reserved": true,
+        "isXenon": false,
+        "hyperV": false,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites",
+      "apiVersion": "2018-11-01",
+      "name": "[parameters('apiname')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('apiplan'))]"
+      ],
+      "kind": "app,linux",
+      "properties": {
+        "enabled": true,
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('apiname'), '.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Standard"
+          },
+          {
+            "name": "[concat(parameters('apiname'), '.scm.azurewebsites.net')]",
+            "sslState": "Disabled",
+            "hostType": "Repository"
+          }
+        ],
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('apiplan'))]",
+        "reserved": true,
+        "isXenon": false,
+        "hyperV": false,
+        "siteConfig": {},
+        "scmSiteAlsoStopped": false,
+        "clientAffinityEnabled": true,
+        "clientCertEnabled": false,
+        "hostNamesDisabled": false,
+        "containerSize": 0,
+        "dailyMemoryTimeQuota": 0,
+        "httpsOnly": false,
+        "redundancyMode": "None"
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/config",
+      "apiVersion": "2018-11-01",
+      "name": "[concat(parameters('apiname'), '/web')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('apiname'))]"
+      ],
+      "properties": {
+        "numberOfWorkers": 1,
+        "defaultDocuments": [
+          "Default.htm",
+          "Default.html",
+          "Default.asp",
+          "index.htm",
+          "index.html",
+          "iisstart.htm",
+          "default.aspx",
+          "index.php",
+          "hostingstart.html"
+        ],
+        "netFrameworkVersion": "v4.0",
+        "linuxFxVersion": "DOTNETCORE|5.0",
+        "requestTracingEnabled": false,
+        "remoteDebuggingEnabled": false,
+        "remoteDebuggingVersion": "VS2019",
+        "httpLoggingEnabled": false,
+        "logsDirectorySizeLimit": 35,
+        "detailedErrorLoggingEnabled": false,
+        "publishingUsername": "$foodapi-025",
+        "azureStorageAccounts": {},
+        "scmType": "VSTSRM",
+        "use32BitWorkerProcess": true,
+        "webSocketsEnabled": false,
+        "alwaysOn": false,
+        "managedPipelineMode": "Integrated",
+        "virtualApplications": [
+          {
+            "virtualPath": "/",
+            "physicalPath": "site\\wwwroot",
+            "preloadEnabled": false
+          }
+        ],
+        "loadBalancing": "LeastRequests",
+        "experiments": {
+          "rampUpRules": []
+        },
+        "autoHealEnabled": false,
+        "localMySqlEnabled": false,
+        "ipSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 1,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictions": [
+          {
+            "ipAddress": "Any",
+            "action": "Allow",
+            "priority": 1,
+            "name": "Allow all",
+            "description": "Allow all access"
+          }
+        ],
+        "scmIpSecurityRestrictionsUseMain": false,
+        "http20Enabled": true,
+        "minTlsVersion": "1.2",
+        "ftpsState": "AllAllowed",
+        "reservedInstanceCount": 0
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "apiVersion": "2018-11-01",
+      "name": "[concat(parameters('apiname'), '/11613546686498')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('apiname'))]"
+      ],
+      "properties": {
+        "status": 4,
+        "author": "Alexander Pajer",
+        "deployer": "VSTS",
+        "message": "{\"type\":\"Deployment\",\"commitId\":\"7acdf6c46186a8773f251b7fde6315bf9440cb97\",\"buildId\":\"38\",\"releaseId\":\"1\",\"buildNumber\":\"build-simple-net-core-api-yaml\",\"releaseName\":\"Release-1\",\"repoProvider\":\"GitHub\",\"repoName\":\"ARambazamba/FoodApp\",\"collectionUrl\":\"https://dev.azure.com/az-400-v2/\",\"teamProject\":\"ff3c99a6-89ee-4f0d-ad12-d9da47e99f73\",\"buildProjectUrl\":\"https://dev.azure.com/az-400-v2/ff3c99a6-89ee-4f0d-ad12-d9da47e99f73\",\"repositoryUrl\":\"\",\"branch\":\"master\",\"teamProjectName\":\"AZ-400-M10-ReleaseStrategy\",\"slotName\":\"production\"}",
+        "start_time": "2021-02-17T07:24:46.7507612Z",
+        "end_time": "2021-02-17T07:24:46.7507612Z",
+        "active": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "apiVersion": "2018-11-01",
+      "name": "[concat(parameters('apiname'), '/19af3d9b29c549cdbc8123ef14441270')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('apiname'))]"
+      ],
+      "properties": {
+        "status": 4,
+        "author_email": "N/A",
+        "author": "N/A",
+        "deployer": "VSTS_ZIP_DEPLOY",
+        "message": "Created via a push deployment",
+        "start_time": "2021-02-17T07:24:36.4469288Z",
+        "end_time": "2021-02-17T07:24:42.3039666Z",
+        "active": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "apiVersion": "2018-11-01",
+      "name": "[concat(parameters('apiname'), '/4065d02d7e1b4d979d307761bf6b8f0a')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('apiname'))]"
+      ],
+      "properties": {
+        "status": 4,
+        "author_email": "N/A",
+        "author": "N/A",
+        "deployer": "VSTS_ZIP_DEPLOY",
+        "message": "Created via a push deployment",
+        "start_time": "2021-02-17T11:17:45.4869797Z",
+        "end_time": "2021-02-17T11:18:01.3344559Z",
+        "active": false
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/deployments",
+      "apiVersion": "2018-11-01",
+      "name": "[concat(parameters('apiname'), '/51613560686791')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('apiname'))]"
+      ],
+      "properties": {
+        "status": 4,
+        "author": "Alexander Pajer",
+        "deployer": "VSTS",
+        "message": "{\"type\":\"Deployment\",\"commitId\":\"dfd9d303ab60437204de6ade9171b62481fcbb53\",\"buildId\":\"39\",\"releaseId\":\"5\",\"buildNumber\":\"food-api-simple-build-yaml\",\"releaseName\":\"Release-4\",\"repoProvider\":\"GitHub\",\"repoName\":\"ARambazamba/FoodApp\",\"collectionUrl\":\"https://dev.azure.com/az-400-v2/\",\"teamProject\":\"ff3c99a6-89ee-4f0d-ad12-d9da47e99f73\",\"buildProjectUrl\":\"https://dev.azure.com/az-400-v2/ff3c99a6-89ee-4f0d-ad12-d9da47e99f73\",\"repositoryUrl\":\"\",\"branch\":\"master\",\"teamProjectName\":\"AZ-400-M10-ReleaseStrategy\",\"slotName\":\"production\"}",
+        "start_time": "2021-02-17T11:18:08.5220541Z",
+        "end_time": "2021-02-17T11:18:08.5220541Z",
+        "active": true
+      }
+    },
+    {
+      "type": "Microsoft.Web/sites/hostNameBindings",
+      "apiVersion": "2018-11-01",
+      "name": "[concat(parameters('apiname'), '/', parameters('apiname'), '.azurewebsites.net')]",
+      "location": "West Europe",
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/sites', parameters('apiname'))]"
+      ],
+      "properties": {
+        "siteName": "foodapi-025",
+        "hostNameType": "Verified"
+      }
+    }
+  ]
+}
