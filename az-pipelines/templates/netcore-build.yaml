@@ -6,7 +6,7 @@ parameters:
     type: string
 
 steps:
-  - script: echo $(cfg)
+  - script: echo ${{cfg}}
     displayName: "Echo"
 
   - task: UseDotNet@2
@@ -19,7 +19,7 @@ steps:
     displayName: "Restore project dependencies"
     inputs:
       command: "restore"
-      projects: "$(folder)/*.csproj"
+      projects: "${{folder}}/*.csproj"
 
   - task: DotNetCoreCLI@2
     displayName: "Build the project - $(cfg)"
