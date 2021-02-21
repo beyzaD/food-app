@@ -1,4 +1,4 @@
-name: "food-api multistage build and test"
+name: "food-api multistage build and test using templates"
 
 variables:
   dotnetSdkVersion: "5.x"
@@ -28,7 +28,7 @@ stages:
         steps:
           - template: templates/netcore-build.yaml
             parameters:
-              sdk: $(dotnetSdkVersion)
+              # sdk: $(dotnetSdkVersion)
               cfg: $(buildConfiguration)
               folder: $(apifolder)
 

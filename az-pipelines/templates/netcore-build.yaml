@@ -1,7 +1,7 @@
 parameters:
   - name: sdk
     type: string
-    default: ""
+    default: "5.x"
 
   - name: cfg
     type: string
