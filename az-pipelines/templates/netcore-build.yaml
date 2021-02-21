@@ -1,13 +1,14 @@
 parameters:
   - name: cfg
     type: string
-    default: ""
 
   - name: folder
     type: string
-    default: ""
 
 steps:
+  - script: echo $cfg
+    displayName: "Echo"
+
   - task: UseDotNet@2
     displayName: "Install .NET 5 SDK"
     inputs:
