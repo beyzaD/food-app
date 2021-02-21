@@ -21,19 +21,19 @@ steps:
       projects: "${{ parameters.folder }}/*.csproj"
 
   - task: DotNetCoreCLI@2
-    displayName: "Build the project - $(cfg)"
+    displayName: "Build the project - ${{ parameters.cfg }}"
     inputs:
       command: "build"
-      arguments: "--no-restore --configuration $(cfg)"
+      arguments: "--no-restore --configuration ${{ parameters.cfg }}"
       projects: "${{ parameters.folder }}/*.csproj"
 
   - task: DotNetCoreCLI@2
-    displayName: "Publish the project - $(cfg)"
+    displayName: "Publish the project - ${{ parameters.cfg }}"
     inputs:
       command: "publish"
       projects: "${{ parameters.folder }}/*.csproj"
       publishWebProjects: false
-      arguments: "--no-build --configuration $(cfg) --output $(Build.ArtifactStagingDirectory)/$(cfg)"
+      arguments: "--no-build --configuration ${{ parameters.cfg }} --output $(Build.ArtifactStagingDirectory)/${{ parameters.cfg }}"
       zipAfterPublish: true
 
   - task: PublishBuildArtifacts@1
