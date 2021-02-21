@@ -9,8 +9,9 @@ parameters:
 
 steps:
   - task: UseDotNet@2
-    displayName: "Use .NET Core SDK 5.x"
+    displayName: "Install .NET 5 SDK"
     inputs:
+      packageType: "sdk"
       version: "5.x"
 
   - task: DotNetCoreCLI@2
