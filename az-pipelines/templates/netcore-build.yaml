@@ -6,7 +6,7 @@ parameters:
     type: string
 
 steps:
-  - script: echo $cfg
+  - script: echo $(cfg)
     displayName: "Echo"
 
   - task: UseDotNet@2
