@@ -1,8 +1,4 @@
 parameters:
-  - name: sdk
-    type: string
-    default: "5.x"
-
   - name: cfg
     type: string
     default: ""
@@ -13,9 +9,9 @@ parameters:
 
 steps:
   - task: UseDotNet@2
-    displayName: "Use .NET Core SDK $(sdk)"
+    displayName: "Use .NET Core SDK "5.x""
     inputs:
-      version: "$(sdk)"
+      version: "5.x"
 
   - task: DotNetCoreCLI@2
     displayName: "Restore project dependencies"

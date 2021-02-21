@@ -28,7 +28,6 @@ stages:
         steps:
           - template: templates/netcore-build.yaml
             parameters:
-              # sdk: $(dotnetSdkVersion)
               cfg: $(buildConfiguration)
               folder: $(apifolder)
 
