@@ -1,0 +1,46 @@
+parameters:
+    - name: sdk
+    type: string
+    default: ""
+
+    - name: cfg
+    type: string
+    default: ""
+
+    - name: folder
+    type: string
+    default: ""
+
+steps:    
+    - task: UseDotNet@2
+    displayName: "Use .NET Core SDK $(sdk)"
+    inputs:
+        version: "$(sdk)"
+
+    - task: DotNetCoreCLI@2
+    displayName: "Restore project dependencies"
+    inputs:
+        command: "restore"
+        projects: "$(folder)/*.csproj"
+
+    - task: DotNetCoreCLI@2
+    displayName: "Build the project - $(cfg)"
+    inputs:
+        command: "build"
+        arguments: "--no-restore --configuration $(cfg)"
+        projects: "$(folder)/*.csproj"
+
+    - task: DotNetCoreCLI@2
+    displayName: "Publish the project - $(cfg)"
+    inputs:
+        command: "publish"
+        projects: "$(folder)/*.csproj"
+        publishWebProjects: false
+        arguments: "--no-build --configuration $(cfg) --output $(Build.ArtifactStagingDirectory)/$(cfg)"
+        zipAfterPublish: true
+
+    - task: PublishBuildArtifacts@1
+    inputs:
+        PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+        ArtifactName: "drop"
+    publishLocation: "Container"
