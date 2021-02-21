@@ -1,15 +1,13 @@
 parameters:
   - name: cfg
     type: string
+    default: ""
 
   - name: folder
     type: string
+    default: ""
 
 steps:
-  - script: |
-      echo $(folder)
-    displayName: "Echo"
-
   - task: UseDotNet@2
     displayName: "Install .NET 5 SDK"
     inputs:
@@ -20,20 +18,20 @@ steps:
     displayName: "Restore project dependencies"
     inputs:
       command: "restore"
-      projects: "$(folder)/*.csproj"
+      projects: "${{ parameters.folder }}/*.csproj"
 
   - task: DotNetCoreCLI@2
     displayName: "Build the project - $(cfg)"
     inputs:
       command: "build"
       arguments: "--no-restore --configuration $(cfg)"
-      projects: "$(folder)/*.csproj"
+      projects: "${{ parameters.folder }}/*.csproj"
 
   - task: DotNetCoreCLI@2
     displayName: "Publish the project - $(cfg)"
     inputs:
       command: "publish"
-      projects: "$(folder)/*.csproj"
+      projects: "${{ parameters.folder }}/*.csproj"
       publishWebProjects: false
       arguments: "--no-build --configuration $(cfg) --output $(Build.ArtifactStagingDirectory)/$(cfg)"
       zipAfterPublish: true
