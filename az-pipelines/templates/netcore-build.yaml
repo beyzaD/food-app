@@ -7,7 +7,7 @@ parameters:
 
 steps:
   - script: |
-    echo $(folder)    
+      echo $(folder)
     displayName: "Echo"
 
   - task: UseDotNet@2
