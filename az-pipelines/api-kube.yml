@@ -45,7 +45,7 @@ stages:
         displayName: Deploy
         pool:
           vmImage: $(vmImageName)
-          environment: "Production"
+          environment: "ARambazambaFoodApp.ns-foodapp"
         strategy:
           runOnce:
             deploy:
