@@ -45,7 +45,7 @@ stages:
         displayName: Deploy
         pool:
           vmImage: $(vmImageName)
-          environment: "ARambazambaFoodApp"
+        environment: "ARambazambaFoodApp"
         strategy:
           runOnce:
             deploy:
