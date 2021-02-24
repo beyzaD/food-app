@@ -6,33 +6,35 @@ resources:
 
 variables:
   dockerReg: "conDockerReg"
+  imageName: "foodapi"
   acr: "integrationsonline.azurecr.io"
   tag: "$(Build.BuildId)"
   kube: "conKube"
-  ns: "foodapp"
-  imagePullSecret: "integrationsonline7d77-auth"
+  ns: "foodapp-prod"
 
 stages:
-  - stage: BuildApi
-    displayName: Build Api
+  - stage: "BuildApi"
+    displayName: "Build Api Image"
     jobs:
-      - job: BuildApi
-        displayName: BuildApi
-        pool:
-          vmImage: "ubuntu-20.04"
+      - job: "Build"
         steps:
           - task: Docker@2
-            displayName: Build and push an image to container registry
+            displayName: Login to ACR
             inputs:
-              command: buildAndPush
-              repository: "foodapi"
-              dockerfile: "FoodApi/dockerfile"
-              acr: $(dockerReg)
-              tags: |
-                $(tag)
+              command: login
+              containerRegistry: $(dockerReg)
 
-          - upload: manifests
-            artifact: manifests
+          - task: Docker@2
+            displayName: Build and Push
+            inputs:
+              repository: $(imageName)
+              command: buildAndPush
+              Dockerfile: FoodApi/dockerfile
+          - task: Docker@2
+            displayName: Logout of ACR
+            inputs:
+              command: logout
+              containerRegistry: $(dockerReg)
 
   - stage: Deploy
     displayName: Deploy stage
@@ -64,4 +66,3 @@ stages:
                     manifests: |
                       $(Pipeline.Workspace)/manifests/foodservice.yml
                     containers: "$(acr)/$(imageRepository):$(tag)"
-                    imagePullSecrets: "$(imagePullSecret)"
