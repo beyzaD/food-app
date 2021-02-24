@@ -5,15 +5,13 @@ trigger:
   branches:
     include:
       - master
-      - development
   paths:
     include:
       - FoodApi/*
 variables:
   buildConfiguration: "Release"
   apiPath: "FoodApi/"
-  dockerReg: "az400-m15acr"
-  conARM: "az400-m015"
+  dockerReg: "integrationsonline"
   imageName: "foodapi"
   appService: "foodapi-21482"
 
