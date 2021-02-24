@@ -3,11 +3,11 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "apiname": {
-      "defaultValue": "foodapi-025",
+      "defaultValue": "foodapi-030",
       "type": "String"
     },
     "apiplan": {
-      "defaultValue": "foodplan-025",
+      "defaultValue": "foodplan-030",
       "type": "String"
     }
   },
