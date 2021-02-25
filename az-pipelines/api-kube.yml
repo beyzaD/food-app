@@ -2,11 +2,11 @@ trigger:
   - master
 
 variables:
-  dockerReg: "conDockerReg"
+  dockerReg: "Container Registry Connection"
   imageName: "foodapi"
-  acr: "integrationsonline.azurecr.io"
+  acr: "az400m16reg.azurecr.io"
   tag: "$(Build.BuildId)"
-  kube: "conKube"
+  kube: "Kubernetes Cluster Connection"
   ns: "foodapp-prod"
   imagePullSecret: "secret"
 
@@ -19,7 +19,7 @@ stages:
         displayName: Deploy Job
         pool:
           vmImage: $(vmImageName)
-        environment: Dev.foodapp-prod
+        environment: 'spike.default'
         strategy:
           runOnce:
             deploy:
@@ -41,4 +41,4 @@ stages:
                     manifests: |
                       $(Pipeline.Workspace)/manifests/foodservice.yml
                     imagePullSecrets: $(imagePullSecret)
-                    containers: "$(acr)/$(imageRepository):$(tag)"
+                    containers: "$(acr)/$(imageName):$(tag)"
