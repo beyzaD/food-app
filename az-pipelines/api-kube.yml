@@ -1,9 +1,6 @@
 trigger:
   - master
 
-resources:
-  - repo: self
-
 variables:
   dockerReg: "conDockerReg"
   imageName: "foodapi"
@@ -11,6 +8,7 @@ variables:
   tag: "$(Build.BuildId)"
   kube: "conKube"
   ns: "foodapp-prod"
+  imagePullSecret: "secret"
 
 stages:
   - stage: Deploy

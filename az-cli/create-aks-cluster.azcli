@@ -2,6 +2,8 @@ rnd=007
 grp=az400-m16-aks-$rnd
 loc=westeurope
 aks=foodcluster-$rnd
+acr=integrationsonline
+acrgrp=Hosting
 
 # Install kubectl command line client locally:
 # az aks install-cli
@@ -13,6 +15,18 @@ az group create -n $grp -l $loc
 # Create AKS cluster:
 
 az aks create -g $grp -n $aks --node-count 1 --enable-addons monitoring --generate-ssh-keys 
+
+clientId=$(az aks show -n $aks -g $grp --query "servicePrincipalProfile.clientId" --output tsv)
+
+echo $clientId
+
+acrId=$(az acr show -n $acr -g $acrgrp  --query "id" --output tsv)
+
+echo $acrId
+
+az acr list -g $acrgrp --query "[].{loginServer: loginServer}" --output table
+
+az role assignment create --assignee $clientId --role acrpull --scope $acrId
 
 # Get credentials for the Kubernets cluster:
 
