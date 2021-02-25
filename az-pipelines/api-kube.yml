@@ -37,7 +37,6 @@ stages:
                   displayName: Deploy to Kubernetes cluster
                   inputs:
                     action: "deploy"
-                    namespace: $(ns)
                     kubernetesServiceConnection: $(kube)
                     manifests: |
                       $(Pipeline.Workspace)/manifests/foodservice.yml
