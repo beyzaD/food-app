@@ -21,7 +21,7 @@ stages:
         displayName: Deploy Job
         pool:
           vmImage: $(vmImageName)
-        environment: "Dev"
+        environment: Dev
         strategy:
           runOnce:
             deploy:
