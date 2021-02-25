@@ -21,7 +21,7 @@ stages:
         displayName: Deploy Job
         pool:
           vmImage: $(vmImageName)
-        environment: "ARambazambaFoodApp"
+        environment: "Dev"
         strategy:
           runOnce:
             deploy:
