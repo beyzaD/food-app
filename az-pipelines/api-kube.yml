@@ -42,7 +42,7 @@ stages:
 
     jobs:
       - deployment: Deploy
-        displayName: Deploy
+        displayName: Deploy Job
         pool:
           vmImage: $(vmImageName)
         environment: "ARambazambaFoodApp"
@@ -61,8 +61,9 @@ stages:
                   displayName: Deploy to Kubernetes cluster
                   inputs:
                     action: "deploy"
-                    kubernetesServiceConnection: $(kube)
                     namespace: $(ns)
+                    kubernetesServiceConnection: $(kube)
                     manifests: |
                       $(Pipeline.Workspace)/manifests/foodservice.yml
+                    imagePullSecrets: $(imagePullSecret)
                     containers: "$(acr)/$(imageRepository):$(tag)"
