@@ -7,7 +7,7 @@ variables:
   acr: "az400m16reg.azurecr.io"
   tag: "$(Build.BuildId)"
   kube: "Kubernetes Cluster Connection"
-  ns: "foodapp-prod"
+  ns: "default"
   imagePullSecret: "secret"
 
 stages:
@@ -31,7 +31,7 @@ stages:
                     secretName: $(imagePullSecret)
                     dockerRegistryEndpoint: $(dockerReg)
                     kubernetesServiceConnection: $(kube)
-                    namespace: 'foodapp-prod'
+                    namespace: $(ns)
 
                 - task: KubernetesManifest@0
                   displayName: Deploy to Kubernetes cluster
