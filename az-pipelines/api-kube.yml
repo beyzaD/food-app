@@ -11,11 +11,11 @@ trigger:
       - FoodApi/*
 
 variables:
-  dockerReg: "Container Registry Connection"
+  dockerReg: "conDockerReg"
   imageName: "foodapi"
-  acr: "az400m16reg.azurecr.io"
+  acr: "integrationsonline.azurecr.io"
   tag: "$(Build.BuildId)"
-  kube: "Kubernetes Cluster Connection"
+  kube: "conKube"
   ns: "default"
   imagePullSecret: "secret"
 
@@ -51,7 +51,7 @@ stages:
     jobs:
       - deployment: Deploy
         displayName: Deploy Job
-        environment: "spike.default"
+        environment: "dev.default"
         strategy:
           runOnce:
             deploy:
