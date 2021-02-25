@@ -21,7 +21,7 @@ stages:
         displayName: Deploy Job
         pool:
           vmImage: $(vmImageName)
-        environment: Dev
+        environment: Dev.foodapp-prod
         strategy:
           runOnce:
             deploy:
@@ -32,6 +32,8 @@ stages:
                     action: createSecret
                     secretName: $(imagePullSecret)
                     dockerRegistryEndpoint: $(dockerReg)
+                    kubernetesServiceConnection: $(kube)
+                    namespace: 'foodapp-prod'
 
                 - task: KubernetesManifest@0
                   displayName: Deploy to Kubernetes cluster
