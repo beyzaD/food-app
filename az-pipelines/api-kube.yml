@@ -15,7 +15,6 @@ variables:
 stages:
   - stage: Deploy
     displayName: Deploy stage
-    dependsOn: [BuildApi]
 
     jobs:
       - deployment: Deploy
