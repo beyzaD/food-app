@@ -6,7 +6,7 @@ variables:
   imageName: "foodapi"
   acr: "az400m16reg.azurecr.io"
   tag: "$(Build.BuildId)"
-  kube: "Kubernetes Cluster Connection"
+  kube: "spike-az400mod16-default-1614235108321"
   ns: "foodapp-prod"
   imagePullSecret: "secret"
 
