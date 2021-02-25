@@ -18,7 +18,7 @@ stages:
       - deployment: Deploy
         displayName: Deploy Job
         pool:
-          vmImage: $(vmImageName)
+          vmImage: 'ubuntu-latest'
         environment: 'spike.default'
         strategy:
           runOnce:
