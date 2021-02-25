@@ -1,6 +1,7 @@
 name: FoodApi Docker Build
 pool:
   vmImage: "ubuntu-20.04"
+
 trigger:
   branches:
     include:
@@ -8,6 +9,7 @@ trigger:
   paths:
     include:
       - FoodApi/*
+
 variables:
   buildConfiguration: "Release"
   apiPath: "FoodApi/"
