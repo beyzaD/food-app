@@ -26,10 +26,10 @@ stages:
         steps:
         
           - bash: echo "##vso[task.setvariable variable=tags]git tag --sort=-creatordate";
-            name: get-tags
+            name: get_tags
             
           - bash: echo "##vso[task.setvariable variable=tag]$(tags)[0]";
-            name: set-tag                        
+            name: set_tag                        
           - task: Docker@2
             displayName: Login to ACR
             inputs:
