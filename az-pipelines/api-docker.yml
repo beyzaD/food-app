@@ -16,6 +16,8 @@ variables:
   dockerReg: "conM15"
   imageName: "foodapi"
   appService: "foodapi-21482"
+  tags: git tag --sort=-creatordate
+  tag: $tags[0]
 
 stages:
   - stage: "BuildApi"
@@ -28,10 +30,6 @@ stages:
             inputs:
               command: login
               containerRegistry: $(dockerReg)
-
-          - script: |
-            $tags = git tag --sort=-creatordate
-            $tag = $tags[0]
 
           - task: Docker@2
             displayName: Build and Push
