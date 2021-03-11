@@ -28,7 +28,7 @@ stages:
           - task: CmdLine@2
             inputs:
               script: |
-                $tags = git tag --sort=-creatordate 
+                echo "##vso[task.setvariable variable=tags]git tag --sort=-creatordate 
                 echo $(tags)
             
           - task: Docker@2
