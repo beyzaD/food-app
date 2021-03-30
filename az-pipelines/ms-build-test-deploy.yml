@@ -2,10 +2,11 @@ name: "food-api multistage build-test-deploy"
 
 variables:
   dotnetSdkVersion: "5.x"
-  buildConfiguration: "Release"
-  releaseBranchName: "master"
-  apifolder: "FoodApi"
-  apitestfolder: "FoodApiTest"
+  buildConfiguration: Release
+  releaseBranchName: master
+  apifolder: FoodApi
+  apitestfolder: FoodApiTest
+  appservice: foodapi-30918
 
 trigger:
   branches:
@@ -73,3 +74,17 @@ stages:
               command: "test"
               projects: "apitestfolder/*.csproj"
               arguments: "--configuration $(buildConfiguration)"
+
+  - stage: "Deploy"
+    displayName: "Deploy"
+    dependsOn: Test
+
+    jobs: 
+      - job: deploy_to_as      
+
+        steps:
+        - task: AzureRmWebAppDeployment@4
+          displayName: 'Azure App Service Deploy: $(appservice)'
+          inputs:
+            azureSubscription: 'Visual Studio Enterprise (78033352-805c-4acd-af80-f8f95083268d)'
+            WebAppName: '$(appservice)'
