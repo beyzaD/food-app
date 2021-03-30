@@ -94,5 +94,8 @@ stages:
         - task: AzureRmWebAppDeployment@4
           displayName: 'Azure App Service Deploy: $(appservice)'
           inputs:
+            ConnectionType: 'AzureRM'
             azureSubscription: 'Visual Studio Enterprise (78033352-805c-4acd-af80-f8f95083268d)'
+            appType: 'webApp'
             WebAppName: '$(appservice)'
+            packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
