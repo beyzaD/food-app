@@ -1,5 +1,5 @@
 rnd=$RANDOM
-grp=az400-foodapp
+grp=az400-m13-foodapp
 appPlan=foodplan-$rnd
 app=foodapi-$rnd
 loc=westeurope
@@ -11,4 +11,4 @@ az appservice plan create -n $appPlan -g $grp --sku FREE
 
 az webapp create -n $app -g $grp --plan $appPlan --runtime "DOTNET|5.0"
 
-echo $app
+echo "##vsl[task.setvariable variable=apiname;]$app"
