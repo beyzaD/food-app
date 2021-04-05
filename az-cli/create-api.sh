@@ -11,4 +11,4 @@ az appservice plan create -n $appPlan -g $grp --sku FREE
 
 az webapp create -n $app -g $grp --plan $appPlan --runtime "DOTNET|5.0"
 
-echo "##vso[task.setvariable variable=apiname;isOutput=true]$app"
+echo "##vso[task.setvariable variable=api;isOutput=true]$app"
