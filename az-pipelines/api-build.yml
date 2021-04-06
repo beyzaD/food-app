@@ -1,8 +1,8 @@
 name: "food-api-simple-build-yaml"
 
 variables:
-  buildConfiguration: "Release"
-  apifolder: "FoodApi"
+  buildConfiguration: Release
+  apifolder: FoodApi
 
 trigger:
   branches:
