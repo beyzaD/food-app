@@ -4,9 +4,10 @@ variables:
   dotnetSdkVersion: "5.x"
   buildConfiguration: Release
   releaseBranchName: master
+  azSubscription: azFoodApp
   apifolder: FoodApi
   apitestfolder: FoodApiTest
-  appservice: foodapi-30918
+  appservice: foodapi-900
 
 trigger:
   branches:
@@ -79,23 +80,22 @@ stages:
     displayName: "Deploy"
     dependsOn: Test
 
-    jobs: 
-      - job: deploy_to_as      
+    jobs:
+      - job: deploy_to_as
 
         steps:
-        
-        - task: DownloadBuildArtifacts@0
-          inputs:
-            buildType: 'current'
-            downloadType: 'single'
-            artifactName: 'drop'
-            downloadPath: '$(System.ArtifactsDirectory)'
+          - task: DownloadBuildArtifacts@0
+            inputs:
+              buildType: "current"
+              downloadType: "single"
+              artifactName: "drop"
+              downloadPath: "$(System.ArtifactsDirectory)"
 
-        - task: AzureRmWebAppDeployment@4
-          displayName: 'Azure App Service Deploy: $(appservice)'
-          inputs:
-            ConnectionType: 'AzureRM'
-            azureSubscription: 'Visual Studio Enterprise (78033352-805c-4acd-af80-f8f95083268d)'
-            appType: 'webApp'
-            WebAppName: '$(appservice)'
-            packageForLinux: '$(System.ArtifactsDirectory)/**/*.zip'
+          - task: AzureRmWebAppDeployment@4
+            displayName: "Azure App Service Deploy: $(appservice)"
+            inputs:
+              ConnectionType: "AzureRM"
+              azureSubscription: $(azSubscription)
+              appType: "webApp"
+              WebAppName: "$(appservice)"
+              packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
