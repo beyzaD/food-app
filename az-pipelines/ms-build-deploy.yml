@@ -20,10 +20,10 @@ pool:
   vmImage: "ubuntu-20.04"
 
 stages:
-  - stage: "Build"
-    displayName: "Build"
+  - stage: Build
+    displayName: Build
     jobs:
-      - job: "Build"
+      - job: Build
         displayName: "Build job"
 
         steps:
@@ -60,9 +60,9 @@ stages:
               ArtifactName: "drop"
               publishLocation: "Container"
 
-  - stage: "Deploy"
-    displayName: "Deploy"
-    dependsOn: Test
+  - stage: Deploy
+    displayName: Deploy
+    dependsOn: Build
 
     jobs:
       - job: deploy_to_as
