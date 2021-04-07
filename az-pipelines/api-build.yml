@@ -1,4 +1,4 @@
-name: "food-api-simple-build-yaml"
+name: ".net core api build"
 
 variables:
   buildConfiguration: Release
