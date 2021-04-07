@@ -1,4 +1,4 @@
-@import '~office-ui-fabric-react/dist/sass/References.scss';
+@import "~office-ui-fabric-react/dist/sass/References.scss";
 
 .foodListWp {
   .container {
@@ -37,6 +37,28 @@
     @include ms-fontColor-white;
   }
 
+  img {
+    border-radius: 50%;
+    height: 140px;
+    width: 140px;
+  }
+
+  .flexcol {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    div {
+      padding: 1rem;
+    }
+  }
+
+  .flexrow {
+    display: flex;
+    flex-direction: row;
+  }
+
   .button {
     // Our button
     text-decoration: none;
@@ -51,7 +73,8 @@
     // Basic Button
     outline: transparent;
     position: relative;
-    font-family: "Segoe UI WestEuropean","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",sans-serif;
+    font-family: "Segoe UI WestEuropean", "Segoe UI", -apple-system,
+      BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
     -webkit-font-smoothing: antialiased;
     font-size: $ms-font-size-m;
     font-weight: $ms-font-weight-regular;
