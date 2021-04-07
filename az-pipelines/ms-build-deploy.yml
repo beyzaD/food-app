@@ -65,7 +65,7 @@ stages:
     dependsOn: Build
 
     jobs:
-      - job: deploy_to_as
+      - job: Deploy to AppService
 
         steps:
           - task: DownloadBuildArtifacts@0
