@@ -1,8 +1,5 @@
 name: spfx build
 
-variables:
-  pkgName: sp-fx-alm
-
 trigger:
   branches:
     include:
@@ -31,7 +28,7 @@ steps:
 
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: $(Build.SourcesDirectory)/sharepoint/solution/$(pkgName).sppkg
+      PathtoPublish: $(Build.SourcesDirectory)/sharepoint/solution/*.sppkg
       ArtifactName: SPFxPkg
       publishLocation: FilePath
       TargetPath: /var
