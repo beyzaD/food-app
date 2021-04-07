@@ -1,4 +1,4 @@
-name: ng to Azure Static Web App
+name: Deploy Angular to Azure Static Web App
 
 on:
   push:
