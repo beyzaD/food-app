@@ -1,8 +1,8 @@
 rnd=900
 grp=az400-foodapp
+loc=westeurope
 appPlan=foodplan-$rnd
 app=foodapi-$rnd
-loc=westeurope
 
 az group create -n $grp -l $loc
 

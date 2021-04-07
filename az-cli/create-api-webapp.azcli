@@ -1,5 +1,5 @@
-rnd=020
-grp=foodapp
+rnd=900
+grp=az400-foodapp
 loc=westeurope
 appPlan=foodplan-$rnd
 app=foodapi-$rnd
