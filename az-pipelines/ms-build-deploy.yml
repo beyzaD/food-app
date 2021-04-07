@@ -8,13 +8,13 @@ variables:
   apifolder: FoodApi
   appservice: foodapi-900
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - $(apifolder)
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - $(apifolder)
 
 pool:
   vmImage: "ubuntu-20.04"

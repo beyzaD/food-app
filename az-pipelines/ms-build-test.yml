@@ -7,13 +7,13 @@ variables:
   apifolder: "FoodApi"
   apitestfolder: "FoodApiTest"
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - $(apifolder)
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - $(apifolder)
 
 pool:
   vmImage: "ubuntu-20.04"
