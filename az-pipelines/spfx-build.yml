@@ -5,31 +5,44 @@ trigger:
     include:
       - master
   paths:
-    include:    
+    include:
       - FoodListSPFx/*
 
-pool:
-  vmImage: "ubuntu-20.04"
+stages:
+  - stage: default
+    jobs:
+      - job: Job
+        pool:
+          vmImage: "ubuntu-20.04"
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: 10.x
+            displayName: Install Node.js
+          - task: CmdLine@2
+            displayName: npm install and test
+            inputs:
+              script: npm install npm test
 
-steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: "10.x"
-    displayName: 'Install Node.js'
+          - task: gulp@1
+            displayName: "gulp bundel"
+            inputs:
+              targets: "bundle"
+              arguments: "--ship"
 
-  - script: npm install
-    displayName: 'npm install'
+          - task: gulp@1
+            displayName: "gulp package solution"
+            inputs:
+              targets: "package-solution"
+              arguments: "--ship"
 
-  - script: |
-      gulp clean
-      gulp bundle --ship
-      gulp package-solution --ship
-    displayName: 'Build and Package Solution'
+          - task: CopyFiles@2
+            displayName: "Copy Files to: $(build.artifactstagingdirectory)/drop"
+            inputs:
+              Contents: "sharepoint/solution/*.sppkg"
+              TargetFolder: "$(build.artifactstagingdirectory)/drop"
 
-  - task: PublishBuildArtifacts@1
-    inputs:
-      PathtoPublish: $(Build.SourcesDirectory)/sharepoint/solution/*.sppkg
-      ArtifactName: SPFxPkg
-      publishLocation: FilePath
-      TargetPath: /var
-    displayName: #Publish build SPFx artifacts'
+          - task: PublishBuildArtifacts@1
+            displayName: "Publish artifacts: drop"
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)/drop"
