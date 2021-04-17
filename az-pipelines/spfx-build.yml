@@ -43,7 +43,7 @@ stages:
           - task: CopyFiles@2
             displayName: "Copy Files to: $(build.artifactstagingdirectory)/drop"
             inputs:
-              Contents: "sharepoint/solution/*.sppkg"
+              Contents: "FoodListSPFx/sharepoint/solution/*.sppkg"
               TargetFolder: "$(build.artifactstagingdirectory)/drop"
 
           - task: PublishBuildArtifacts@1
