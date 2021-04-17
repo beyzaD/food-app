@@ -28,12 +28,13 @@ stages:
               pwd
               ls
 
-          - task: gulp@0
+          - task: gulp@1
             displayName: "gulp bundel"            
             inputs:
-              gulpFile: '/FoodListSPFx/gulpfile.js'
-              targets: "bundle"
-              arguments: "--ship"
+              gulpFile: 'FoodListSPFx/gulpfile.js'
+              targets: 'bundle'
+              arguments: '--ship'
+              enableCodeCoverage: false
 
           - task: gulp@1
             displayName: "gulp package solution"
