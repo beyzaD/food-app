@@ -65,21 +65,24 @@ stages:
     dependsOn: Build
 
     jobs:
-      - job: Deploy to AppService
+      - deployment: DeployAppService
+        displayName: Deploy to Appservice
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: "current"
+                    downloadType: "single"
+                    artifactName: "drop"
+                    downloadPath: "$(System.ArtifactsDirectory)"
 
-        steps:
-          - task: DownloadBuildArtifacts@0
-            inputs:
-              buildType: "current"
-              downloadType: "single"
-              artifactName: "drop"
-              downloadPath: "$(System.ArtifactsDirectory)"
-
-          - task: AzureRmWebAppDeployment@4
-            displayName: "Azure App Service Deploy: $(appservice)"
-            inputs:
-              ConnectionType: "AzureRM"
-              azureSubscription: $(azSubscription)
-              appType: "webApp"
-              WebAppName: "$(appservice)"
-              packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
+                - task: AzureRmWebAppDeployment@4
+                  displayName: "Azure App Service Deploy: $(appservice)"
+                  inputs:
+                    ConnectionType: "AzureRM"
+                    azureSubscription: $(azSubscription)
+                    appType: "webApp"
+                    WebAppName: "$(appservice)"
+                    packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
