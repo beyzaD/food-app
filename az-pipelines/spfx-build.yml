@@ -27,19 +27,19 @@ stages:
           - bash: ls
               
           - script: gulp bundle --ship
-            workingDirectory: FoodListSPFX/
+            workingDirectory: FoodListSPFx/
 
           - task: gulp@1
             displayName: "gulp bundel"            
             inputs:
-              gulpFile: '$(Build.ArtifactStagingDirectory)/FoodListSPFX/gulpfile.js'
+              gulpFile: '$(Build.ArtifactStagingDirectory)/FoodListSPFx/gulpfile.js'
               targets: "bundle"
               arguments: "--ship"
 
           - task: gulp@1
             displayName: "gulp package solution"
             inputs:
-              gulpFile: 'FoodListSPFX/gulpfile.js'
+              gulpFile: 'FoodListSPFx/gulpfile.js'
               targets: "package-solution"
               arguments: "--ship"
 
