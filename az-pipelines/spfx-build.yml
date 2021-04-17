@@ -23,11 +23,11 @@ stages:
             displayName: npm install
             inputs:
               script: npm install
-              
+
           - task: gulp@0
             displayName: "gulp bundel"            
             inputs:
-              gulpFile: '$(Build.ArtifactStagingDirectory)/FoodListSPFx/gulpfile.js'
+              gulpFile: 'FoodListSPFx/gulpfile.js'
               targets: "bundle"
               arguments: "--ship"
 
