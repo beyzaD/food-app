@@ -23,6 +23,9 @@ stages:
             displayName: npm install
             inputs:
               script: npm install
+              
+          - script: gulp bundle --ship
+            workingDirectory: FoodListSPFX/
 
           - task: gulp@1
             displayName: "gulp bundel"            
