@@ -31,7 +31,7 @@ stages:
           - task: gulp@0
             displayName: "gulp bundel"            
             inputs:
-              gulpFile: 'FoodListSPFx/gulpfile.js'
+              gulpFile: '/FoodListSPFx/gulpfile.js'
               targets: "bundle"
               arguments: "--ship"
 
