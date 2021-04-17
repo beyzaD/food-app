@@ -1,5 +1,13 @@
 name: "food-api multistage build-test-deploy"
 
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - FoodApi
+
 variables:
   dotnetSdkVersion: "5.x"
   buildConfiguration: Release
@@ -8,14 +16,6 @@ variables:
   apifolder: FoodApi
   apitestfolder: FoodApiTest
   appservice: foodapi-900
-
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - $(apifolder)
 
 pool:
   vmImage: "ubuntu-20.04"

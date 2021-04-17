@@ -13,7 +13,7 @@ trigger:
       - master
   paths:
     include:
-      - $(apifolder)
+      - FoodApi
 
 pool:
   vmImage: "ubuntu-20.04"

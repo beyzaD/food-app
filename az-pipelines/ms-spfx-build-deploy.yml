@@ -50,3 +50,15 @@ stages:
             displayName: "Publish artifacts: drop"
             inputs:
               PathtoPublish: "$(Build.ArtifactStagingDirectory)/drop"
+
+  - stage: Deploy
+    displayName: Deploy to M365
+    dependsOn: Build
+
+    jobs:
+      - deployment: DeployAppService
+        displayName: Deploy to Appservice
+        strategy:
+          runOnce:
+            deploy:
+              steps:
