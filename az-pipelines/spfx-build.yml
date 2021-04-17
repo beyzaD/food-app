@@ -24,12 +24,7 @@ stages:
             inputs:
               script: npm install
               
-          - bash: ls
-              
-          - script: gulp bundle --ship
-            workingDirectory: ./FoodListSPFx/
-
-          - task: gulp@1
+          - task: gulp@0
             displayName: "gulp bundel"            
             inputs:
               gulpFile: '$(Build.ArtifactStagingDirectory)/FoodListSPFx/gulpfile.js'
