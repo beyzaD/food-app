@@ -27,7 +27,7 @@ stages:
           - task: gulp@1
             displayName: "gulp bundel"            
             inputs:
-              gulpFile: 'FoodListSPFX/gulpfile.js'
+              gulpFile: '$(Build.ArtifactStagingDirectory)/FoodListSPFX/gulpfile.js'
               targets: "bundle"
               arguments: "--ship"
 
