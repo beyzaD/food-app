@@ -22,12 +22,9 @@ stages:
           - task: CmdLine@2
             displayName: npm install
             inputs:
-              script: npm install
-
-          - script: |
-              pwd
-              ls
-
+              script: 'npm install'
+              workingDirectory: 'FoodListSPFx/'
+              
           - task: gulp@1
             displayName: "gulp bundel"            
             inputs:
