@@ -24,7 +24,9 @@ stages:
             inputs:
               script: npm install
 
-          - script: ls
+          - script: |
+              pwd
+              ls
 
           - task: gulp@0
             displayName: "gulp bundel"            
