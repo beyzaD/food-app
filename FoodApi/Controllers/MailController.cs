@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace FoodApi
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class MailController : ControllerBase
     {

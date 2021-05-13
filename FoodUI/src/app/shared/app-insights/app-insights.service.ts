@@ -17,10 +17,9 @@ export class AppInsightsService implements OnDestroy {
     this.appInsights = new ApplicationInsights({
       config: {
         instrumentationKey: environment.appInsights.instrumentationKey,
-        autoTrackPageVisitTime: true,
+        enableAutoRouteTracking: true, // option to log all route changes
       },
     });
-
     this.appInsights.loadAppInsights();
 
     this.routerSubscription = this.router.events
@@ -54,6 +53,31 @@ export class AppInsightsService implements OnDestroy {
     this.appInsights.trackPageView({ name, uri });
   }
 
+  logEvent(name: string, properties?: { [key: string]: any }) {
+    this.appInsights.trackEvent({ name: name }, properties);
+  }
+
+  logMetric(
+    name: string,
+    average: number,
+    properties?: { [key: string]: any }
+  ) {
+    this.appInsights.trackMetric({ name: name, average: average }, properties);
+  }
+
+  logException(exception: Error, severityLevel?: number) {
+    this.appInsights.trackException({
+      exception: exception,
+      severityLevel: severityLevel,
+    });
+  }
+
+  logTrace(message: string, properties?: { [key: string]: any }) {
+    this.appInsights.trackTrace({ message: message }, properties);
+  }
+
+  //routing
+
   private getActivatedComponent(snapshot: ActivatedRouteSnapshot): any {
     if (snapshot.firstChild) {
       return this.getActivatedComponent(snapshot.firstChild);
@@ -70,11 +94,5 @@ export class AppInsightsService implements OnDestroy {
       return path + this.getRouteTemplate(snapshot.firstChild);
     }
     return path;
-  }
-
-  logEvent(name: string, data: any) {
-    this.appInsights.trackEvent({ name, properties: data });
-    this.appInsights.stopTrackEvent(name);
-    this.appInsights.flush();
   }
 }
