@@ -1,5 +1,5 @@
-rnd=007
-grp=az400-m16-aks-$rnd
+rnd=030
+grp=foodapp-$rnd
 loc=westeurope
 aks=foodcluster-$rnd
 acr=integrationsonline

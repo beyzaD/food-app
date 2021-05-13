@@ -1,5 +1,5 @@
-rnd=020
-grp=foodapp
+rnd=030
+grp=foodapp-$rnd
 loc=westeurope
 acct=ngfoodui$rnd
 path='./FoodUI/dist/FoodUI'

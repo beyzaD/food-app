@@ -1,11 +1,11 @@
-rnd=020
-grp=foodapp
+rnd=030
+grp=foodapp-$rnd
 loc=westeurope
 vault=foodvault-$rnd
 
 az group create -n $grp -l $loc
 
-az keyvault create -l $loc -n $vault -g $grp --sku standard 
+az keyvault create -l $loc -n $vault -g $grp --sku standard
 
 az keyvault key list --vault-name $vault
 

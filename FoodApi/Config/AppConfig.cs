@@ -1,6 +1,5 @@
 namespace FoodApp
 {
-
     public class FoodConfig    {
         public AppConfig App { get; set; } 
         public Logging Logging { get; set; } 
@@ -14,7 +13,6 @@ namespace FoodApp
         public string AllowedHosts { get; set; } 
         public string MailSender { get; set; } 
         public bool AuthEnabled { get; set; } 
-        public bool UseLocalConfig { get; set; } 
     }
 
     public class LogLevel    {

@@ -16,12 +16,14 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 })
 export class FoodEditComponent implements OnInit {
   constructor(private fb: FormBuilder) {
-    // this.form = this.fb.group({
-    //   id: 0,
-    //   name: ["", [Validators.required, Validators.minLength(3)]],
-    //   amount: [0, Validators.min(1)],
-    //   code: 0,
-    // });
+    this.form = this.fb.group({
+      id: 0,
+      name: ["", [Validators.required, Validators.minLength(3)]],
+      amount: [0],
+      pictureUrl: "",
+      code: "",
+      date: new Date(),
+    });
   }
 
   @Input() food: FoodItem;
@@ -33,10 +35,10 @@ export class FoodEditComponent implements OnInit {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    // if (changes.food != undefined) {
-    //   console.log("receiving food", changes.food.currentValue);
-    //   this.form.setValue(changes.food.currentValue);
-    // }
+    if (changes.food != undefined) {
+      console.log("food from store", changes.food.currentValue);
+      this.form.setValue(changes.food.currentValue);
+    }
   }
 
   saveForm(form) {

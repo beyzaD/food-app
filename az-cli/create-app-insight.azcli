@@ -1,8 +1,10 @@
-rnd=020
-grp=foodapp
+rnd=030
+grp=foodapp-$rnd
 loc=westeurope
 ai=foodapp-ai-$rnd
 vault=foodvault-$rnd
+
+az group create -n $grp -l $loc
 
 az monitor app-insights component create --app $ai -l $loc --kind web -g $grp --application-type web --retention-time 30
 

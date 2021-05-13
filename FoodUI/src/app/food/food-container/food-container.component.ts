@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FoodFacade } from "../store/facades/food.service";
+import { FoodFacade } from "../store/facades/food.facade";
 
 @Component({
   selector: "app-food-container",
