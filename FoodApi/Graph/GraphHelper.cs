@@ -72,9 +72,8 @@ namespace FoodApp
                 ToRecipients = recipients,
             };
 
-            // config.returnUrl = config.App.FrontendUrl;
-            sendMail(config.GraphCfg, message, config.App.MailSender);
-
+            sendMail(config.GraphCfg, message, config.GraphCfg.mailSender);
+            
             result = true;
             return result;
         }

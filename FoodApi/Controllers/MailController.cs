@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using FoodApi;
 using FoodApp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
