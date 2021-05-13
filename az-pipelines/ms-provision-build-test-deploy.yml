@@ -96,7 +96,7 @@ stages:
 
     jobs:
       - job: Deploy
-      displayName: Deploy to AppService
+        displayName: Deploy to AppService
 
         steps:
           - task: DownloadBuildArtifacts@0
