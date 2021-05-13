@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
+import { AppInsightsService } from "../app-insights/app-insights.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class ConfigService {
-  constructor(private client: HttpClient) {}
+  constructor(private client: HttpClient, private ai: AppInsightsService) {}
 
   api: string = "https://localhost:5001/";
 
@@ -14,7 +15,7 @@ export class ConfigService {
       .get("assets/app-config.json")
       .subscribe((val: { url: string }) => {
         this.api = val.url;
-        console.log("url loaded", this.api);
+        this.ai.logEvent("FoodUI:API-URL", { url: val.url });
       });
   }
 }
