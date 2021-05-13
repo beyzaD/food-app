@@ -14,7 +14,11 @@ az appconfig create -g $grp -n $cfg -l $loc --sku free
 
 az appconfig kv set -n foodconfig-$rnd --key "Settings:Title" --value "Food App" -y
 
-az appconfig kv set-keyvault -n $cfg --key "Settings:ConnectionString" --secret-identifier "https://$vault.vault.azure.net/Secrets/DBConnection" -y
+az appconfig kv set -n foodconfig-$rnd --key "App:UseSQLite" --value "Food App" -y
+
+az appconfig kv set-keyvault -n $cfg --key "App:ConnectionStrings:SQLiteDBConnection" --secret-identifier "https://$vault.vault.azure.net/Secrets/App:ConnectionStrings:SQLiteDBConnection" -y
+
+az appconfig kv set-keyvault -n $cfg --key "App:ConnectionStrings:SQLServerConnection" --secret-identifier "https://$vault.vault.azure.net/Secrets/App:ConnectionStrings:SQLiteDBConnection" -y
 
 # create a feature flag and turn it on
 

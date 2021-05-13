@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using FoodApp;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace FoodApi
 {
@@ -16,11 +18,11 @@ namespace FoodApi
             config = (FoodConfig)cfg.Value;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("sendMail")]
-        public ActionResult SendMail()
+        public ActionResult SendMail(FoodItem item)
         {
-            FoodApp.GraphHelper.Send("Hello World", "A msg from me", new[] { "alexander.pajer@integrations.at" }, config);
+            FoodApp.GraphHelper.Send("Save this for later",JsonSerializer.Serialize(item) , new[] { config.GraphCfg.mailSender }, config);
             return Ok();
         }
     }
