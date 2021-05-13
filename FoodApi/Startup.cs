@@ -1,3 +1,4 @@
+using System;
 using FoodApp;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -17,17 +18,10 @@ namespace FoodApi
 
         public IConfiguration Configuration { get; }
         private readonly IWebHostEnvironment env;
-        // This method gets called by the runtime. Use this method to add services to the container.
+        
         public void ConfigureServices (IServiceCollection services) {
 
-            //Config
-            var cfgBuilder = new ConfigurationBuilder ()
-                .SetBasePath (env.ContentRootPath)
-                .AddJsonFile ("appsettings.json");
-            var configuration = cfgBuilder.Build ();
-
-            services.Configure<FoodApp.FoodConfig> (configuration);
-            services.AddSingleton (typeof (IConfigurationRoot), configuration);
+            services.AddSingleton < IConfiguration > (Configuration);  
 
             //EF
             var conStrLite = Configuration["ConnectionStrings:SQLiteDBConnection"];
@@ -56,8 +50,10 @@ namespace FoodApi
             services.AddControllers ();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
+            
+            Console.WriteLine("Environment: " + env.EnvironmentName);
+
             if (env.IsDevelopment ()) {
                 app.UseDeveloperExceptionPage ();
             }
