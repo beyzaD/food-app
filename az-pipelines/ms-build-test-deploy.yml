@@ -15,7 +15,7 @@ variables:
   azSubscription: azFoodApp
   apifolder: FoodApi
   apitestfolder: FoodApiTest
-  appservice: foodapi-900
+  appservice: foodapi-030
 
 pool:
   vmImage: "ubuntu-20.04"

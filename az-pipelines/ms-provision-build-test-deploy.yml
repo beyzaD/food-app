@@ -1,4 +1,4 @@
-name: "food-api multistage build-test-deploy"
+name: "food-api multistage provision-build-test-deploy"
 
 trigger:
   branches:
@@ -33,7 +33,7 @@ stages:
             inputs:
               azureSubscription: $(azSubscription)
               scriptType: bash
-              scriptPath: "$(System.DefaultWorkingDirectory)/az-cli/create-api.sh"
+              scriptPath: "$(System.DefaultWorkingDirectory)/az-cli/create-api-mi.sh"
 
   - stage: "Build"
     displayName: "Build"
@@ -95,7 +95,8 @@ stages:
     dependsOn: Test
 
     jobs:
-      - job: deploy_to_as
+      - job: Deploy
+      displayName: Deploy to AppService
 
         steps:
           - task: DownloadBuildArtifacts@0
@@ -113,3 +114,4 @@ stages:
               appType: "webApp"
               WebAppName: "$(appservice)"
               packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
+

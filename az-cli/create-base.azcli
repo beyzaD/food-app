@@ -6,8 +6,11 @@ vault=foodvault-$rnd
 cfg=foodconfig-$rnd
 principal=http://foodapp-$rnd
 feature=MailFeature
+identity=ui-food-$rnd
 
 az group create -n $grp -l $loc
+
+az identity create -g $grp -l $loc -n $identity 
 
 # keyvault
 az keyvault create -l $loc -n $vault -g $grp --sku standard
