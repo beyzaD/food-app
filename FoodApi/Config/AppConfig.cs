@@ -9,10 +9,9 @@ namespace FoodApp
     }
 
      public class AppConfig    {
-        public string FrontendUrl { get; set; } 
-        public string AllowedHosts { get; set; } 
         public string MailSender { get; set; } 
         public bool AuthEnabled { get; set; } 
+        public bool UseSQLite {get;set;}
     }
 
     public class LogLevel    {
