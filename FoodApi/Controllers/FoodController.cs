@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FoodApi
 {
-    [Route ("api/[controller]")]
+    [Route ("[controller]")]
     [ApiController]
     public class FoodController : ControllerBase {
         public FoodController (FoodDBContext context) {

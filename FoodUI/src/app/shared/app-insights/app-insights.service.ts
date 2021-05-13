@@ -9,8 +9,20 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class AppInsightsService implements OnDestroy {
+  private routerSubscription: Subscription;
+
+  private appInsights;
+
   constructor(private router: Router) {
+    this.appInsights = new ApplicationInsights({
+      config: {
+        instrumentationKey: environment.appInsights.instrumentationKey,
+        autoTrackPageVisitTime: true,
+      },
+    });
+
     this.appInsights.loadAppInsights();
+
     this.routerSubscription = this.router.events
       .pipe(filter((event) => event instanceof ResolveEnd))
       .subscribe((event: ResolveEnd) => {
@@ -29,15 +41,6 @@ export class AppInsightsService implements OnDestroy {
   ngOnDestroy(): void {
     this.routerSubscription.unsubscribe();
   }
-
-  private routerSubscription: Subscription;
-
-  private appInsights = new ApplicationInsights({
-    config: {
-      instrumentationKey: environment.appInsights.instrumentationKey,
-      autoTrackPageVisitTime: true,
-    },
-  });
 
   setUserId(userId: string) {
     this.appInsights.setAuthenticatedUserContext(userId);

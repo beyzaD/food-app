@@ -7,11 +7,11 @@ import { HttpClient } from "@angular/common/http";
 export class ConfigService {
   constructor(private client: HttpClient) {}
 
-  api: string = "";
+  api: string = "https://localhost:5001/";
 
   init() {
     this.client
-      .get("assets/apiconfig.json")
+      .get("assets/app-config.json")
       .subscribe((val: { url: string }) => {
         this.api = val.url;
         console.log("url loaded", this.api);
