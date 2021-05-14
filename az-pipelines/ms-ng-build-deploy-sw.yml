@@ -32,4 +32,4 @@ stages:
               output_location: dist/food-ui
               app_build_command: npm run build-prod
             env:
-              azure_static_web_apps_api_token: $(deployment_token)
+              azure_static_web_apps_api_token: $(gitHubFoodAppToken)
