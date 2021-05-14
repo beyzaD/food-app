@@ -1,10 +1,11 @@
 namespace FoodApp
 {
+    // converted using https://json2csharp.com/
     public class FoodConfig    {
         public AppConfig App { get; set; } 
         public Logging Logging { get; set; } 
         public Azure Azure { get; set; } 
-        public GraphCfg GraphCfg { get; set; } 
+        public AppReg AppReg { get; set; } 
     }
 
      public class AppConfig    {
@@ -12,6 +13,7 @@ namespace FoodApp
         public bool UseSQLite {get;set;}
         public bool UseAppConfig {get;set;}
         public ConnectionStrings ConnectionStrings { get; set; } 
+        public string mailSender { get; set; } 
     }
 
     public class LogLevel    {
@@ -42,8 +44,7 @@ namespace FoodApp
         public string graphApiUri { get; set; } 
     }
 
-    public class GraphCfg    {
-        public string mailSender { get; set; } 
+    public class AppReg    {
         public string tenantId { get; set; } 
         public string clientId { get; set; } 
         public string clientSecret { get; set; } 
@@ -51,7 +52,4 @@ namespace FoodApp
         public Endpoints endpoints { get; set; } 
         public string returnUrl { get; set; } 
     }
-
-
-
 }

@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using FoodApp;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using Microsoft.Extensions.Configuration;
 
 namespace FoodApi
@@ -24,7 +22,7 @@ namespace FoodApi
         [Route("sendMail")]
         public ActionResult SendMail(FoodItem item)
         {
-            FoodApp.GraphHelper.Send("Take a look at this great food",JsonSerializer.Serialize(item) , new[] { config.GraphCfg.mailSender }, config);
+            FoodApp.GraphHelper.SendMail("Take a look at this great food",JsonSerializer.Serialize(item) , new[] { config.App.mailSender }, config);
             return Ok();
         }
     }
