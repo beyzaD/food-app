@@ -25,6 +25,14 @@ stages:
           - checkout: self
             submodules: true
 
+
+          - task: AzureKeyVault@1
+            inputs:
+              azureSubscription: 'azFoodApp'
+              KeyVaultName: 'foodvault-030'
+              SecretsFilter: '*'
+              RunAsPreJob: true
+
           - task: AzureStaticWebApp@0
             inputs:
               app_location: /$(loc)
