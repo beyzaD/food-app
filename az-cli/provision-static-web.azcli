@@ -1,0 +1,8 @@
+rnd=030
+grp=foodapp-$rnd
+loc=westeurope
+app=foodui-$rnd
+repo=https://github.com/ARambazamba/foodapp
+token=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
+
+az staticwebapp create -n $app -g $grp -l $loc -s $repo -b master -token $token
