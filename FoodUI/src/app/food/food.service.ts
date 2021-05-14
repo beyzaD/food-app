@@ -13,4 +13,8 @@ export class FoodService {
   getFood(): Observable<FoodItem[]> {
     return this.httpClient.get<FoodItem[]>(`${this.cs.api}food`);
   }
+
+  mailFood(item: FoodItem) {
+    return this.httpClient.post<FoodItem>(`${this.cs.api}mail`, item);
+  }
 }

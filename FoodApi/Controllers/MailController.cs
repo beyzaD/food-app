@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using FoodApi;
 using FoodApp;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using System.Text.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace FoodApi
 {
@@ -12,16 +12,17 @@ namespace FoodApi
     public class MailController : ControllerBase
     {
         FoodConfig config { get; set; }
-        public MailController(IOptions<FoodConfig> cfg)
+        public MailController(IConfiguration cfg)
         {
-            config = (FoodConfig)cfg.Value;
+            var val = cfg.GetValue<string>("App:AuthEnabled");
+            config = cfg.Get<FoodConfig>();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("sendMail")]
-        public ActionResult SendMail()
+        public ActionResult SendMail(FoodItem item)
         {
-            FoodApp.GraphHelper.Send("Hello World", "A msg from me", new[] { "alexander.pajer@integrations.at" }, config);
+            FoodApp.GraphHelper.SendMail("Take a look at this great food",JsonSerializer.Serialize(item) , new[] { config.App.mailSender }, config);
             return Ok();
         }
     }

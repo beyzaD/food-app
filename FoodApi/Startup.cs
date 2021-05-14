@@ -24,16 +24,16 @@ namespace FoodApi
             services.AddSingleton < IConfiguration > (Configuration);  
 
             //Aplication Insights
-            services.AddApplicationInsightsTelemetry (Configuration["Azure:ApplicationInsights:InstrumentationKey"]);
+            services.AddApplicationInsightsTelemetry (Configuration["Azure:ApplicationInsights"]);
             services.AddSingleton<AILogger>();
 
             //EF
             bool sqlite = bool.Parse(Configuration["App:UseSQLite"]);
             if(sqlite){
-                var conStrLite = Configuration["ConnectionStrings:SQLiteDBConnection"];
+                var conStrLite = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
                 services.AddEntityFrameworkSqlite ().AddDbContext<FoodDBContext> (options => options.UseSqlite (conStrLite));
             }else{
-                var conStr = Configuration["ConnectionStrings:SQLiteDBConnection"];
+                var conStr = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
                 services.AddEntityFrameworkSqlServer()
                 .AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
             }
