@@ -44,4 +44,4 @@ stages:
               output_location: dist/food-ui
               app_build_command: npm run build-prod
             env:
-              azure_static_web_apps_api_token: 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
+              azure_static_web_apps_api_token: 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
