@@ -1,0 +1,10 @@
+rnd=030
+grp=foodapp-$rnd
+loc=westeurope
+app=foodui-$rnd
+repo=https://github.com/ARambazamba/foodapp
+
+## ToDo: Get Deployment token
+token=""
+
+az staticwebapp create -n $app -g $grp -l $loc -s $repo -b master -token $token

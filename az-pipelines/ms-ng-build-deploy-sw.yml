@@ -1,0 +1,43 @@
+name: Deploy UI to Static Website
+
+trigger:
+  branches:
+    include:
+      - master
+
+  paths:
+    include:
+      - FoodUI/*
+
+pool:
+  vmImage: "ubuntu-latest"
+
+variables:
+  loc: FoodUI/
+
+stages:
+  - stage: BuildAndDeploy
+
+    jobs:
+      - job: BuildAndDeploy
+
+        steps:
+          - checkout: self
+            submodules: true
+
+
+          - task: AzureKeyVault@1
+            inputs:
+              azureSubscription: 'azFoodApp'
+              KeyVaultName: 'foodvault-030'
+              SecretsFilter: '*'
+              RunAsPreJob: true
+
+          - task: AzureStaticWebApp@0
+            inputs:
+              app_location: /$(loc)
+              api_location: ""
+              output_location: dist/food-ui
+              app_build_command: npm run build-prod
+            env:
+              azure_static_web_apps_api_token:  $(gitHubFoodAppToken)
