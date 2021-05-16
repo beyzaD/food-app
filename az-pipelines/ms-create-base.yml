@@ -1,13 +1,5 @@
 name: create base
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi
-
 variables:
   azSubscription: azFoodApp
 
