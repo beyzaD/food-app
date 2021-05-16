@@ -4,14 +4,20 @@ A food tracking app implemented as Cloud Native App with Azure DevOps deployment
 
 - Base Infrastructure: KeyVault, App Configuration Service, Application Insights.
 
-  Import and execute `create-base.yml`
+  Execute `create-base.azcli` using Azure CLI
 
 - FoodApi: .NET Core Api with Microsoft Graph integration
 
-  Import and execute [ms-provision-build-test-deploy.yml](/az-pielines/ms-provision-build-test-deploy.yml)
+  To Deploy to Azure AppService execute `ms-provision-build-test-deploy.yml`
 
-- FoodUI: Angular UI
+- FoodUI: Simple Angular UI using NgRx.
+
+  To Deploy to Azure Static Web App execute `ms-ng-build-deploy-sw.yml`
+
+  To Deploy to Azure Blob Storage with CDN execute `ms-ng-build-deploy-sw.yml`
 
 - FoodListSPFx: Simple SharePoint Framework WebPart displaying Data from Api using Persmissions from App Registration
+
+  To Deploy to M365 tenant using M365 CLI execute `ms-spfx-build-deploy`
 
 This app is used and will be extended in the following classes: ngDev, ngAdv, AZ-400, AZ-204 and MS-600
