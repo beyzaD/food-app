@@ -1,0 +1,27 @@
+name: create base
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - FoodApi
+
+variables:
+  azSubscription: azFoodApp
+
+stages:
+  - stage: Provision
+    displayName: Create Base Services
+    jobs:
+      - job: Provision
+        displayName: "Build job"
+
+        steps:
+          - task: AzureCLI@2
+            displayName: "Create Api"
+            inputs:
+              azureSubscription: $(azSubscription)
+              scriptType: bash
+              scriptPath: "$(System.DefaultWorkingDirectory)/az-cli/create-base.sh"
