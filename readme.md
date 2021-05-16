@@ -1,6 +1,6 @@
 # FoodApp Sample
 
-A food tracking app implemented as Cloud Native App deployed to Azure using Azure DevOps. Step by Step [Installation Scripts](/az-cli/) and [yaml-pipelines](/az-pipelines/) are provided.
+A food tracking app implemented as Cloud Native App deployed to Azure using Azure DevOps. [Installation Scripts](/az-cli/) and [yaml-pipelines](/az-pipelines/) are provided.
 
 - Base Infrastructure: KeyVault, App Configuration Service, Application Insights.
 
