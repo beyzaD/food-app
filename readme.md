@@ -1,7 +1,10 @@
-[![Build Status](https://dev.azure.com/integrationstraining/FoodApp/_apis/build/status/FoodApi%20Full?branchName=master)](https://dev.azure.com/integrationstraining/FoodApp/_build/latest?definitionId=76&branchName=master)
+# FoodApp Sample 
 
-# FoodApp Sample App
+A food tracking app implemented as Cloud Native App with Azure DevOps deployment and step by step [Installation Scripts](/az-cli/)
 
-A .NET Core Api and Angular UI implemented as Cloud Native App with Azure DevOps deployment and step by step [Installation Scripts](/az-cli/)
+- Base Infrastructure: KeyVault, App Configuration Service, Application Insights
+- FoodApi: .NET Core Api with Microsoft Graph integration
+- FoodUI: Angular UI
+- FoodListSPFx: Simple SharePoint Framework WebPart displaying Data from Api using Persmissions from App Registration
 
 This app is used and will be extended in the following classes: ngDev, ngAdv, AZ-400, AZ-204 and MS-600
