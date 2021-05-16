@@ -27,7 +27,7 @@ stages:
 
         steps:
           - task: AzureCLI@2
-            displayName: Azure CLI
+            displayName: Azure CLI create-blob-cdn.sh
             inputs:
               azureSubscription: $(serviceConnection)
               scriptType: bash
@@ -50,6 +50,13 @@ stages:
               ng build --prod
             displayName: "npm install and build"
             workingDirectory: $(uiPath)
+
+          - task: AzureKeyVault@1
+            inputs:
+              azureSubscription: "azFoodApp"
+              KeyVaultName: "foodvault-030"
+              SecretsFilter: "*"
+              RunAsPreJob: true
 
           - task: AzureCLI@2
             displayName: Upload to Static Website

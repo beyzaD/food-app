@@ -25,12 +25,11 @@ stages:
           - checkout: self
             submodules: true
 
-
           - task: AzureKeyVault@1
             inputs:
-              azureSubscription: 'azFoodApp'
-              KeyVaultName: 'foodvault-030'
-              SecretsFilter: '*'
+              azureSubscription: "azFoodApp"
+              KeyVaultName: "foodvault-030"
+              SecretsFilter: "*"
               RunAsPreJob: true
 
           - task: AzureStaticWebApp@0
@@ -40,4 +39,4 @@ stages:
               output_location: dist/food-ui
               app_build_command: npm run build-prod
             env:
-              azure_static_web_apps_api_token:  $(gitHubFoodAppToken)
+              azure_static_web_apps_api_token: $(swDeploymentToken)
