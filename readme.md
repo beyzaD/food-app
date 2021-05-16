@@ -20,4 +20,4 @@ A food tracking app implemented as Cloud Native App deployed to Azure using Azur
 
   To Deploy to M365 tenant using M365 CLI execute `ms-spfx-build-deploy`
 
-This app contains several class demos and will be updated for the classes ngDev, ngAdv, AZ-400, AZ-204 and MS-600 whenever time permits
+This app contains several class demos and will be updated to current patterns for the classes ngDev, ngAdv, AZ-400, AZ-204 and MS-600 whenever time permits
