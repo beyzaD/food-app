@@ -31,4 +31,4 @@ This app is used as an integrations showcase for the classes ngDev, ngAdv, AZ-40
 
 ## Contributing
 
-Feel free to contribute. Take a look at the [issues](issues/) to know where to start. When contribute implement your changes / additions on a feature branch in your fork and issue a pull request after completion. An introduction video into forks and pull requests can be found here
+Feel free to contribute. Take a look at the [issues](https://github.com/arambazamba/FoodApp/issues) to know where to start. When contribute implement your changes / additions on a feature branch in your fork and issue a pull request after completion. An introduction video into forks and pull requests can be found here
