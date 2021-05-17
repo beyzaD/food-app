@@ -28,3 +28,7 @@ This app is used as an integrations showcase for the classes ngDev, ngAdv, AZ-40
 - [Azure Trial Subscription](https://azure.microsoft.com/en-us/free/)
 - [Azure DevOps Account](https://dev.azure.com/)
 - [Microsoft 365 Developer Tenant](https://developer.microsoft.com/en-us/microsoft-365/dev-program)
+
+## Contributing
+
+Feel free to contribute. Take a look at the issues to know where to start. When contribute implement your changes / additions on a feature branch in your fork and issue a pull request after completion. An introduction video into forks and pull requests can be found here
