@@ -8,14 +8,14 @@ import { AppInsightsService } from "../app-insights/app-insights.service";
 export class ConfigService {
   constructor(private client: HttpClient, private ai: AppInsightsService) {}
 
-  api: string = "https://localhost:5001/";
+  apiUrl: string = "https://localhost:5001/";
 
   init() {
     this.client
       .get("assets/app-config.json")
-      .subscribe((val: { url: string }) => {
-        this.api = val.url;
-        this.ai.logEvent("FoodUI:API-URL", { url: val.url });
+      .subscribe((val: { apiurl: string }) => {
+        this.apiUrl = val.apiurl;
+        this.ai.logEvent("FoodUI:API-URL", { url: val.apiurl });
       });
   }
 }

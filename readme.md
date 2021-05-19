@@ -8,7 +8,7 @@ A food tracking app implemented as Cloud Native App deployed to Azure using Azur
 
 - FoodApi: .NET Core Api with Microsoft Graph integration
 
-  To Deploy to Azure AppService execute `ms-provision-build-test-deploy.yml`
+  To Deploy to Azure AppService execute `ms-api-provision-build-test-deploy.yml`
 
 - FoodUI: Simple Angular UI using NgRx.
 
