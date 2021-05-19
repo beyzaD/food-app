@@ -14,7 +14,7 @@ pool:
 
 variables:
   loc: FoodUI/
-  apiurl: 
+  apiurl: https://foodapi-030.azurewebsites.net
 
 stages:
   - stage: BuildAndDeploy
