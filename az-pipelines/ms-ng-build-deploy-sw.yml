@@ -14,7 +14,7 @@ pool:
 
 variables:
   loc: FoodUI/
-  apiurl: 
+  apiurl: https://foodapi-030.azurewebsites.net
 
 stages:
   - stage: BuildAndDeploy
@@ -36,9 +36,15 @@ stages:
           - task: FileTransform@1
             displayName: Replace Api Url
             inputs:
-              folderPath: '$(System.DefaultWorkingDirectory)/**/assets/'
+              folderPath: '$(System.DefaultWorkingDirectory)/**/assets'
               fileType: 'json'
               targetFiles: '**/app-config.json'
+              
+          - task: CmdLine@2
+            displayName: Verify Url
+            inputs:
+              script: |
+                cat $(System.DefaultWorkingDirectory)/FoodUI/src/assets/app-config.json
 
           - task: AzureStaticWebApp@0
             inputs:
