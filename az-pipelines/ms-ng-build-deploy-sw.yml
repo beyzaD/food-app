@@ -39,6 +39,12 @@ stages:
               folderPath: '$(System.DefaultWorkingDirectory)/**/assets'
               fileType: 'json'
               targetFiles: '**/app-config.json'
+              
+          - task: CmdLine@2
+            displayName: Verify Url
+            inputs:
+              script: |
+                cat $(System.DefaultWorkingDirectory)/FoodUI/src/assets/app-config.json
 
           - task: AzureStaticWebApp@0
             inputs:
