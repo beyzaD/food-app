@@ -64,7 +64,7 @@ namespace FoodApi
                 app.UseDeveloperExceptionPage ();
             }
 
-            //Swagger
+            // Swagger
             app.UseSwagger ();
             app.UseSwaggerUI (c => {
                 c.SwaggerEndpoint ("/swagger/v1/swagger.json", "Food API");
