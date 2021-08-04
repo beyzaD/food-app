@@ -8,7 +8,7 @@ jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@0.8.0
+      - uses: actions/github-script@4.0.2
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
@@ -18,3 +18,25 @@ jobs:
               repo: context.repo.repo,
               body: ":thumbsup: Thank you for reporting this issue"
             })
+            
+  apply-label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v4
+        with:
+          script: |
+            github.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['needs-classification']
+            })
+            
+  auto-assign:
+        runs-on: ubuntu-latest
+        steps:
+            - name: 'Auto-assign issue'
+              uses: pozil/auto-assign-issue@v1
+              with:
+                  repo-token: ${{ secrets.GITHUB_TOKEN }}
+                  assignees: ${{ secrets.DEFAULT_ISSUE_ASSIGNEE }}
