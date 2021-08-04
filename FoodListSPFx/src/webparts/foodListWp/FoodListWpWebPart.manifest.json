@@ -1,6 +1,6 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-web-part-manifest.schema.json",
-  "id": "0237f37f-c687-4c9e-b8b8-41250ae29048",
+  "id": "51b189bb-f2a8-490e-9216-ab6109999bb0",
   "alias": "FoodListWpWebPart",
   "componentType": "WebPart",
 
@@ -18,7 +18,7 @@
     "groupId": "5c03119e-3074-46fd-976b-c60198311f70", // Other
     "group": { "default": "Other" },
     "title": { "default": "FoodListWP" },
-    "description": { "default": "A webpart showing a food list" },
+    "description": { "default": "a webpart consuming a secured enterprise api" },
     "officeFabricIconFontName": "Page",
     "properties": {
       "description": "FoodListWP"
