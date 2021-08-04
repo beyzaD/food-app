@@ -1,3 +1,4 @@
 export interface IFoodListWpProps {
-  description: string;
+    description: string;
+    context: any;
 }

@@ -1,11 +1,12 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "food-list-client-side-solution",
-    "id": "1b825611-7cc3-4398-ab14-8fa90d6ade76",
+    "name": "food-list-sp-fx-client-side-solution",
+    "id": "a7930e1f-ee95-4565-becd-938d6c57dfe3",
     "version": "1.0.0.0",
     "includeClientSideAssets": true,
-    "isDomainIsolated": false,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": true,
     "developer": {
       "name": "",
       "websiteUrl": "",
@@ -15,6 +16,6 @@
     }
   },
   "paths": {
-    "zippedPackage": "solution/food-list.sppkg"
+    "zippedPackage": "solution/foodlist-wp.sppkg"
   }
 }
