@@ -8,11 +8,10 @@ export interface IFoodRowProps {
 }
 
 export const FoodRow : FC<IFoodRowProps> = (props: IFoodRowProps )=>{
-
-    const foodClicked = ()=> {console.log(`deleting food:  ${ props.item.Title}`)}
+    const foodClicked = ()=> {console.log(`deleting food:  ${ props.item.Title}`);};
     return(
         <div className="foodRow" onClick={foodClicked}>
             {props.item.Title}
         </div>
-    )
-}
+    );
+};

@@ -13,29 +13,29 @@ import { FoodRow } from './food-row/food-row';
 export const FoodListWp : FC<IFoodListWpProps> = (props: IFoodListWpProps)=>{
   
   const [food, setFood] = useState([]);
+  
+  const getSkillsFromSP = async () => {
+    const items: any[] = await sp.web.lists.getByTitle("food").items.getAll();  
+    setFood(items);
+  };
 
   useEffect(() => {
     sp.setup({
       spfxContext: props.context
     });
-    getSkillsFromSP()
+    getSkillsFromSP();
   }, []);
 
-  const getSkillsFromSP = async () => {
-    const items: any[] = await sp.web.lists.getByTitle("food").items.getAll();  
-    setFood(items);
-  }
   
   return (
      <div className={styles.container}>
        <div className={styles.row}>Available Food</div>
       {
-        food.map((food: FoodItem)=>{
-            return (<FoodRow item={food} key={food.Id} ></FoodRow>)
+        food.map((f: FoodItem)=>{
+            return (<FoodRow item={f} key={f.Id} ></FoodRow>);
         })
       }      
       <div className={styles.row}>Click to delete</div>
     </div>
-  )
-}
-
+  );
+};
