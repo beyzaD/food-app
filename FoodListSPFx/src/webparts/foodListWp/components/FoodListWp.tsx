@@ -1,25 +1,41 @@
 import * as React from 'react';
+import { useState, useEffect, FC } from 'react';
+import { sp } from "@pnp/sp";
+import "@pnp/sp/webs";
+import "@pnp/sp/lists";
+import "@pnp/sp/items";
+
 import styles from './FoodListWp.module.scss';
 import { IFoodListWpProps } from './IFoodListWpProps';
-import { escape } from '@microsoft/sp-lodash-subset';
+import { FoodItem } from './food.model';
+import { FoodRow } from './food-row/food-row';
 
-export default class FoodListWp extends React.Component<IFoodListWpProps, {}> {
-  public render(): React.ReactElement<IFoodListWpProps> {
-    return (
-      <div className={ styles.foodListWp }>
-        <div className={ styles.container }>
-          <div className={ styles.row }>
-            <div className={ styles.column }>
-              <span className={ styles.title }>Welcome to SharePoint!</span>
-              <p className={ styles.subTitle }>Customize SharePoint experiences using Web Parts.</p>
-              <p className={ styles.description }>{escape(this.props.description)}</p>
-              <a href="https://aka.ms/spfx" className={ styles.button }>
-                <span className={ styles.label }>Learn more</span>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+export const FoodListWp : FC<IFoodListWpProps> = (props: IFoodListWpProps)=>{
+  
+  const [food, setFood] = useState([]);
+
+  useEffect(() => {
+    sp.setup({
+      spfxContext: props.context
+    });
+    getSkillsFromSP()
+  }, []);
+
+  const getSkillsFromSP = async () => {
+    const items: any[] = await sp.web.lists.getByTitle("food").items.getAll();  
+    setFood(items);
   }
+  
+  return (
+     <div className={styles.container}>
+       <div className={styles.row}>Available Food</div>
+      {
+        food.map((food: FoodItem)=>{
+            return (<FoodRow item={food} key={food.Id} ></FoodRow>)
+        })
+      }      
+      <div className={styles.row}>Click to delete</div>
+    </div>
+  )
 }
+
