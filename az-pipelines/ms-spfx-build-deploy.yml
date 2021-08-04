@@ -8,6 +8,9 @@ trigger:
     include:
       - "FoodListSPFx/*"
 
+variables:
+  sppkg: foodlist-wp.sppkg
+
 stages:
   - stage: Build
     jobs:
@@ -17,7 +20,7 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: 10.x
+              versionSpec: 12.x
             displayName: Install Node.js
           - task: CmdLine@2
             displayName: npm install
@@ -65,9 +68,9 @@ stages:
               steps:
             
               - task: NodeTool@0
-                displayName: 'Use Node 10.x'
+                displayName: 'Use Node 12.x'
                 inputs:
-                  versionSpec: 10.x
+                  versionSpec: 12.x
                   
               - task: Npm@1
                 displayName: 'npm i -g @pnp/cli-microsoft365'
@@ -80,8 +83,8 @@ stages:
                   m365 login -t password -u $(username) -p $(password)                  
                 displayName: 'Connect to M365'
 
-              - script: 'm365 spo app add -p $(Build.ArtifactStagingDirectory)/drop/sharepoint/solution/sp-fx-web-part.sppkg --overwrite'
+              - script: 'm365 spo app add -p $(Build.ArtifactStagingDirectory)/drop/sharepoint/solution/$(sppkg) --overwrite'
                 displayName: 'Upload to App Catalog'
 
-              - script: 'm365 spo app deploy --name sp-fx-build.sppkg'
+              - script: 'm365 spo app deploy --name $(sppkg)'
                 displayName: 'Deploy App'
