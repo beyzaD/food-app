@@ -66,8 +66,8 @@ stages:
     dependsOn: Build
 
     jobs:
-      - job: test_dotnet_solution
-        displayName: test dotnet solution
+      - job: test
+        displayName: Test .NET
 
         steps:
           - task: DotNetCoreCLI@2
