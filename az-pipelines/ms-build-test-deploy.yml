@@ -22,7 +22,7 @@ pool:
 
 stages:
   - stage: "Build"
-    displayName: "Build"
+    displayName: "Build and Provision"
     jobs:
       - job: "Build"
         displayName: "Build job"
@@ -74,8 +74,7 @@ stages:
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-api.sh'
   
   - stage: "Test"
-    displayName: "Test"
-    dependsOn: Build
+    displayName: "Unit Test"
 
     jobs:
       - job: test
@@ -93,7 +92,8 @@ stages:
     dependsOn: Test
 
     jobs:
-      - job: deploy_to_as
+      - job: deploy
+        displayName: Deploy
 
         steps:
           - task: DownloadBuildArtifacts@0
