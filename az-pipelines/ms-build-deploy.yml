@@ -14,17 +14,16 @@ variables:
   releaseBranchName: master
   azSubscription: azFoodApp
   apifolder: FoodApi
-  appservice: foodapi-900
+  appservice: foodapi-030
 
 pool:
   vmImage: "ubuntu-20.04"
 
 stages:
   - stage: Build
-    displayName: Build
+    displayName: Build and Provision
     jobs:
       - job: Build
-        displayName: "Build job"
 
         steps:
           - task: UseDotNet@2
@@ -59,6 +58,19 @@ stages:
               PathtoPublish: "$(Build.ArtifactStagingDirectory)"
               ArtifactName: "drop"
               publishLocation: "Container"
+      
+      - job: Provision
+
+        steps:
+        
+        - task: AzureCLI@2
+          displayName: 'Provision AppService'
+          inputs:
+            azureSubscription: '$(azSubscription)'
+            scriptType: 'bash'
+            scriptLocation: 'scriptPath'
+            scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-api.sh'
+
 
   - stage: Deploy
     displayName: Deploy
