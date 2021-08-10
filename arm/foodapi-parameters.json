@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webappname": {
-      "value": "mvc-arm-30210"
+      "value": "mvc-armdeployment-30210"
     },
     "appservicename": {
-      "value": "arm-30210"
+      "value": "armdeployment-30210"
     }
   }
 }
