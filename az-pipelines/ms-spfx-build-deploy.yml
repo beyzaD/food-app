@@ -10,6 +10,7 @@ trigger:
 
 variables:
   sppkg: foodlist-wp.sppkg
+  # add username and password vars to pipeline
 
 stages:
   - stage: Build
