@@ -1,4 +1,4 @@
-name: "food-api multistage build and test"
+name: api-build-test
 
 variables:
   dotnetSdkVersion: "5.x"
