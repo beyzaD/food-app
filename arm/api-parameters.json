@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webapp": {
-      "value": "armapi-30210"
+      "value": "armapi-911"
     },
     "serviceplan": {
-      "value": "armserviceplan-30210"
+      "value": "armserviceplan-911"
     }
   }
 }
