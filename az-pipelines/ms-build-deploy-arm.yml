@@ -66,12 +66,16 @@ stages:
         - task: AzureResourceManagerTemplateDeployment@3
           displayName: 'ARM Template Deployment'
           inputs:
+            deploymentScope: 'Resource Group'
             azureResourceManagerConnection: 'az400-mod13-subscription'
-            subscriptionId: $(azSubscription)
+            subscriptionId: '78033352-805c-4acd-af80-f8f95083268d'
+            action: 'Create Or Update Resource Group'
             resourceGroupName: '$(rgname)'
             location: 'West Europe'
+            templateLocation: 'Linked artifact'
             csmFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-azuredeploy.json'
             csmParametersFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-parameters.json'
+            deploymentMode: 'Incremental'
 
 
 
