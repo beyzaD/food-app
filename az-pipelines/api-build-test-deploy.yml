@@ -1,4 +1,4 @@
-name: "food-api multistage build-test-deploy"
+name: api-build-test-deploy
 
 trigger:
   branches:
@@ -12,7 +12,7 @@ variables:
   dotnetSdkVersion: "5.x"
   buildConfiguration: Release
   releaseBranchName: master
-  azSubscription: azFoodApp
+  azSubscription: az400-mod11-subscription
   apifolder: FoodApi
   apitestfolder: FoodApiTest
   appservice: foodapi-030
