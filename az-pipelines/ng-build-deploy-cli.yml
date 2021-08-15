@@ -81,9 +81,5 @@ stages:
                     azureSubscription: '$(azSubscription)'
                     appType: 'webApp'
                     WebAppName: '$(appservice)-$(rndnumber)'
-                    packageForLinux: '$(System.DefaultWorkingDirectory)/ngapp/**/*.*'
-                    enableCustomDeployment: true
-                    DeploymentType: 'webDeploy'
-                    TakeAppOfflineFlag: false
-                    ExcludeFilesFromAppDataFlag: false
-                    RenameFilesFlag: false
+                    packageForLinux: '$(System.DefaultWorkingDirectory)/ngapp/'
+
