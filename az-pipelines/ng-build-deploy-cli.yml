@@ -11,9 +11,9 @@ trigger:
 variables:
   azSubscription: az400-mod13-subscription
   uiPath: FoodUI/
-  rndnumber: '911'
+  rndnumber: '030'
   appservice: 'foodui'
-  apiurl: 'http://foodapi/food'
+  apiurl: 'https://foodapi-$(rndnumber).azurewebsites.net/'
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -29,6 +29,13 @@ stages:
             inputs:
               versionSpec: "14.x"
             displayName: "Install Node 14"
+            
+          - task: FileTransform@1
+            displayName: Replace Api Url
+            inputs:
+              folderPath: '$(System.DefaultWorkingDirectory)/**/assets'
+              fileType: 'json'
+              targetFiles: '**/app-config.json'
 
           - script: |
               npm i -g @angular/cli
