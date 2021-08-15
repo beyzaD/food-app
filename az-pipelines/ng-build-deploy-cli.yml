@@ -35,10 +35,12 @@ stages:
               ng b -c production
             displayName: "npm install and build"
             workingDirectory: $(uiPath)
+          
+          - bash: ls
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: 'dist'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/dist'
               ArtifactName: 'ngdrop'
               publishLocation: 'Container'
       
