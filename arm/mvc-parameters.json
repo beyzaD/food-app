@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webapp": {
-      "value": "mvc-armapp-30210"
+      "value": "armapi-30210"
     },
     "serviceplan": {
-      "value": "mvc-armservice-30210"
+      "value": "armserviceplan-30210"
     }
   }
 }

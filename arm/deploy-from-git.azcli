@@ -4,4 +4,4 @@ grp=az400-m13-$rnd
 
 az group create -n $grp -l $loc
 
-az deployment group create -g $grp -n storage$rnd --template-uri "https://raw.githubusercontent.com/ARambazamba/FoodApp/master/arm/mvc-azuredeploy.json" --parameters webappname='mvc-099' appservicename='mvcplan-099'
+az deployment group create -g $grp -n storage$rnd --template-uri "https://raw.githubusercontent.com/ARambazamba/FoodApp/master/arm/mvc-azuredeploy.json" --parameters webappname='foodapi-099' appservicename='foodplan-099'

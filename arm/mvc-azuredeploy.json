@@ -3,11 +3,11 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webapp": {
-      "defaultValue": "mvc-armapp",
+      "defaultValue": "armapi",
       "type": "String"
     },
     "serviceplan": {
-      "defaultValue": "mvc-armservice",
+      "defaultValue": "armserviceplan",
       "type": "String"
     }
   },
