@@ -1,0 +1,104 @@
+name: "food-api multistage build-deploy"
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - FoodApi
+
+variables:
+  dotnetSdkVersion: "5.x"
+  buildConfiguration: Release
+  releaseBranchName: master
+  azSubscription: azFoodApp
+  apifolder: FoodApi
+  appservice: foodapi-arm
+  rgname: 'foodapi-armpipeline'
+
+pool:
+  vmImage: "ubuntu-20.04"
+
+stages:
+  - stage: Build
+    displayName: Build and Provision
+    jobs:
+      - job: Build
+
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET Core SDK $(dotnetSdkVersion)"
+            inputs:
+              version: "$(dotnetSdkVersion)"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Restore project dependencies"
+            inputs:
+              command: "restore"
+              projects: "$(apifolder)/*.csproj"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Build the project - $(buildConfiguration)"
+            inputs:
+              command: "build"
+              arguments: "--no-restore --configuration $(buildConfiguration)"
+              projects: "$(apifolder)/*.csproj"
+
+          - task: DotNetCoreCLI@2
+            displayName: "Publish the project - $(buildConfiguration)"
+            inputs:
+              command: "publish"
+              projects: "$(apifolder)/*.csproj"
+              publishWebProjects: false
+              arguments: "--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)"
+              zipAfterPublish: true
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
+              ArtifactName: "drop"
+              publishLocation: "Container"
+      
+      - job: Provision
+
+        steps:
+        - task: AzureResourceManagerTemplateDeployment@3
+          displayName: 'ARM Template Deployment'
+          inputs:
+            azureResourceManagerConnection: 'az400-mod13-subscription'
+            subscriptionId: $(azSubscription)
+            resourceGroupName: '$(rgname)'
+            location: 'West Europe'
+            csmFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-azuredeploy.json'
+            csmParametersFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-parameters.json'
+
+
+
+  - stage: Deploy
+    displayName: Deploy
+    dependsOn: Build
+
+    jobs:
+      - deployment: DeployAppService
+        displayName: Deploy to Appservice
+        environment: prod
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: DownloadBuildArtifacts@0
+                  inputs:
+                    buildType: "current"
+                    downloadType: "single"
+                    artifactName: "drop"
+                    downloadPath: "$(System.ArtifactsDirectory)"
+
+                - task: AzureRmWebAppDeployment@4
+                  displayName: "Azure App Service Deploy: $(appservice)"
+                  inputs:
+                    ConnectionType: "AzureRM"
+                    azureSubscription: $(azSubscription)
+                    appType: "webApp"
+                    WebAppName: "$(appservice)"
+                    packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
