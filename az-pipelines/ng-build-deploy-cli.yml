@@ -36,8 +36,6 @@ stages:
               ng b -c production
             displayName: "npm install and build"
             workingDirectory: $(uiPath)
-          
-          - bash: ls
 
           - task: PublishPipelineArtifact@1
             inputs:
@@ -73,6 +71,8 @@ stages:
                   inputs:
                     artifactName: ngapp
                     downloadPath: "$(System.DefaultWorkingDirectory)"
+                                          
+                - bash: ls
 
                 - task: AzureRmWebAppDeployment@4
                   displayName: "Azure App Service Deploy: $(appservice)"
