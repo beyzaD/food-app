@@ -11,8 +11,9 @@ trigger:
 variables:
   azSubscription: az400-mod13-subscription
   uiPath: FoodUI/
-  apinumber: '911'
-  appservice: 'foodapi'
+  rndnumber: '911'
+  appservice: 'foodui'
+  apiurl: 'http://foodapi/food'
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -54,7 +55,7 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-ui-webapp.sh'
-            arguments: '$(apinumber)'
+            arguments: '$(rndnumber)'
 
   - stage: Deploy
     displayName: Deploy
@@ -79,7 +80,7 @@ stages:
                     ConnectionType: 'AzureRM'
                     azureSubscription: '$(azSubscription)'
                     appType: 'webApp'
-                    WebAppName: '$(appservice)-$(apinumber)'
+                    WebAppName: '$(appservice)-$(rndnumber)'
                     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.*'
                     enableCustomDeployment: true
                     DeploymentType: 'webDeploy'
