@@ -2,11 +2,11 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "webappname": {
-      "value": "mvc-armdeployment-30210"
+    "webapp": {
+      "value": "mvc-armapp-30210"
     },
-    "appservicename": {
-      "value": "armdeployment-30210"
+    "serviceplan": {
+      "value": "mvc-armservice-30210"
     }
   }
 }

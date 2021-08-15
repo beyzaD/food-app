@@ -2,12 +2,12 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "webappname": {
-      "defaultValue": "mvc-arm-30210",
+    "webapp": {
+      "defaultValue": "mvc-armapp",
       "type": "String"
     },
-    "appservicename": {
-      "defaultValue": "arm-30210",
+    "serviceplan": {
+      "defaultValue": "mvc-armservice",
       "type": "String"
     }
   },
@@ -16,7 +16,7 @@
     {
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2018-02-01",
-      "name": "[parameters('appservicename')]",
+      "name": "[parameters('serviceplan')]",
       "location": "West Europe",
       "sku": {
         "name": "F1",
@@ -40,27 +40,27 @@
     {
       "type": "Microsoft.Web/sites",
       "apiVersion": "2018-11-01",
-      "name": "[parameters('webappname')]",
+      "name": "[parameters('webapp')]",
       "location": "West Europe",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('appservicename'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('serviceplan'))]"
       ],
       "kind": "app",
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
           {
-            "name": "[concat(parameters('webappname'), '.azurewebsites.net')]",
+            "name": "[concat(parameters('webapp'), '.azurewebsites.net')]",
             "sslState": "Disabled",
             "hostType": "Standard"
           },
           {
-            "name": "[concat(parameters('webappname'), '.scm.azurewebsites.net')]",
+            "name": "[concat(parameters('webapp'), '.scm.azurewebsites.net')]",
             "sslState": "Disabled",
             "hostType": "Repository"
           }
         ],
-        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('appservicename'))]",
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('serviceplan'))]",
         "reserved": false,
         "isXenon": false,
         "hyperV": false,
@@ -78,10 +78,10 @@
     {
       "type": "Microsoft.Web/sites/config",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('webappname'), '/web')]",
+      "name": "[concat(parameters('webapp'), '/web')]",
       "location": "West Europe",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('webappname'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('webapp'))]"
       ],
       "properties": {
         "numberOfWorkers": 1,
@@ -150,10 +150,10 @@
     {
       "type": "Microsoft.Web/sites/hostNameBindings",
       "apiVersion": "2018-11-01",
-      "name": "[concat(parameters('webappname'), '/', parameters('webappname'), '.azurewebsites.net')]",
+      "name": "[concat(parameters('webapp'), '/', parameters('webapp'), '.azurewebsites.net')]",
       "location": "West Europe",
       "dependsOn": [
-        "[resourceId('Microsoft.Web/sites', parameters('webappname'))]"
+        "[resourceId('Microsoft.Web/sites', parameters('webapp'))]"
       ],
       "properties": {
         "siteName": "mvc-arm-30210",
