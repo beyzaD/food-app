@@ -14,8 +14,7 @@ variables:
   releaseBranchName: master
   azSubscription: az400-mod13-subscription
   apifolder: FoodApi
-  appservice: foodapi-arm
-  rgname: 'foodapi-armpipeline'
+  appservice: foodapi-030
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -63,16 +62,14 @@ stages:
       - job: Provision
 
         steps:
-        - task: AzureResourceManagerTemplateDeployment@3
-          displayName: 'ARM Template Deployment'
+        
+        - task: AzureCLI@2
+          displayName: 'Provision AppService'
           inputs:
-            azureResourceManagerConnection: 'az400-mod13-subscription'
-            subscriptionId: $(azSubscription)
-            resourceGroupName: '$(rgname)'
-            location: 'West Europe'
-            csmFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-azuredeploy.json'
-            csmParametersFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-parameters.json'
-
+            azureSubscription: '$(azSubscription)'
+            scriptType: 'bash'
+            scriptLocation: 'scriptPath'
+            scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-api.sh'
 
 
   - stage: Deploy
