@@ -1,4 +1,4 @@
-name: ms-build-deploy-arm
+name: api-build-deploy-arm
 
 trigger:
   branches:

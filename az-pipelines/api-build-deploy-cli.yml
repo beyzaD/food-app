@@ -1,4 +1,4 @@
-name: ms-build-deploy-cli
+name: api-build-deploy-cli
 
 trigger:
   branches:
