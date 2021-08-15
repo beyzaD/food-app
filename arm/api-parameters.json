@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webapp": {
-      "value": "armapi-pipeline"
+      "value": "foodapp-armapi-pipeline"
     },
     "serviceplan": {
-      "value": "armserviceplan-pipeline"
+      "value": "foodapp-armserviceplan-pipeline"
     }
   }
 }
