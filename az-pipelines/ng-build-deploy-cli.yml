@@ -72,7 +72,7 @@ stages:
                 - task: DownloadPipelineArtifact@2
                   inputs:
                     artifactName: ngapp
-                    downloadPath: "$(System.ArtifactsDirectory)"
+                    downloadPath: "$(System.DefaultWorkingDirectory)"
 
                 - task: AzureRmWebAppDeployment@4
                   displayName: "Azure App Service Deploy: $(appservice)"
@@ -81,7 +81,7 @@ stages:
                     azureSubscription: '$(azSubscription)'
                     appType: 'webApp'
                     WebAppName: '$(appservice)-$(rndnumber)'
-                    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.*'
+                    packageForLinux: '$(System.DefaultWorkingDirectory)/ngapp/**/*.*'
                     enableCustomDeployment: true
                     DeploymentType: 'webDeploy'
                     TakeAppOfflineFlag: false
