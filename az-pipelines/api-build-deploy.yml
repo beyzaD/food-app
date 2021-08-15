@@ -12,7 +12,7 @@ variables:
   dotnetSdkVersion: "5.x"
   buildConfiguration: Release
   releaseBranchName: master
-  azSubscription: azFoodApp
+  azSubscription: az400-mod11-subscription
   apifolder: FoodApi
   appservice: foodapi-030
 
