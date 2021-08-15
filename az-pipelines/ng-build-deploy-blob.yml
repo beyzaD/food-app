@@ -59,7 +59,7 @@ stages:
               RunAsPreJob: true
 
           - task: AzureCLI@2
-            displayName: Upload to Static Website
+            displayName: Upload to BlobStorage
             inputs:
               azureSubscription: $(serviceConnection)
               scriptType: bash

@@ -12,9 +12,9 @@ A food tracking app implemented as Cloud Native App deployed to Azure using Azur
 
 - FoodUI: Simple Angular UI using NgRx.
 
-  To Deploy to Azure Static Web App execute `ms-ng-build-deploy-sw.yml`
+  To Deploy to Azure Static Web App execute `ng-build-deploy-sw.yml`
 
-  To Deploy to Azure Blob Storage with CDN execute `ms-ng-build-deploy-sw.yml`
+  To Deploy to Azure Blob Storage with CDN execute `ng-build-deploy-sw.yml`
 
 - FoodListSPFx: Simple SharePoint Framework WebPart displaying Data from Api using Persmissions from App Registration
 
