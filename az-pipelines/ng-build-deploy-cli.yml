@@ -13,6 +13,7 @@ variables:
   uiPath: FoodUI/
   rndnumber: '030'
   appservice: 'foodui'
+  # apiurl value will be used in FileTransform@1
   apiurl: 'https://foodapi-$(rndnumber).azurewebsites.net/'
 
 pool:
