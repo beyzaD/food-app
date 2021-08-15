@@ -40,7 +40,7 @@ stages:
 
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/$(uiPath)dist/'
+              targetPath: '$(System.DefaultWorkingDirectory)/$(uiPath)dist/food-ui/'
               ArtifactName: 'ngapp'
       
       - job: Provision
@@ -76,7 +76,13 @@ stages:
                 - task: AzureRmWebAppDeployment@4
                   displayName: "Azure App Service Deploy: $(appservice)"
                   inputs:
-                    ConnectionType: "AzureRM"
-                    azureSubscription: $(azSubscription)
-                    appType: "webApp"
-                    WebAppName: "$(appservice)-$(apinumber)"
+                    ConnectionType: 'AzureRM'
+                    azureSubscription: '$(azSubscription)'
+                    appType: 'webApp'
+                    WebAppName: '$(appservice)-$(apinumber)'
+                    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.*'
+                    enableCustomDeployment: true
+                    DeploymentType: 'webDeploy'
+                    TakeAppOfflineFlag: false
+                    ExcludeFilesFromAppDataFlag: false
+                    RenameFilesFlag: false
