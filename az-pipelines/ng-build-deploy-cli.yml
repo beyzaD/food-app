@@ -38,9 +38,9 @@ stages:
 
           - task: PublishBuildArtifacts@1
             inputs:
-              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
-              ArtifactName: "ngdrop"
-              publishLocation: "Container"
+              PathtoPublish: 'dist'
+              ArtifactName: 'ngdrop'
+              publishLocation: 'Container'
       
       - job: Provision
 
