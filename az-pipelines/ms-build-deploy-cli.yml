@@ -1,4 +1,4 @@
-name: "food-api multistage build-deploy"
+name: ms-build-deploy-cli
 
 trigger:
   branches:
