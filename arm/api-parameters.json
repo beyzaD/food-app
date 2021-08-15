@@ -3,10 +3,10 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webapp": {
-      "value": "armapi-911"
+      "value": "armapi-pipeline"
     },
     "serviceplan": {
-      "value": "armserviceplan-911"
+      "value": "armserviceplan-pipeline"
     }
   }
 }
