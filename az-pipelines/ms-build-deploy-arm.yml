@@ -14,8 +14,8 @@ variables:
   releaseBranchName: master
   azSubscription: az400-mod13-subscription
   apifolder: FoodApi
-  appservice: foodapi-arm
-  rgname: 'foodapi-armpipeline'
+  rgname: 'az400-mod13-armpipeline'
+  appservice: foodapi-arm  
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -74,7 +74,7 @@ stages:
             location: 'West Europe'
             templateLocation: 'Linked artifact'
             csmFile: '$(System.DefaultWorkingDirectory)/arm/api-azuredeploy.json'
-            csmParametersFile: '$(System.DefaultWorkingDirectory)/arm/api-parameters.json'
+            csmParametersFile: '''webapp=$(appservice) serviceplan=''foodplan-pip'''
             deploymentMode: 'Incremental'
 
 
