@@ -73,8 +73,8 @@ stages:
             resourceGroupName: '$(rgname)'
             location: 'West Europe'
             templateLocation: 'Linked artifact'
-            csmFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-azuredeploy.json'
-            csmParametersFile: '$(System.DefaultWorkingDirectory)/_arm/arm/api-parameters.json'
+            csmFile: '$(System.DefaultWorkingDirectory)/arm/api-azuredeploy.json'
+            csmParametersFile: '$(System.DefaultWorkingDirectory)/arm/api-parameters.json'
             deploymentMode: 'Incremental'
 
 
