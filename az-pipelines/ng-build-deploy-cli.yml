@@ -39,7 +39,7 @@ stages:
 
           - task: PublishPipelineArtifact@1
             inputs:
-              targetPath: '$(System.DefaultWorkingDirectory)/$(uiPath)dist/food-ui/'
+              targetPath: '$(System.DefaultWorkingDirectory)/$(uiPath)dist/'
               ArtifactName: 'ngapp'
       
       - job: Provision
@@ -81,5 +81,5 @@ stages:
                     azureSubscription: '$(azSubscription)'
                     appType: 'webApp'
                     WebAppName: '$(appservice)-$(rndnumber)'
-                    packageForLinux: '$(System.DefaultWorkingDirectory)/ngapp/'
+                    packageForLinux: '$(System.DefaultWorkingDirectory)/food-ui/'
 
