@@ -9,6 +9,7 @@ trigger:
       - "FoodListSPFx/*"
 
 variables:
+  system.debug: true
   sppkg: foodlist-wp.sppkg
   # add username and password vars to pipeline
 
@@ -59,7 +60,7 @@ stages:
     displayName: Deploy to M365
     dependsOn: Build
     variables:
-      tenant: integrationsonline
+      tenant: d92b247e-90e0-4469-a129-6a32866c0d0a
 
     jobs:
       - deployment: DeployM365
