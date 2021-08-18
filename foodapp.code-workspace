@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "FoodApi"
+		},
+		{
+			"path": "FoodApiTests"
+		},
+		{
+			"path": "FoodUI"
+		},
+		{
+			"path": "az-pipelines",
+			"name": "pipelines"
+		}
+	],
+	"settings": {}
+}
