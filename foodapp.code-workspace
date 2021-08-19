@@ -15,7 +15,17 @@
 		{
 			"path": "az-pipelines",
 			"name": "pipelines"
+		},
+		{
+			"path": "az-cli",
+			"name": "azure cli"
+		},
+		{
+			"path": "arm",
+			"name": "arm templates"
 		}
 	],
-	"settings": {}
+	"settings": {
+		
+	}
 }

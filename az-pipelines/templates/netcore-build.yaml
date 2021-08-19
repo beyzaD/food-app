@@ -1,7 +1,7 @@
 parameters:
   - name: cfg
     type: string
-    default: ""
+    default: "Release"
 
   - name: folder
     type: string
