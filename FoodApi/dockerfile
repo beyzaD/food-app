@@ -19,7 +19,7 @@ ENTRYPOINT ["dotnet", "FoodApi.dll"]
 # docker run -it --rm -p 5051:80 foodservice
 
 # Browse using: 
-# http://localhost:5051/api/food
+# http://localhost:5051/food
 
 # Publish Image to dockerhub
 # docker tag foodservice arambazamba/foodservice
