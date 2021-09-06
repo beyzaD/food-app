@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { of } from "rxjs";
 import { AppInsightsService } from "./shared/app-insights/app-insights.service";
 
 @Component({
@@ -10,4 +11,6 @@ export class AppComponent {
   constructor(private appInsights: AppInsightsService) {}
 
   title = "Passion for Food!";
+
+  loggedIn$ = of(false);
 }
