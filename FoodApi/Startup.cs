@@ -1,5 +1,6 @@
 using System;
 using FoodApp;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace FoodApi
 
             //Aplication Insights
             services.AddApplicationInsightsTelemetry (Configuration["Azure:ApplicationInsights"]);
+            services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
             services.AddSingleton<AILogger>();
 
             //EF
