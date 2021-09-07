@@ -22,3 +22,8 @@ export const getLoggedIn = createSelector(
 export const displayAuth = createSelector(getAuthState, (state: AuthState) =>
   environment.authEnabled ? !state.isLoggedIn : false
 );
+
+export const hasToken = createSelector(
+  getAuthState,
+  (state: AuthState) => state.token != ""
+);

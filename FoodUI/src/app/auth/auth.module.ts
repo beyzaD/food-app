@@ -7,6 +7,12 @@ import { MaterialModule } from "../material.module";
 import { LogoutComponent } from "./components/logout/logout.component";
 import { LoginSplashComponent } from "./components/login-splash/login-splash.component";
 import { FlexLayoutModule } from "@angular/flex-layout";
+import { AngularFireModule } from "@angular/fire/compat";
+import { environment } from "../../environments/environment";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+import { authFeatureKey, AuthReducer } from "./store/reducers/auth.reducer";
+import { AuthEffects } from "./store/effects/auth.effects";
 
 const comps = [
   LoginComponent,
@@ -24,6 +30,9 @@ const comps = [
     ReactiveFormsModule,
     FlexLayoutModule,
     MaterialModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    StoreModule.forFeature(authFeatureKey, AuthReducer),
+    EffectsModule.forFeature([AuthEffects]),
   ],
 })
-export class AuthModule {}
+export class FBAuthModule {}

@@ -22,7 +22,7 @@ import { FooterComponent } from "./shared/footer/footer.component";
 import { ConfigService } from "./shared/config/config.service";
 import { ScanComponent } from "./scan/scan/scan.component";
 import { ErrHandlerService } from "./shared/err-handler/err-handler.service";
-import { AuthModule } from "./auth/auth.module";
+import { FBAuthModule } from "./auth/auth.module";
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv.init();
@@ -49,7 +49,7 @@ export function appInit(configsrv: ConfigService) {
     MaterialModule,
     FlexLayoutModule,
     FoodModule,
-    AuthModule,
+    FBAuthModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

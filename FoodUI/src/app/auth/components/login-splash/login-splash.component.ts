@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { AuthFacade } from "../../store/facades/auth.facade";
-import { Login } from "../../store/actions/auth.actions";
 
 @Component({
   selector: "app-login-splash",

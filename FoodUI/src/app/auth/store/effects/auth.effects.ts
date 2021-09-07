@@ -1,49 +1,64 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { exhaustMap, pluck } from "rxjs/operators";
-import { FBAuthService } from "../../mockauth.service";
-import {
-  AuthActionTypes,
-  LoginErr,
-  LoginSuccess,
-  LogoutComplete,
-  RegisterErr,
-  RegisterSuccess,
-} from "../actions/auth.actions";
+import { Actions, Effect, ofType, createEffect } from "@ngrx/effects";
+import { exhaustMap, pluck, mergeMap, map, catchError } from "rxjs/operators";
+import { FBAuthService } from "../../firebase-auth.service";
 import { LoginVM } from "../../login-credential.model";
+import {
+  authFailure,
+  loginUser,
+  logoutUser,
+  registerUser,
+} from "../actions/auth.actions";
+import { from, of } from "rxjs";
 
 @Injectable()
 export class AuthEffects {
   constructor(private actions$: Actions, private as: FBAuthService) {}
 
-  @Effect()
-  loginUser$ = this.actions$.pipe(
-    ofType(AuthActionTypes.Login),
-    pluck("payload"),
-    exhaustMap((pl: LoginVM) =>
-      this.as
-        .logOn(pl.email, pl.password)
-        .then((usr) => new LoginSuccess(usr))
-        .catch((err) => new LoginErr(err))
+  loginUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loginUser),
+      pluck("payload"),
+      exhaustMap((payload: LoginVM) =>
+        this.as.logOn(payload.email, payload.password).pipe(
+          map((data) => ({
+            type: "[Auth] login success",
+            payload: data,
+          })),
+          catchError((err) => of(authFailure({ err })))
+        )
+      )
     )
   );
 
-  @Effect()
-  registerUser$ = this.actions$.pipe(
-    ofType(AuthActionTypes.Register),
-    pluck("payload"),
-    exhaustMap((pl: LoginVM) =>
-      this.as
-        .createUser(pl.email, pl.password)
-        .then((usr) => new RegisterSuccess(usr))
-        .catch((err) => new RegisterErr(err))
+  registerUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(registerUser),
+      pluck("payload"),
+      exhaustMap((payload: LoginVM) =>
+        this.as.registerUser(payload.email, payload.password).pipe(
+          map((data) => ({
+            type: "[Auth] register success",
+            payload: data,
+          })),
+          catchError((err) => of(authFailure({ err })))
+        )
+      )
     )
   );
 
-  @Effect()
-  logoutUser$ = this.actions$.pipe(
-    ofType(AuthActionTypes.Logout),
-    pluck("payload"),
-    exhaustMap(() => this.as.logOff().then(() => new LogoutComplete()))
+  logoutUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(logoutUser),
+      pluck("payload"),
+      exhaustMap(() =>
+        this.as.logOff().pipe(
+          map(() => ({
+            type: "[Auth] logout success",
+          })),
+          catchError((err) => of(authFailure({ err })))
+        )
+      )
+    )
   );
 }
