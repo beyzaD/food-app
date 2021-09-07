@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthFacade } from "../../store/facades/auth.facade";
 
 @Component({
   selector: "app-login",
@@ -7,7 +8,7 @@ import { FormControl, FormGroup, Validators } from "@angular/forms";
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  constructor() {}
+  constructor(private af: AuthFacade) {}
 
   loginForm: FormGroup;
 
@@ -21,5 +22,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  logIn(form: FormGroup) {}
+  logIn(form: FormGroup) {
+    this.af.logIn(form.value);
+  }
 }

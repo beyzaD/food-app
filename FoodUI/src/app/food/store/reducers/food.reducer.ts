@@ -26,7 +26,7 @@ export const defaultFoodState: FoodState = {
 
 export const initialState = foodAdapter.getInitialState(defaultFoodState);
 
-export const FoodReducer = createReducer(
+export const foodReducer = createReducer(
   initialState,
   on(loadFood, (state, action) => {
     return { ...state };

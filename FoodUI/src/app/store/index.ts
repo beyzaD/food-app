@@ -1,13 +1,7 @@
-import {
-  ActionReducer,
-  ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
-  MetaReducer,
-} from "@ngrx/store";
+import { ActionReducerMap, MetaReducer } from "@ngrx/store";
 import { environment } from "../../environments/environment";
-import { FoodState, FoodReducer } from "../food/store/reducers/food.reducer";
-import { AuthState, AuthReducer } from "../auth/store/reducers/auth.reducer";
+import { authReducer, AuthState } from "../auth/store/reducers/auth.reducer";
+import { foodReducer, FoodState } from "../food/store/reducers/food.reducer";
 
 export interface State {
   food: FoodState;
@@ -15,8 +9,8 @@ export interface State {
 }
 
 export const reducers: ActionReducerMap<State> = {
-  food: FoodReducer,
-  auth: AuthReducer,
+  food: foodReducer,
+  auth: authReducer,
 };
 
 export const metaReducers: MetaReducer<State>[] = !environment.production

@@ -23,7 +23,7 @@ export const initialState: AuthState = {
   isLoggedIn: false,
 };
 
-export const AuthReducer = createReducer(
+export const authReducer = createReducer(
   initialState,
   on(registerUserSuccess, (state, action) => {
     return { ...state, isLoggedIn: true, user: "Mock User" };

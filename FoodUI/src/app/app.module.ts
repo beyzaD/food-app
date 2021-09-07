@@ -22,7 +22,7 @@ import { FooterComponent } from "./shared/footer/footer.component";
 import { ConfigService } from "./shared/config/config.service";
 import { ScanComponent } from "./scan/scan/scan.component";
 import { ErrHandlerService } from "./shared/err-handler/err-handler.service";
-import { FBAuthModule } from "./auth/auth.module";
+import { FBAuthModule } from "./auth/fbauth.module";
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv.init();

@@ -11,8 +11,8 @@ import { AngularFireModule } from "@angular/fire/compat";
 import { environment } from "../../environments/environment";
 import { StoreModule } from "@ngrx/store";
 import { EffectsModule } from "@ngrx/effects";
-import { authFeatureKey, AuthReducer } from "./store/reducers/auth.reducer";
 import { AuthEffects } from "./store/effects/auth.effects";
+import { authFeatureKey, authReducer } from "./store/reducers/auth.reducer";
 
 const comps = [
   LoginComponent,
@@ -31,7 +31,7 @@ const comps = [
     FlexLayoutModule,
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
-    StoreModule.forFeature(authFeatureKey, AuthReducer),
+    StoreModule.forFeature(authFeatureKey, authReducer),
     EffectsModule.forFeature([AuthEffects]),
   ],
 })
