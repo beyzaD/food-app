@@ -52,12 +52,11 @@ export class FoodListComponent implements OnInit {
   }
 
   addFood() {
-    console.log(this.getNextId());
     this.onEditSelected.emit({
       id: this.getNextId(),
-      name: "",
+      name: "Pad Krapao",
       amount: 1,
-      code: "abc",
+      code: "padk",
       date: new Date(),
       pictureUrl: "",
     });

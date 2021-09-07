@@ -41,6 +41,6 @@ export const foodReducer = createReducer(
     return { ...state, loading: false };
   }),
   on(selectFood, (state, action) => {
-    return { ...state, selectFood: action.food };
+    return { ...state, selected: action.food };
   })
 );

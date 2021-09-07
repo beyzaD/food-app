@@ -22,9 +22,9 @@ namespace FoodApi
         {
 
             List<FoodItem> list = new List<FoodItem>();
-            list.Add(new FoodItem { ID = 1, Name = "Butter Chicken", Amount = 12, Code = "1200", Date = DateTime.Now });
-            list.Add(new FoodItem { ID = 2, Name = "Blini with Salmon", Amount = 9, Code = "900", Date = DateTime.Now });
-            list.Add(new FoodItem { ID = 3, Name = "Wiener Schnitzel", Amount = 18, Code = "1250",Date = DateTime.Now });
+            list.Add(new FoodItem { ID = 1, Name = "Butter Chicken", Amount = 12, Code = "btc", Date = DateTime.Now });
+            list.Add(new FoodItem { ID = 2, Name = "Blini with Salmon", Amount = 9, Code = "bls", Date = DateTime.Now });
+            list.Add(new FoodItem { ID = 3, Name = "Wiener Schnitzel", Amount = 18, Code = "ws",Date = DateTime.Now });
             modelBuilder.Entity<FoodItem>().HasData(list.ToArray());
         }
     }
