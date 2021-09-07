@@ -25,16 +25,16 @@
 </mat-card>
 
 <mat-card class="actionCard" *ngIf="view == 'entry'">
-  <mat-card-content fxLayout="row" fxLayoutAlign="space-between center">
-    <!-- <button mat-raised-button (click)="view = 'login'" color="primary">
+  <mat-card-content fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+    <button mat-raised-button (click)="view = 'login'" color="primary" *ngIf="(authEnabled$ | async)">
       Login
     </button>
-    <button mat-raised-button (click)="view = 'register'" color="primary">
-      Register
-    </button> -->
-    <button mat-raised-button (click)="logIn()" color="primary">
-      Login
+    <button mat-raised-button (click)="proceed()" color="primary" *ngIf="!(authEnabled$ | async)">
+      Proceed
     </button>    
+    <button mat-raised-button (click)="view = 'register'" color="primary" *ngIf="(authEnabled$ | async)">
+      Register
+    </button>
   </mat-card-content>
 </mat-card>
 

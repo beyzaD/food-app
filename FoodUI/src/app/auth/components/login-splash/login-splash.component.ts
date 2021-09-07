@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { of } from "rxjs";
 import { AuthFacade } from "../../store/facades/auth.facade";
+import { environment } from "../../../../environments/environment";
 
 @Component({
   selector: "app-login-splash",
@@ -11,16 +13,9 @@ export class LoginSplashComponent implements OnInit {
 
   entryPic = "/assets/images/burger.png";
   view = "entry";
+  authEnabled$ = of(environment.authEnabled);
 
   ngOnInit(): void {}
 
-  logIn() {
-    let lm = {
-      email: "alexander.pajer@integrations.at",
-      password: "abc",
-      passwordRepeat: "abc",
-      displayName: "Alexander Pajer",
-    };
-    this.af.logIn(lm);
-  }
+  proceed() {}
 }
