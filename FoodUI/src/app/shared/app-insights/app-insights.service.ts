@@ -20,7 +20,13 @@ export class AppInsightsService implements OnDestroy {
         enableAutoRouteTracking: true, // option to log all route changes
       },
     });
+
     this.appInsights.loadAppInsights();
+
+    // this.appInsights.defaultClient.addTelemetryProcessor((envelope) => {
+    //   envelope.tags["ai.cloud.role"] = "ng-food-ui";
+    //   envelope.tags["ai.cloud.roleInstance"] = "your role instance";
+    // });
 
     this.routerSubscription = this.router.events
       .pipe(filter((event) => event instanceof ResolveEnd))

@@ -1,8 +1,16 @@
 export const environment = {
   production: false,
   authEnabled: false,
-  apiurl: "https://localhost:5001/api/",
+  apiurl: "https://localhost:5001/",
   appInsights: {
-    instrumentationKey: "85035b0d-643a-4e46-91e0-43365c069088",
+    instrumentationKey: "3b0aa605-4390-4d1e-856e-ab274145453a",
+  },
+  firebaseConfig: {
+    apiKey: "AIzaSyDK-xtrfT4YBzq4Hzmf5kEwHgHbYw4UQTc",
+    authDomain: "ngrx-firebase-fb51b.firebaseapp.com",
+    projectId: "ngrx-firebase-fb51b",
+    storageBucket: "ngrx-firebase-fb51b.appspot.com",
+    messagingSenderId: "141384369616",
+    appId: "1:141384369616:web:659d331b4ad7a3f16365d5",
   },
 };

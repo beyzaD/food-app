@@ -4,8 +4,8 @@ import { FoodState } from "../reducers/food.reducer";
 import { getAllFood, getSelected } from "../selectors/food.selectors";
 import { tap } from "rxjs/operators";
 import { FoodItem } from "../../food.model";
-import { SelectFood, LoadFood, MailFood } from "../actions/food.actions";
 import { AppInsightsService } from "src/app/shared/app-insights/app-insights.service";
+import { loadFood, selectFood, mailFood } from "../actions/food.actions";
 
 @Injectable({
   providedIn: "root",
@@ -17,7 +17,7 @@ export class FoodFacade {
   ) {}
 
   initFood() {
-    this.store.dispatch(new LoadFood());
+    this.store.dispatch(loadFood());
   }
 
   getFood() {
@@ -30,21 +30,21 @@ export class FoodFacade {
     return this.store.select(getSelected);
   }
 
-  selectFood(f: FoodItem) {
-    this.store.dispatch(new SelectFood(f));
+  selectFood(food: FoodItem) {
+    this.store.dispatch(selectFood({ food }));
   }
 
-  deleteFood(f: FoodItem) {
-    console.log("deleting ", f);
-    this.ai.logEvent("Deleting", f);
+  deleteFood(food: FoodItem) {
+    console.log("deleting ", food);
+    this.ai.logEvent("Deleting", food);
   }
 
-  saveFood(f: FoodItem) {
-    this.ai.logEvent("Saving", f);
+  saveFood(food: FoodItem) {
+    this.ai.logEvent("Saving", food);
   }
 
-  mailFood(f: FoodItem) {
-    this.store.dispatch(new MailFood(f));
-    this.ai.logEvent("mailto", f);
+  mailFood(food: FoodItem) {
+    this.store.dispatch(mailFood({ food }));
+    this.ai.logEvent("mailto", food);
   }
 }

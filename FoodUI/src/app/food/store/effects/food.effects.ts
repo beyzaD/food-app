@@ -1,34 +1,40 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Observable, of } from "rxjs";
-import { Action } from "@ngrx/store";
-import { mergeMap, map, catchError } from "rxjs/operators";
-import * as foodActions from "../actions/food.actions";
-import { FoodItem } from "../../food.model";
+import { Actions, createEffect, ofType } from "@ngrx/effects";
+import { of } from "rxjs";
+import { catchError, map, mergeMap } from "rxjs/operators";
 import { FoodService } from "../../food.service";
+import * as foodActions from "../actions/food.actions";
 
 @Injectable()
 export class FoodEffects {
   constructor(private actions$: Actions, private fs: FoodService) {}
 
-  @Effect()
-  loadFood$: Observable<Action> = this.actions$.pipe(
-    ofType(foodActions.FoodActionTypes.LoadFood),
-    mergeMap((action) =>
-      this.fs.getFood().pipe(
-        map((food: FoodItem[]) => new foodActions.LoadFood_Success(food)),
-        catchError((err) => of(new foodActions.LoadFood_Error(err)))
+  loadFood$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(foodActions.loadFood),
+      mergeMap(() =>
+        this.fs.getFood().pipe(
+          map((food) => ({
+            type: "[Food] load food success",
+            food: food,
+          })),
+          catchError((err) => of(foodActions.loadFoodFailure({ err })))
+        )
       )
     )
   );
 
-  @Effect()
-  mailFood$: Observable<Action> = this.actions$.pipe(
-    ofType(foodActions.FoodActionTypes.MailFood),
-    mergeMap((action) =>
-      this.fs.getFood().pipe(
-        map((food: FoodItem[]) => new foodActions.LoadFood_Success(food)),
-        catchError((err) => of(new foodActions.LoadFood_Error(err)))
+  mailFood$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(foodActions.mailFood),
+      mergeMap((action) =>
+        this.fs.mailFood(action.food).pipe(
+          map((food) => ({
+            type: "[Food] log activity",
+            data: food,
+          })),
+          catchError((err) => of(foodActions.loadFoodFailure({ err })))
+        )
       )
     )
   );
