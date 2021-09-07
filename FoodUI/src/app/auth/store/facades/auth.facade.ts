@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { AuthState } from '../reducers/auth.reducer';
-import { Login, Logout, Register } from '../actions/auth.actions';
-import { LoginVM } from '../../login-credential.model';
-import { getLoggedIn } from '../selectors/auth.selectors';
+import { Injectable } from "@angular/core";
+import { Store } from "@ngrx/store";
+import { AuthState } from "../reducers/auth.reducer";
+import { Login, Logout, Register } from "../actions/auth.actions";
+import { LoginVM } from "../../login-credential.model";
+import { getLoggedIn, displayAuth } from "../selectors/auth.selectors";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class AuthFacade {
   constructor(private store: Store<AuthState>) {}
@@ -25,5 +25,9 @@ export class AuthFacade {
 
   isLoggedIn() {
     return this.store.select(getLoggedIn);
+  }
+
+  displayAuth() {
+    return this.store.select(displayAuth);
   }
 }

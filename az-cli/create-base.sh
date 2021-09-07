@@ -1,4 +1,4 @@
-rnd=030
+rnd=099
 grp=foodapp-$rnd
 loc=westeurope
 ai=foodapp-ai-$rnd
