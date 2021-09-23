@@ -1,6 +1,7 @@
 import { createEntityAdapter, EntityAdapter, EntityState } from "@ngrx/entity";
 import { createReducer, on } from "@ngrx/store";
 import { FoodItem } from "../../food.model";
+import { deleteFood } from "../actions/food.actions";
 import {
   loadFood,
   loadFoodFailure,
@@ -39,6 +40,12 @@ export const foodReducer = createReducer(
   }),
   on(loadFoodFailure, (state, action) => {
     return { ...state, loading: false };
+  }),
+  on(deleteFood, (state, action) => {
+    return foodAdapter.removeOne(action.food.id, {
+      ...state,
+      loading: false,
+    });
   }),
   on(selectFood, (state, action) => {
     return { ...state, selected: action.food };

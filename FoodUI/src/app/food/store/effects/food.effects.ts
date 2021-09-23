@@ -4,6 +4,7 @@ import { of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { FoodService } from "../../food.service";
 import * as foodActions from "../actions/food.actions";
+import { deleteFood, saveFood, saveFoodFailure } from "../actions/food.actions";
 
 @Injectable()
 export class FoodEffects {
@@ -19,6 +20,36 @@ export class FoodEffects {
             food: food,
           })),
           catchError((err) => of(foodActions.loadFoodFailure({ err })))
+        )
+      )
+    )
+  );
+
+  deleteFood$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(foodActions.deleteFood),
+      mergeMap((action) =>
+        this.fs.deleteFood(action.food).pipe(
+          map((food) => ({
+            type: "[Food] delete food success",
+            food: food,
+          })),
+          catchError((err) => of(foodActions.deleteFoodFailure({ err })))
+        )
+      )
+    )
+  );
+
+  saveFood$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(foodActions.saveFood),
+      mergeMap((action) =>
+        this.fs.saveFood(action.food).pipe(
+          map((food) => ({
+            type: "[Food] save food success",
+            food: food,
+          })),
+          catchError((err) => of(foodActions.saveFoodFailure({ err })))
         )
       )
     )

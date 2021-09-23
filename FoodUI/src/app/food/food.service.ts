@@ -17,4 +17,12 @@ export class FoodService {
   mailFood(item: FoodItem) {
     return this.httpClient.post<FoodItem>(`${this.cs.apiUrl}mail`, item);
   }
+
+  deleteFood(item: FoodItem) {
+    return this.httpClient.delete<FoodItem>(`${this.cs.apiUrl}food/${item.id}`);
+  }
+
+  saveFood(item: FoodItem): Observable<FoodItem> {
+    return this.httpClient.post<FoodItem>(`${this.cs.apiUrl}food`, item);
+  }
 }

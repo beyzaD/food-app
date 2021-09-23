@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FoodApi
 {
@@ -28,7 +29,13 @@ namespace FoodApi
         // http://localhost:PORT/food
         [HttpPost ()]
         public FoodItem SaveFood (FoodItem item) {
-            ctx.Food.Add (item);
+
+            if(item.ID==0){
+                ctx.Food.Add (item);
+            }else{
+                ctx.Food.Attach(item);
+                ctx.Entry(item).State = EntityState.Modified;
+            }           
             ctx.SaveChanges ();
             return item;
         }
