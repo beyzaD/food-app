@@ -56,7 +56,7 @@ export class AuthFacade {
     this.store.dispatch(loginRedirect());
   }
 
-  userChanged(user: firebase.default.User) {
+  userChanged(user: any) {
     if (user != null) {
       user
         .getIdToken()
