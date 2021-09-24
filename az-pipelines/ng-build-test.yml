@@ -37,11 +37,13 @@ stages:
               folderPath: '$(System.DefaultWorkingDirectory)/**/assets'
               fileType: 'json'
               targetFiles: '**/app-config.json'
-
-          - script: |
-              npx ng test -- --watch=false -- --karmaConfig '$(System.DefaultWorkingDirectory)/$(uiPath)karma.conf.ci.js'
-            displayName: "Execute Test"
-            workingDirectory: $(uiPath)
+          
+          - task: Npm@1
+            displayName: "Test Angular"
+            inputs:
+              command: 'custom'
+              workingDir: '$(uiPath)'
+              customCommand: 'run test -- --watch=false --karmaConfig '$(System.DefaultWorkingDirectory)/$(uiPath)karma.conf.ci.js''
 
           - task: PublishTestResults@2
             condition: succeededOrFailed()
