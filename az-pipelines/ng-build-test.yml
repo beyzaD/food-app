@@ -39,7 +39,7 @@ stages:
               targetFiles: '**/app-config.json'
 
           - script: |
-              npm run test -- --watch=false -- --karmaConfig karma.conf.ci.js
+              npm run test -- --watch=false -- --karmaConfig '$(System.DefaultWorkingDirectory)/$(uiPath)karma.conf.ci.js'
             displayName: "execute test"
             workingDirectory: $(uiPath)
 
