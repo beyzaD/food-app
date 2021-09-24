@@ -40,7 +40,7 @@ stages:
 
           - script: |
               npx ng test -- --watch=false -- --karmaConfig '$(System.DefaultWorkingDirectory)/$(uiPath)karma.conf.ci.js'
-            displayName: "execute test"
+            displayName: "Execute Test"
             workingDirectory: $(uiPath)
 
           - task: PublishTestResults@2
