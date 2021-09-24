@@ -39,7 +39,7 @@ stages:
               targetFiles: '**/app-config.json'
 
           - script: |
-              ng test --watch=false --karmaConfig karma.conf.ci.js
+              npx ng test --watch=false --karmaConfig karma.conf.ci.js
             displayName: "npm install and build"
             workingDirectory: $(uiPath)
 
