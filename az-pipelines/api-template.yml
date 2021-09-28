@@ -31,11 +31,6 @@ stages:
               cfg: $(buildConfiguration)
               folder: $(apifolder)
 
-  - stage: "Test"
-    displayName: "Test"
-    dependsOn: Build
-
-    jobs:
       - job: test_dotnet_solution
         displayName: test dotnet solution
 
@@ -45,3 +40,19 @@ stages:
               command: "test"
               projects: "apitestfolder/*.csproj"
               arguments: "--configuration $(buildConfiguration)"
+
+
+  # - stage: "Test"
+  #   displayName: "Test"
+  #   dependsOn: Build
+
+  #   jobs:
+  #     - job: test_dotnet_solution
+  #       displayName: test dotnet solution
+
+  #       steps:
+  #         - task: DotNetCoreCLI@2
+  #           inputs:
+  #             command: "test"
+  #             projects: "apitestfolder/*.csproj"
+  #             arguments: "--configuration $(buildConfiguration)"
