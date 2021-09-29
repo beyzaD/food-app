@@ -11,8 +11,8 @@ trigger:
       - FoodUI/*
 
 variables:
-  azSubscription: conFoodApp
-  dockerReg: conDockerReg
+  azSubscription: azsFoodApp
+  dockerReg: aczDefault
   imageName: foodui
   manifest: az-manifest/foodui.yml
   acr: integrationsonline.azurecr.io
