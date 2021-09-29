@@ -2,8 +2,7 @@ rnd=030
 grp=foodapp-$rnd
 loc=westeurope
 aks=foodcluster-$rnd
-acr=integrationsonline
-acrgrp=Hosting
+ns=foodapp-staging
 
 # Install kubectl command line client locally:
 # az aks install-cli
@@ -14,19 +13,7 @@ az group create -n $grp -l $loc
 
 # Create AKS cluster:
 
-az aks create -g $grp -n $aks --node-count 1 --enable-addons monitoring --generate-ssh-keys 
-
-clientId=$(az aks show -n $aks -g $grp --query "servicePrincipalProfile.clientId" --output tsv)
-
-echo $clientId
-
-acrId=$(az acr show -n $acr -g $acrgrp  --query "id" --output tsv)
-
-echo $acrId
-
-az acr list -g $acrgrp --query "[].{loginServer: loginServer}" --output table
-
-az role assignment create --assignee $clientId --role acrpull --scope $acrId
+az aks create -g $grp -n $aks --node-count 1 --generate-ssh-keys 
 
 # Get credentials for the Kubernets cluster:
 
@@ -36,13 +23,17 @@ az aks get-credentials -g $grp -n $aks
 
 kubectl get nodes
 
+# Create a namespace
+
+kubectl create namespace $ns
+
 # Apply the yaml - Make sure you uploaded foodui.yaml to CloudShell
 
-kubectl apply -f foodservice.yaml
+kubectl apply -f foodui.yaml --namespace $ns
 
 # Get the serive IP and use it on the assigned port
 
 kubectl get service foodui --watch
 
 # port taken from yaml
-# ie: http://51.124.79.235:8081
+# ie: http://20.93.247.200:8081
