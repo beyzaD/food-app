@@ -1,4 +1,4 @@
-name: Kubernetes Deploy
+name: ui-build-deploy-k8s
 pool:
   vmImage: "ubuntu-20.04"
 
@@ -8,21 +8,25 @@ trigger:
       - master
   paths:
     include:
-      - FoodApi/*
+      - FoodUI/*
 
 variables:
-  dockerReg: "conDockerReg"
-  imageName: "foodapi"
-  acr: "integrationsonline.azurecr.io"
+  azSubscription: conFoodApp
+  dockerReg: conDockerReg
+  imageName: foodui
+  manifest: az-manifest/foodui.yml
+  acr: integrationsonline.azurecr.io
   tag: "$(Build.BuildId)"
   kube: "conKube"
-  ns: "default"
+  ns: "staging"
   imagePullSecret: "secret"
+  rnd: simple
 
 stages:
   - stage: "Prepare"
-    displayName: "Build Api Image"
+    displayName: "Build and IaC"
     jobs:
+      
       - job: "Build"
         steps:
           - task: Docker@2
@@ -36,7 +40,7 @@ stages:
             inputs:
               repository: $(imageName)
               command: buildAndPush
-              Dockerfile: FoodApi/dockerfile
+              Dockerfile: FoodUI/dockerfile
           - task: Docker@2
             displayName: Logout of ACR
             inputs:
@@ -44,6 +48,18 @@ stages:
               containerRegistry: $(dockerReg)
           - publish: "$(Build.SourcesDirectory)/manifests"
             artifact: manifests
+        
+      - job: Provision
+
+        steps:        
+        - task: AzureCLI@2
+          displayName: 'Provision K8s'
+          inputs:
+            azureSubscription: '$(azSubscription)'
+            scriptType: 'bash'
+            scriptLocation: 'scriptPath'
+            scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-ui-k8s.sh'
+            arguments: '$(rnd)'        
 
   - stage: Deploy
     displayName: Deploy stage
@@ -71,6 +87,6 @@ stages:
                     action: "deploy"
                     kubernetesServiceConnection: $(kube)
                     manifests: |
-                      $(Pipeline.Workspace)/manifests/foodservice.yml
+                      $(Pipeline.Workspace)/$manifest
                     imagePullSecrets: $(imagePullSecret)
                     containers: "$(acr)/$(imageName):$(tag)"

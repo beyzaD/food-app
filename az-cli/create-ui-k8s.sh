@@ -1,4 +1,4 @@
-rnd=030
+rnd=$1
 grp=foodapp-$rnd
 loc=westeurope
 aks=foodcluster-$rnd
@@ -32,16 +32,3 @@ kubectl create namespace $ns
 # Apply the yaml - Make sure you uploaded foodui.yaml to CloudShell
 
 kubectl apply -f $ui --namespace $ns
-
-# Get some metadata
-kubectl get deployment $app -n $ns
-
-kubectl get pods -n $ns
-
-kubectl get pods -l app=foodui -n $ns
-
-# Get the serive IP and use it on the assigned port
-kubectl get service $app -n $ns
-
-# port taken from yaml
-# ie: http://20.93.247.200:8081
