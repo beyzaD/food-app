@@ -11,9 +11,8 @@ trigger:
       - FoodApi/*
 
 variables:
-  buildConfiguration: "Release"
   apiPath: "FoodApi/"
-  dockerReg: "conM15"
+  conACR: "conM15"
   imageName: "foodapi"   
 
 stages:
@@ -26,17 +25,17 @@ stages:
             displayName: Login to ACR
             inputs:
               command: login
-              containerRegistry: $(dockerReg)
+              containerRegistry: $(conACR)
 
           - task: Docker@2
             displayName: Build and Push
             inputs:
               repository: "$(imageName)"
               command: "buildAndPush"
-              Dockerfile: "FoodApi/dockerfile"
+              Dockerfile: "$(apiPath)dockerfile"
 
           - task: Docker@2
             displayName: Logout of ACR
             inputs:
               command: logout
-              containerRegistry: $(dockerReg)
+              containerRegistry: $(conACR)
