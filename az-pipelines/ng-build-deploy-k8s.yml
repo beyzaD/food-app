@@ -32,7 +32,7 @@ stages:
         steps:
           - template: templates/docker-img.yaml
             parameters:
-              conACR: $(conACR)
+              con: $(conACR)
               img: $(imageName)
               path: $(fld)
 
