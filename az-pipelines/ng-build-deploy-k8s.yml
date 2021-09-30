@@ -11,6 +11,7 @@ trigger:
       - FoodUI/*
 
 variables:
+  skipPrepare: true
   fld: FoodUI/
   conACR: acrDefault
   imageName: foodui
@@ -25,7 +26,7 @@ variables:
 
 stages:
   - stage: "Prepare"
-    displayName: "Build Img and IaC"
+    displayName: "Build Img and IaC"    
     jobs:
       
       - job: BuildImg
