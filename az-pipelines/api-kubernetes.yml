@@ -1,8 +1,8 @@
 name: Kubernetes Deploy
 
 pool:
-  # vmImage: "ubuntu-20.04"
-  name: aci-pool
+  vmImage: "ubuntu-20.04"
+  # name: aci-pool
 
 trigger:
   branches:
