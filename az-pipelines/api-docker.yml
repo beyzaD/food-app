@@ -36,7 +36,6 @@ stages:
               repository: "$(imageName)"
               command: "buildAndPush"
               Dockerfile: "FoodApi/dockerfile"
-              tags: "$tag-$(Build.SourceBranchName)-$(Build.SourceVersion)"
 
           - task: Docker@2
             displayName: Logout of ACR
