@@ -84,7 +84,7 @@ stages:
                   inputs:
                     action: createSecret
                     secretName: $(imagePullSecret)
-                    dockerRegistryEndpoint: $(dockerReg)
+                    dockerRegistryEndpoint: $(conACR)
                     kubernetesServiceConnection: $(kube)
                     namespace: $(ns)
 
