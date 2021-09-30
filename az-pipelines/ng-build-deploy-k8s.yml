@@ -14,7 +14,7 @@ variables:
   fld: FoodUI/
   conACR: acrDefault
   imageName: foodui
-  azSubscription: azsFoodApp
+  subs: conFoodApp
   manifest: az-manifests/foodui.yml
   acr: integrationsonline.azurecr.io
   tag: "$(Build.BuildId)"
@@ -62,7 +62,7 @@ stages:
         - task: AzureCLI@2
           displayName: 'Provision K8s'
           inputs:
-            azureSubscription: '$(azSubscription)'
+            azureSubscription: '$(subs)'
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-ui-k8s.sh'
