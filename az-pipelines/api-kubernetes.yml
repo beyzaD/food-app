@@ -11,13 +11,14 @@ trigger:
       - FoodApi/*
 
 variables:
-  dockerReg: "conDockerReg"
-  imageName: "foodapi"
-  acr: "integrationsonline.azurecr.io"
-  tag: "$(Build.BuildId)"
-  kube: "conKube"
-  ns: "default"
-  imagePullSecret: "secret"
+  conACI: conDockerReg
+  conKube: conKube
+  acr: integrationsonline.azurecr.io
+  img: foodapi
+  yml: az-manifests/foodapi.yml
+  tag: $(Build.BuildId)
+  ns: staging
+  imagePullSecret: secret
 
 stages:
   - stage: "BuildApi"
@@ -29,19 +30,19 @@ stages:
             displayName: Login to ACR
             inputs:
               command: login
-              containerRegistry: $(dockerReg)
+              containerRegistry: $(conACI)
 
           - task: Docker@2
             displayName: Build and Push
             inputs:
-              repository: $(imageName)
+              repository: $(img)
               command: buildAndPush
               Dockerfile: FoodApi/dockerfile
           - task: Docker@2
             displayName: Logout of ACR
             inputs:
               command: logout
-              containerRegistry: $(dockerReg)
+              containerRegistry: $(conACI)
           - publish: "$(Build.SourcesDirectory)/manifests"
             artifact: manifests
 
@@ -51,7 +52,7 @@ stages:
     jobs:
       - deployment: Deploy
         displayName: Deploy Job
-        environment: "dev.default"
+        environment: "staging.default"
         strategy:
           runOnce:
             deploy:
@@ -61,16 +62,16 @@ stages:
                   inputs:
                     action: createSecret
                     secretName: $(imagePullSecret)
-                    dockerRegistryEndpoint: $(dockerReg)
-                    kubernetesServiceConnection: $(kube)
+                    kubernetesServiceConnection: $(conKube)
+                    dockerRegistryEndpoint: $(conACI)
                     namespace: $(ns)
 
                 - task: KubernetesManifest@0
                   displayName: Deploy to Kubernetes cluster
                   inputs:
+                    kubernetesServiceConnection: $(conKube)
                     action: "deploy"
-                    kubernetesServiceConnection: $(kube)
                     manifests: |
-                      $(Pipeline.Workspace)/manifests/foodservice.yml
+                      $(Pipeline.Workspace)/$(yml)
                     imagePullSecrets: $(imagePullSecret)
-                    containers: "$(acr)/$(imageName):$(tag)"
+                    containers: "$(acr)/$(img):$(tag)"
