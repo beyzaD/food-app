@@ -13,6 +13,7 @@ trigger:
       - FoodApi/*
 
 variables:
+  System.Debug: true
   conACI: conDockerReg
   conKube: conKube
   acr: integrationsonline.azurecr.io
