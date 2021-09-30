@@ -14,9 +14,7 @@ variables:
   buildConfiguration: "Release"
   apiPath: "FoodApi/"
   dockerReg: "conM15"
-  imageName: "foodapi"
-  appService: "foodapi-21482"
-   
+  imageName: "foodapi"   
 
 stages:
   - stage: "BuildApi"
