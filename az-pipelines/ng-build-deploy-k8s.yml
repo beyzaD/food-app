@@ -15,7 +15,7 @@ variables:
   conACR: acrDefault
   imageName: foodui
   azSubscription: azsFoodApp
-  manifest: az-manifest/foodui.yml
+  manifest: az-manifests/foodui.yml
   acr: integrationsonline.azurecr.io
   tag: "$(Build.BuildId)"
   kube: "conKube"
