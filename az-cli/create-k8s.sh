@@ -3,8 +3,6 @@ grp=foodapp-$rnd
 loc=westeurope
 aks=foodcluster-$rnd
 ns=staging
-ui=az-manifests/foodui.yaml
-app=foodui
 
 # Install kubectl command line client locally:
 # az aks install-cli
@@ -28,7 +26,3 @@ kubectl get nodes
 # Create a namespace
 
 kubectl create namespace $ns
-
-# Apply the yaml - Make sure you uploaded foodui.yaml to CloudShell
-
-kubectl apply -f $ui --namespace $ns
