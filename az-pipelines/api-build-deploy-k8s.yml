@@ -73,7 +73,7 @@ stages:
                 - checkout: self
 
                 - bash: |
-                    cd $(Pipeline.Workspace)
+                    cd /home/vsts/work/1/s
                     ls
 
                 - task: KubernetesManifest@0
