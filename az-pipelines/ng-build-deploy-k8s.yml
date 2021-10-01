@@ -11,15 +11,14 @@ trigger:
       - FoodUI/*
 
 variables:
-  skipPrepare: true
   fld: FoodUI/
   conACR: acrDefault
-  imageName: foodui
+  conKube: "conKube"
+  img: foodui
   subs: conFoodApp
   manifest: az-manifests/foodui.yml
   acr: integrationsonline.azurecr.io
   tag: "$(Build.BuildId)"
-  kube: "conKube"
   ns: "staging"
   imagePullSecret: "secret"
   rnd: simple
@@ -34,7 +33,7 @@ stages:
           - template: templates/docker-img.yaml
             parameters:
               con: $(conACR)
-              img: $(imageName)
+              img: $(img)
               path: $(fld)
         
       - job: IaC
@@ -76,4 +75,4 @@ stages:
                     manifests: |
                       $(Pipeline.Workspace)/$manifest
                     imagePullSecrets: $(imagePullSecret)
-                    containers: "$(acr)/$(imageName):$(tag)"
+                    containers: "$(acr)/$(img):$(tag)"
