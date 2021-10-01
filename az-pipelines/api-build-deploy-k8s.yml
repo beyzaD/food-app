@@ -69,6 +69,10 @@ stages:
                     kubernetesServiceConnection: $(conKube)
                     dockerRegistryEndpoint: $(conACR)
                     namespace: $(ns)
+                
+                - bash: |
+                    cd $(Pipeline.Workspace)
+                    ls
 
                 - task: KubernetesManifest@0
                   displayName: Deploy to Kubernetes cluster
