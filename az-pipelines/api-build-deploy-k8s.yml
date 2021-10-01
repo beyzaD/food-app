@@ -61,6 +61,7 @@ stages:
           runOnce:
             deploy:
               steps:
+                - checkout: self
                 - task: KubernetesManifest@0
                   displayName: Create imagePullSecret
                   inputs:
@@ -68,14 +69,7 @@ stages:
                     secretName: $(imagePullSecret)
                     kubernetesServiceConnection: $(conKube)
                     dockerRegistryEndpoint: $(conACR)
-                    namespace: $(ns)
-                
-                # - checkout: self
-
-                - bash: |
-                    cd /home/vsts/work/1/s
-                    ls
-
+                    namespace: $(ns)              
                 - task: KubernetesManifest@0
                   displayName: Deploy to Kubernetes cluster
                   inputs:
