@@ -11,7 +11,7 @@ trigger:
       - FoodUI/*
 
 variables:
-  provision: false
+  provision: true
   fld: FoodUI/
   conACR: acrDefault
   conKube: "conKube"
