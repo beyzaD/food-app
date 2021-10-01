@@ -5,6 +5,8 @@ A food tracking app implemented as Cloud Native App deployed to Azure using Azur
 - Base Infrastructure: KeyVault, App Configuration Service, Application Insights
 
   Execute `create-base.azcli` using Azure CLI
+  
+- Create Kubernetes Cluster by executing create-k8s.sh 
 
 - FoodApi: .NET Core Api with Microsoft Graph integration
 
