@@ -23,6 +23,7 @@ variables:
   tag: $(Build.BuildId)
   ns: staging
   imagePullSecret: secret
+  env: foodapp.staging
 
 stages:
   - stage: "Prepare"
@@ -56,7 +57,7 @@ stages:
     jobs:
       - deployment: Deploy
         displayName: Deploy Job
-        environment: "foodapp.staging"
+        environment: $(env)
         strategy:
           runOnce:
             deploy:
