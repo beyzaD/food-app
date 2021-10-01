@@ -18,7 +18,7 @@ variables:
   conACR: acrDefault
   conKube: conKube
   img: foodapi
-  yml: /home/vsts/work/1/s/az-manifests/foodapi.yaml
+  yml: $(Pipeline.Workspace)/az-manifests/foodapi.yaml
   acr: integrationsonline.azurecr.io
   tag: $(Build.BuildId)
   ns: staging
