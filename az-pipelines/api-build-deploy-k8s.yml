@@ -18,7 +18,7 @@ variables:
   conACR: acrDefault
   conKube: conKube
   img: foodapi
-  yml: az-manifests/foodapi.yaml
+  yml: /home/vsts/work/1/s/az-manifests/foodapi.yaml
   acr: integrationsonline.azurecr.io
   tag: $(Build.BuildId)
   ns: staging
@@ -81,6 +81,6 @@ stages:
                   inputs:
                     kubernetesServiceConnection: $(conKube)
                     action: "deploy"
-                    manifests: $(Pipeline.Workspace)/$(yml)
+                    manifests: $(yml)
                     imagePullSecrets: $(imagePullSecret)
                     containers: "$(acr)/$(img):$(tag)"
