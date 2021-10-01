@@ -11,12 +11,13 @@ trigger:
       - FoodUI/*
 
 variables:
+  provision: false
   fld: FoodUI/
   conACR: acrDefault
   conKube: "conKube"
   img: foodui
   subs: conFoodApp
-  manifest: az-manifests/foodui.yml
+  yml: $(Pipeline.Workspace)/s/az-manifests/foodapi.yaml
   acr: integrationsonline.azurecr.io
   tag: "$(Build.BuildId)"
   ns: "staging"
@@ -37,6 +38,7 @@ stages:
               path: $(fld)
         
       - job: IaC
+        condition: eq(variables.provision, true)
         steps:        
         - task: AzureCLI@2
           displayName: 'Provision K8s'
@@ -71,8 +73,7 @@ stages:
                   displayName: Deploy to Kubernetes cluster
                   inputs:
                     action: "deploy"
-                    kubernetesServiceConnection: $(kube)
-                    manifests: |
-                      $(Pipeline.Workspace)/$manifest
+                    kubernetesServiceConnection: $(conKube)
+                    manifests: $(yml)
                     imagePullSecrets: $(imagePullSecret)
                     containers: "$(acr)/$(img):$(tag)"
