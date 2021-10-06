@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: foodapi
-        image: arambazamba/foodservice
+        image: arambazamba/foodapi
         imagePullPolicy: Always
         ports:
         - containerPort: 80        
@@ -26,7 +26,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: foodservice
+  name: foodapi
 spec:
   type: LoadBalancer
   ports:
