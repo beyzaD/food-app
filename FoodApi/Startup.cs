@@ -35,7 +35,7 @@ namespace FoodApi
                 var conStrLite = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
                 services.AddEntityFrameworkSqlite ().AddDbContext<FoodDBContext> (options => options.UseSqlite (conStrLite));
             }else{
-                var conStr = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
+                var conStr = Configuration["App:ConnectionStrings:SQLServerConnection"];
                 services.AddEntityFrameworkSqlServer()
                 .AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
             }
