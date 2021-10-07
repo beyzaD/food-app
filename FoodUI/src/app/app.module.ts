@@ -23,6 +23,7 @@ import { ConfigService } from "./shared/config/config.service";
 import { ScanComponent } from "./scan/scan/scan.component";
 import { ErrHandlerService } from "./shared/err-handler/err-handler.service";
 import { FBAuthModule } from "./auth/fbauth.module";
+import { MSALAuthModule } from "./msal-auth/msalauth.module";
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv.init();
@@ -49,7 +50,7 @@ export function appInit(configsrv: ConfigService) {
     MaterialModule,
     FlexLayoutModule,
     FoodModule,
-    FBAuthModule,
+    MSALAuthModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

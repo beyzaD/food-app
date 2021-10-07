@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { AppInsightsService } from "./shared/app-insights/app-insights.service";
 import { AuthFacade } from "./auth/store/facades/auth.facade";
+import { of } from "rxjs";
+import { environment } from "../environments/environment";
 
 @Component({
   selector: "app-root",
@@ -13,5 +15,5 @@ export class AppComponent {
   }
 
   title = "Passion for Food!";
-  displayAuth$ = this.af.displayAuth();
+  displayAuth$ = of(environment.authEnabled);
 }
