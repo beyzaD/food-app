@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { AppInsightsService } from "./shared/app-insights/app-insights.service";
 import { of } from "rxjs";
 import { environment } from "../environments/environment";
 
@@ -9,7 +8,7 @@ import { environment } from "../environments/environment";
   styleUrls: ["./app.component.scss"],
 })
 export class AppComponent {
-  constructor(private appInsights: AppInsightsService) {}
+  constructor() {}
 
   title = "Passion for Food!";
   displayAuth$ = of(environment.authEnabled);
