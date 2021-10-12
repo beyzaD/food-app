@@ -4,7 +4,6 @@ import { of } from "rxjs";
 import { catchError, map, mergeMap } from "rxjs/operators";
 import { FoodService } from "../../food.service";
 import * as foodActions from "../actions/food.actions";
-import { deleteFood, saveFood, saveFoodFailure } from "../actions/food.actions";
 
 @Injectable()
 export class FoodEffects {

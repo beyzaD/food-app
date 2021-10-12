@@ -1,3 +1,7 @@
 {
-  "apiurl": "https://foodapi-030.azurewebsites.net/"
+  "apiUrl": "https://localhost:5001/",
+  "applicationInsights": "231f3160-9ed0-40b2-b887-f6966156a1b9",
+  "azure": {
+    
+  }
 }

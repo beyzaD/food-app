@@ -22,11 +22,10 @@ import { FooterComponent } from "./shared/footer/footer.component";
 import { ConfigService } from "./shared/config/config.service";
 import { ScanComponent } from "./scan/scan/scan.component";
 import { ErrHandlerService } from "./shared/err-handler/err-handler.service";
-import { FBAuthModule } from "./auth/fbauth.module";
 import { MSALAuthModule } from "./msal-auth/msalauth.module";
 
 export function appInit(configsrv: ConfigService) {
-  return () => configsrv.init();
+  return () => configsrv;
 }
 
 @NgModule({
@@ -69,7 +68,7 @@ export function appInit(configsrv: ConfigService) {
       multi: true,
       deps: [ConfigService],
     },
-    { provide: ErrorHandler, useClass: ErrHandlerService },
+    // ,{ provide: ErrorHandler, useClass: ErrHandlerService }
   ],
   bootstrap: [AppComponent],
 })

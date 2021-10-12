@@ -1,4 +1,4 @@
-rnd=030
+rnd=dev
 grp=foodapp-$rnd
 loc=westeurope
 ai=foodapp-ai-$rnd
@@ -40,6 +40,8 @@ az monitor app-insights component create --app $ai -l $loc --kind web -g $grp --
 
 aikey=$(az monitor app-insights component show --app $ai -g $grp --query instrumentationKey -o tsv)
 
+echo "*** aikey: " $aikey
+
 az keyvault secret set --vault-name $vault --name "ApplicationInsights" --value $aikey
 
 # app config
@@ -74,7 +76,7 @@ az appconfig identity assign -g $grp -n $cfg
 
 miConfig=$(az appconfig identity show  -g $grp -n $cfg --query principalId -o tsv)
 
-echo "managed identity object id: $miConfig"
+echo "** managed identity object id: $miConfig"
 
 az keyvault set-policy -n $vault --object-id $miConfig --secret-permissions list get
 

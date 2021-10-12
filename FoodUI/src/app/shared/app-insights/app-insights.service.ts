@@ -1,46 +1,55 @@
-import { Injectable, OnDestroy } from "@angular/core";
-import { ApplicationInsights } from "@microsoft/applicationinsights-web";
+import { forwardRef, Inject, Injectable, OnDestroy } from "@angular/core";
 import { ActivatedRouteSnapshot, ResolveEnd, Router } from "@angular/router";
-import { filter } from "rxjs/operators";
+import { ApplicationInsights } from "@microsoft/applicationinsights-web";
 import { Subscription } from "rxjs";
-import { environment } from "src/environments/environment";
+import { filter } from "rxjs/operators";
+import { ConfigService } from "../config/config.service";
 
 @Injectable({
   providedIn: "root",
 })
 export class AppInsightsService implements OnDestroy {
   private routerSubscription: Subscription;
-
   private appInsights;
 
-  constructor(private router: Router) {
-    this.appInsights = new ApplicationInsights({
-      config: {
-        instrumentationKey: environment.appInsights.instrumentationKey,
-        enableAutoRouteTracking: true, // option to log all route changes
-      },
-    });
+  constructor(
+    private router: Router,
+    @Inject(forwardRef(() => ConfigService)) cs: ConfigService
+  ) {
+    cs.config$.subscribe((cfg) => {
+      if (cfg != null) {
+        console.log("setting ai key:" + cfg.applicationInsights);
+        this.appInsights = new ApplicationInsights({
+          config: {
+            instrumentationKey: cfg.applicationInsights,
+            enableAutoRouteTracking: true, // option to log all route changes
+          },
+        });
 
-    this.appInsights.loadAppInsights();
+        this.appInsights.loadAppInsights();
 
-    // this.appInsights.defaultClient.addTelemetryProcessor((envelope) => {
-    //   envelope.tags["ai.cloud.role"] = "ng-food-ui";
-    //   envelope.tags["ai.cloud.roleInstance"] = "your role instance";
-    // });
+        // this.appInsights.defaultClient.addTelemetryProcessor((envelope) => {
+        //   envelope.tags["ai.cloud.role"] = "ng-food-ui";
+        //   envelope.tags["ai.cloud.roleInstance"] = "your role instance";
+        // });
 
-    this.routerSubscription = this.router.events
-      .pipe(filter((event) => event instanceof ResolveEnd))
-      .subscribe((event: ResolveEnd) => {
-        const activatedComponent = this.getActivatedComponent(event.state.root);
-        if (activatedComponent) {
-          this.logPageView(
-            `${activatedComponent.name} ${this.getRouteTemplate(
+        this.routerSubscription = this.router.events
+          .pipe(filter((event) => event instanceof ResolveEnd))
+          .subscribe((event: ResolveEnd) => {
+            const activatedComponent = this.getActivatedComponent(
               event.state.root
-            )}`,
-            event.urlAfterRedirects
-          );
-        }
-      });
+            );
+            if (activatedComponent) {
+              this.logPageView(
+                `${activatedComponent.name} ${this.getRouteTemplate(
+                  event.state.root
+                )}`,
+                event.urlAfterRedirects
+              );
+            }
+          });
+      }
+    });
   }
 
   ngOnDestroy(): void {
