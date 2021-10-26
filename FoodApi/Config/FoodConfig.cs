@@ -1,11 +1,10 @@
 namespace FoodApp
 {
-    // converted using https://json2csharp.com/
     public class FoodConfig    {
         public AppConfig App { get; set; } 
         public Logging Logging { get; set; } 
         public Azure Azure { get; set; } 
-        public AppReg AppReg { get; set; } 
+        public AzureAD AzureAD { get; set; } 
     }
 
      public class AppConfig    {
@@ -44,12 +43,11 @@ namespace FoodApp
         public string graphApiUri { get; set; } 
     }
 
-    public class AppReg    {
-        public string tenantId { get; set; } 
-        public string clientId { get; set; } 
-        public string clientSecret { get; set; } 
+    public class AzureAD    {
+        public string TenantId { get; set; } 
+        public string ClientId { get; set; } 
+        public string Instance {get;set;}
         public string cacheLocation { get; set; } 
         public Endpoints endpoints { get; set; } 
-        public string returnUrl { get; set; } 
     }
 }

@@ -40,9 +40,9 @@ namespace FoodApp
         private static void send(FoodConfig cfg, Message msg)
         {
             IConfidentialClientApplication confidentialClientApplication = ConfidentialClientApplicationBuilder
-                .Create(cfg.AppReg.clientId)
-                .WithTenantId(cfg.AppReg.tenantId)
-                .WithClientSecret(cfg.AppReg.clientSecret)
+                .Create(cfg.AzureAD.ClientId)
+                .WithTenantId(cfg.AzureAD.TenantId)
+                .WithClientSecret("")
                 .Build();
 
             ClientCredentialProvider authProvider = new ClientCredentialProvider(confidentialClientApplication);

@@ -4,6 +4,7 @@ using FoodApp;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace FoodApi
 {
@@ -12,10 +13,9 @@ namespace FoodApi
     public class MailController : ControllerBase
     {
         FoodConfig config { get; set; }
-        public MailController(IConfiguration cfg)
+        public MailController(IOptions<FoodConfig> cfg)
         {
-            var val = cfg.GetValue<string>("App:AuthEnabled");
-            config = cfg.Get<FoodConfig>();
+            config = (FoodConfig)cfg;
         }
 
         [HttpPost]

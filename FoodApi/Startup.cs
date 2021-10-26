@@ -1,23 +1,27 @@
 using System;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Identity.Web;
 using Microsoft.OpenApi.Models;
 
 namespace FoodApi
 {
     public class Startup {
+
         public Startup (IWebHostEnvironment environment, IConfiguration configuration) {
             Configuration = configuration;
             env = environment;
         }
 
         public IConfiguration Configuration { get; }
+
         private readonly IWebHostEnvironment env;
         
         public void ConfigureServices (IServiceCollection services) {
@@ -39,6 +43,11 @@ namespace FoodApi
                 services.AddEntityFrameworkSqlServer()
                 .AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
             }
+
+            //AzureAD auth
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAD"));
+
 
             //Swagger
             services.AddSwaggerGen (c => {
@@ -80,7 +89,9 @@ namespace FoodApi
 
             app.UseRouting ();
 
-            // app.UseAuthorization ();
+            if(Boolean.Parse(Configuration["App:AuthEnabled"])){
+                app.UseAuthorization ();
+            }
 
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
