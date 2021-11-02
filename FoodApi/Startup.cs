@@ -1,6 +1,7 @@
 using System;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,11 @@ namespace FoodApi
                 services.AddEntityFrameworkSqlServer()
                 .AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
             }
+
+            //AzureAD auth
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration);
+
 
             //Swagger
             services.AddSwaggerGen (c => {
