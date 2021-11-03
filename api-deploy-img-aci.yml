@@ -30,5 +30,5 @@ stages:
             azureSubscription: '$(azSubs)'
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
-            scriptPath: '$(System.DefaultWorkingDirectory)/food-app/az-cli/create-container-instance.sh'
+            scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-container-instance.sh'
             arguments: $(env) $(img) $(dns)
