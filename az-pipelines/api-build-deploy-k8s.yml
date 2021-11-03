@@ -15,7 +15,7 @@ trigger:
 variables:
   System.Debug: true
   fld: FoodUI/
-  conACR: acrDefault
+  conACR: conACRMK8s
   conKube: conKube
   img: foodapi
   yml: $(Pipeline.Workspace)/s/az-manifests/foodapi.yaml
