@@ -27,8 +27,8 @@ stages:
         - task: AzureCLI@2
           displayName: 'Deploy Img to ACI'
           inputs:
-            azureSubscription: '$(azSubs)'
+            azureSubscription: 'Visual Studio Enterprise(78033352-805c-4acd-af80-f8f95083268d)'
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-container-instance.sh'
-            arguments: $(env) $(img) $(dns)
+            arguments: '$(env) $(img) $(dns)'
