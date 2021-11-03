@@ -12,7 +12,7 @@ variables:
   env: dev
   img: arambazamba/foodui
   dns: foodui
-  azSubs: az400-m015
+  azSubs: 'az400-m015'
 
 pool:
   vmImage: ubuntu-latest
