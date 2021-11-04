@@ -15,7 +15,7 @@ variables:
   azSubscription: az400-mod11-subscription
   apifolder: FoodApi
   appservice: foodapi
-  envflag: simple
+  envflag: staging
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -81,7 +81,7 @@ stages:
     jobs:
       - deployment: DeployAppService
         displayName: Deploy to Appservice
-        environment: prod
+        environment: $(envflag)
         strategy:
           runOnce:
             deploy:
