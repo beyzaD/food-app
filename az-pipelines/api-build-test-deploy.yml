@@ -16,7 +16,7 @@ variables:
   apifolder: FoodApi
   apitestfolder: FoodApiTest
   appservice: foodapi
-  envflag: simple
+  envflag: staging
 
 pool:
   vmImage: "ubuntu-20.04"
