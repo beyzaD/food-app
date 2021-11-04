@@ -15,7 +15,7 @@ variables:
   azSubscription: az400-mod11-subscription
   apifolder: FoodApi
   apitestfolder: FoodApiTest
-  appservice: foodapi-030
+  appservice: foodapi
   envflag: simple
 
 pool:
@@ -111,5 +111,5 @@ stages:
               ConnectionType: "AzureRM"
               azureSubscription: $(azSubscription)
               appType: "webApp"
-              WebAppName: "$(appservice)"
+              WebAppName: "$(appservice)-$(envflag)"
               packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
