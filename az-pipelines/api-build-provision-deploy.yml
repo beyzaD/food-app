@@ -15,6 +15,7 @@ variables:
   azSubscription: az400-mod11-subscription
   apifolder: FoodApi
   appservice: foodapi-030
+  envflag: simple
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -70,6 +71,7 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-api.sh'
+            arguments: '$(envflag)'
 
 
   - stage: Deploy
