@@ -33,21 +33,21 @@ export class AppInsightsService implements OnDestroy {
         //   envelope.tags["ai.cloud.roleInstance"] = "your role instance";
         // });
 
-        this.routerSubscription = this.router.events
-          .pipe(filter((event) => event instanceof ResolveEnd))
-          .subscribe((event: ResolveEnd) => {
-            const activatedComponent = this.getActivatedComponent(
-              event.state.root
-            );
-            if (activatedComponent) {
-              this.logPageView(
-                `${activatedComponent.name} ${this.getRouteTemplate(
-                  event.state.root
-                )}`,
-                event.urlAfterRedirects
-              );
-            }
-          });
+        // this.routerSubscription = this.router.events
+        //   .pipe(filter((event) => event instanceof ResolveEnd))
+        //   .subscribe((event: ResolveEnd) => {
+        //     const activatedComponent = this.getActivatedComponent(
+        //       event.state.root
+        //     );
+        //     if (activatedComponent) {
+        //       this.logPageView(
+        //         `${activatedComponent.name} ${this.getRouteTemplate(
+        //           event.state.root
+        //         )}`,
+        //         event.urlAfterRedirects
+        //       );
+        //     }
+        //   });
       }
     });
   }

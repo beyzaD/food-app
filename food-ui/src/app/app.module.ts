@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +14,7 @@ import { reducers, metaReducers } from './store';
 import { ConfigService } from './core/config/config.service';
 import { LoginComponent } from './core/login/login.component';
 import { MaterialModule } from './material.module';
+import { ErrHandlerService } from './core/err-handler/err-handler.service';
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv;
@@ -48,6 +49,7 @@ export function appInit(configsrv: ConfigService) {
       multi: true,
       deps: [ConfigService],
     },
+    { provide: ErrorHandler, useClass: ErrHandlerService },
   ],
   bootstrap: [AppComponent],
 })
