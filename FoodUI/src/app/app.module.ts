@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule, APP_INITIALIZER, ErrorHandler } from "@angular/core";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -22,7 +22,28 @@ import { FooterComponent } from "./shared/footer/footer.component";
 import { ConfigService } from "./shared/config/config.service";
 import { ScanComponent } from "./scan/scan/scan.component";
 import { ErrHandlerService } from "./shared/err-handler/err-handler.service";
-import { MSALAuthModule } from "./msal-auth/msalauth.module";
+
+import {
+  IPublicClientApplication,
+  PublicClientApplication,
+  InteractionType,
+  BrowserCacheLocation,
+  LogLevel,
+} from "@azure/msal-browser";
+import {
+  MsalGuard,
+  MsalInterceptor,
+  MsalBroadcastService,
+  MsalInterceptorConfiguration,
+  MsalModule,
+  MsalService,
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalGuardConfiguration,
+  MsalRedirectComponent,
+} from "@azure/msal-angular";
+import { LoginComponent } from "./shared/login/login.component";
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv;
@@ -38,6 +59,7 @@ export function appInit(configsrv: ConfigService) {
     AboutComponent,
     FooterComponent,
     ScanComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +71,6 @@ export function appInit(configsrv: ConfigService) {
     MaterialModule,
     FlexLayoutModule,
     FoodModule,
-    MSALAuthModule,
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
