@@ -1,6 +1,7 @@
 using System;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,12 +15,14 @@ using Microsoft.OpenApi.Models;
 namespace FoodApi
 {
     public class Startup {
+
         public Startup (IWebHostEnvironment environment, IConfiguration configuration) {
             Configuration = configuration;
             env = environment;
         }
 
         public IConfiguration Configuration { get; }
+
         private readonly IWebHostEnvironment env;
         
         public void ConfigureServices (IServiceCollection services) {
@@ -43,9 +46,9 @@ namespace FoodApi
             }
 
             //AzureAD auth
+            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAD"));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(Configuration);
-
 
             //Swagger
             services.AddSwaggerGen (c => {
@@ -87,7 +90,9 @@ namespace FoodApi
 
             app.UseRouting ();
 
-            // app.UseAuthorization ();
+            if(Boolean.Parse(Configuration["App:AuthEnabled"])){
+                app.UseAuthorization ();
+            }
 
             app.UseEndpoints (endpoints => {
                 endpoints.MapControllers ();
