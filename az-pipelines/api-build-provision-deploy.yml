@@ -14,7 +14,8 @@ variables:
   releaseBranchName: master
   azSubscription: az400-mod11-subscription
   apifolder: FoodApi
-  appservice: foodapi-030
+  appservice: foodapi
+  envflag: staging
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -70,6 +71,7 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-api.sh'
+            arguments: '$(envflag)'
 
 
   - stage: Deploy
@@ -79,7 +81,7 @@ stages:
     jobs:
       - deployment: DeployAppService
         displayName: Deploy to Appservice
-        environment: prod
+        environment: $(envflag)
         strategy:
           runOnce:
             deploy:
@@ -97,5 +99,5 @@ stages:
                     ConnectionType: "AzureRM"
                     azureSubscription: $(azSubscription)
                     appType: "webApp"
-                    WebAppName: "$(appservice)"
+                    WebAppName: "$(appservice)-$(envflag)"
                     packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"

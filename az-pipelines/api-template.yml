@@ -31,8 +31,8 @@ stages:
               cfg: $(buildConfiguration)
               folder: $(apifolder)
 
-      - job: test_dotnet_solution
-        displayName: test dotnet solution
+      - job: test_dotnet
+        displayName: "Test"
 
         steps:
           - task: DotNetCoreCLI@2

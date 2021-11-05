@@ -1,4 +1,4 @@
-rnd=030
+rnd=$1
 grp=foodapp-$rnd
 loc=westeurope
 appPlan=foodplan-$rnd
