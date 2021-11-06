@@ -1,4 +1,4 @@
-name: "food-api multistage provision-build-test-deploy"
+name: "api provision-build-test-deploy"
 
 # trigger:
 #   branches:
