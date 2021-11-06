@@ -1,8 +1,20 @@
-trigger:
-  - "*"
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none
 
 variables:
   buildConfiguration: "Release"
+
+pool:
+  vmImage: "ubuntu-20.04"
+  demands:
+    - npm  
 
 stages:
   - stage: "Build"
@@ -10,10 +22,6 @@ stages:
     jobs:
       - job: "Build"
         displayName: "Build job"
-        pool:
-          vmImage: "ubuntu-20.04"
-          demands:
-            - npm
 
         variables:
           wwwrootDir: "Tailspin.SpaceGame.Web/wwwroot"
@@ -70,8 +78,6 @@ stages:
     dependsOn: Build
     jobs:
       - deployment: Deploy
-        pool:
-          vmImage: "ubuntu-16.04"
         environment: dev
         variables:
           - group: Release
@@ -116,8 +122,6 @@ stages:
     dependsOn: Test
     jobs:
       - deployment: Deploy
-        pool:
-          vmImage: "ubuntu-16.04"
         environment: staging
         variables:
           - group: "Release"
@@ -133,11 +137,10 @@ stages:
                     azureSubscription: "AZ-Nonfunctional"
                     appName: "$(WebAppNameStaging)"
                     package: "$(Pipeline.Workspace)/drop/$(buildConfiguration)/*.zip"
+      
       - job: RunLoadTests
         dependsOn: Deploy
         displayName: "Run load tests"
-        pool:
-          vmImage: "ubuntu-16.04"
         variables:
           jmeterVersion: "5.2"
         steps:

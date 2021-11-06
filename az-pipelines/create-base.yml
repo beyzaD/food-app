@@ -1,5 +1,7 @@
 name: create base
 
+trigger: none
+
 variables:
   azSubscription: azFoodApp
 

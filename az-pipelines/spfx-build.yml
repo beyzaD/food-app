@@ -1,19 +1,22 @@
 name: spfx build
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - "FoodListSPFx/*"
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - "FoodListSPFx/*"
+
+trigger: none
+
+pool:
+  vmImage: "ubuntu-20.04"
 
 stages:
   - stage: Build
     jobs:
       - job: BuildJob
-        pool:
-          vmImage: "ubuntu-20.04"
         steps:
           - task: NodeTool@0
             inputs:

@@ -1,19 +1,21 @@
 name: api-build-test
 
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none
+
 variables:
   dotnetSdkVersion: "5.x"
   buildConfiguration: "Release"
   releaseBranchName: "master"
   apifolder: "FoodApi"
   apitestfolder: "FoodApiTest"
-
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi
 
 pool:
   vmImage: "ubuntu-20.04"

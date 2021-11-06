@@ -1,20 +1,21 @@
 name: Deploy UI to Static Website
 
-trigger:
-  branches:
-    include:
-      - master
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodUI/*
 
-  paths:
-    include:
-      - FoodUI/*
-
-pool:
-  vmImage: "ubuntu-latest"
+trigger: none
 
 variables:
   loc: FoodUI/
   apiurl: https://foodapi-030.azurewebsites.net
+
+pool:
+  vmImage: "ubuntu-latest"
 
 stages:
   - stage: BuildAndDeploy

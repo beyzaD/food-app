@@ -1,19 +1,22 @@
-name: FoodApi Docker Build
-pool:
-  vmImage: "ubuntu-20.04"
+name: api-docker.yml
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi/*
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi/*
+
+trigger: none      
 
 variables:
   apiPath: "FoodApi/"
   conACR: "conACR"
   imageName: "foodapi"   
+
+pool:
+  vmImage: "ubuntu-20.04"
 
 stages:
   - stage: "BuildApi"

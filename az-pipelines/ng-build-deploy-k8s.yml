@@ -1,14 +1,14 @@
 name: ui-build-deploy-k8s
-pool:
-  vmImage: "ubuntu-20.04"
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodUI/*
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodUI/*
+
+trigger: none      
 
 variables:
   provision: true
@@ -24,6 +24,9 @@ variables:
   imagePullSecret: "secret"
   rnd: simple
   env: foodapp.staging
+
+pool:
+  vmImage: "ubuntu-20.04"  
 
 stages:
   - stage: "Prepare"

@@ -1,15 +1,14 @@
 name: "ng-ui-blobstorage"
 
-trigger:
-  branches:
-    include:
-      - main
-  paths:
-    include:
-      - ngUI/*
+# trigger:
+#   branches:
+#     include:
+#       - main
+#   paths:
+#     include:
+#       - ngUI/*
 
-pool:
-  vmImage: "ubuntu-20.04"
+trigger: none
 
 variables:
   azureSubscription: "Visual Studio Enterprise (78033352-805c-4acd-af80-f8f95083268d)"
@@ -18,7 +17,11 @@ variables:
   ngScript: "create-blob-cdn.sh"
   artifact: "ngapp"
   acctName: "net5ngui"
-  acctKey: "vzKZMetc+2XuQsAa88fiNpkWfHQQxfFkma/lJwFXohaFmOcM/ljnkiVKD1CZbUriZFGMhYD05//gTzQ0eqqy6g=="
+  # set pipeline var: acctKey
+
+pool:
+  vmImage: "ubuntu-20.04"
+
 
 stages:
   - stage: "Provision"

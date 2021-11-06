@@ -1,12 +1,14 @@
 name: "food-api multistage provision-build-test-deploy"
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none      
 
 variables:
   dotnetSdkVersion: "5.x"

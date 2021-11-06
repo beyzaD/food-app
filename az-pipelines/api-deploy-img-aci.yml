@@ -1,12 +1,14 @@
 name: api-deploy-img-aci
 
-trigger:
- branches:
-  include:
-  - master
- paths:
-  include:
-  - FoodUI/*
+# trigger:
+#  branches:
+#   include:
+#   - master
+#  paths:
+#   include:
+#   - FoodUI/*
+
+trigger: none
 
 variables:
   env: dev

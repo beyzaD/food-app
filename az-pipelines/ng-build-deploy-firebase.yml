@@ -1,7 +1,14 @@
-trigger:
-  branches:
-    include:
-      - master
+name: ng-build-deploy-firebase
+
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodUI
+
+trigger: none
 
 variables:
   # set pipeline var: fbtoken

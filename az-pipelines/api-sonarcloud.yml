@@ -1,19 +1,21 @@
 name: "food-api sonarcloud"
 
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none
+
 variables:
   dotnetSdkVersion: "5.x"
   buildConfiguration: "Release"
   apifolder: "FoodApi"
   apitestfolder: "FoodApiTest"
   sonarcon: conSonarCloud
-
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - $(apifolder)
 
 pool:
   vmImage: "ubuntu-20.04"

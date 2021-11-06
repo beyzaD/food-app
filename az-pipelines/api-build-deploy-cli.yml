@@ -1,12 +1,14 @@
 name: api-build-deploy-cli
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none
 
 variables:
   dotnetSdkVersion: "5.x"
