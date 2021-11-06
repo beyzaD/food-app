@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  authEnabled: true,
+  authEnabled: false,
   apiurl: "https://localhost:5001/",
   appInsights: {
     instrumentationKey: "da2aaf3f-cfcd-4741-a0f0-b6b15a0ff47c",
