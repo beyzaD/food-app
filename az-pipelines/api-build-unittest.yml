@@ -1,4 +1,4 @@
-name: api-build-test
+name: api-build-unittest
 
 # trigger:
 #   branches:
