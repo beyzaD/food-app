@@ -48,8 +48,7 @@ namespace FoodApi
             //AzureAD auth
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
             .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAD"));
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-
+           
             //Swagger
             services.AddSwaggerGen (c => {
                 c.SwaggerDoc ("v1", new OpenApiInfo { Title = "Food API", Version = "v1" });

@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace FoodApi
 {
-    [Authorize]
+    // [Authorize]
     [Route ("[controller]")]
     [ApiController]
     public class FoodController : ControllerBase {
