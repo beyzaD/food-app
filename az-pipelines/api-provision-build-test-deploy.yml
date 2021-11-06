@@ -24,9 +24,10 @@ pool:
   vmImage: "ubuntu-20.04"
 
 stages:
-  - stage: "Provision"
+  - stage: "Prepare"
     displayName: "Provision Api App"
     jobs:
+      
       - job: "Provision"
         displayName: "Build job"
 
@@ -39,9 +40,6 @@ stages:
               scriptPath: "$(System.DefaultWorkingDirectory)/az-cli/create-api-mi.sh"
               arguments: '$(envflag)'
 
-  - stage: "Build"
-    displayName: "Build"
-    jobs:
       - job: "Build"
         displayName: "Build job"
 
@@ -79,12 +77,7 @@ stages:
               ArtifactName: "drop"
               publishLocation: "Container"
 
-  - stage: "Test"
-    displayName: "Test"
-    dependsOn: Build
-
-    jobs:
-      - job: TestJob
+      - job: UnitTest
         displayName: Unit Test
 
         steps:
@@ -94,9 +87,10 @@ stages:
               projects: "apitestfolder/*.csproj"
               arguments: "--configuration $(buildConfiguration)"
 
-  - stage: "Deploy"
-    displayName: "Deploy"
-    dependsOn: Test
+
+  - stage: Deploy
+    displayName: Deploy
+    dependsOn: Prepare
 
     jobs:
       - job: Deploy
