@@ -1,4 +1,4 @@
-name: api-build-test-deploy
+name: api-build-unittest-deploy
 
 # trigger:
 #   branches:
