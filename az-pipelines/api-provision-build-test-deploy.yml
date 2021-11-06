@@ -17,7 +17,8 @@ variables:
   azSubscription: azFoodApp
   apifolder: FoodApi
   apitestfolder: FoodApiTest
-  appservice: foodapi-030
+  appservice: foodapi
+  envflag: staging
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -36,6 +37,7 @@ stages:
               azureSubscription: $(azSubscription)
               scriptType: bash
               scriptPath: "$(System.DefaultWorkingDirectory)/az-cli/create-api-mi.sh"
+              arguments: '$(envflag)'
 
   - stage: "Build"
     displayName: "Build"
@@ -82,8 +84,8 @@ stages:
     dependsOn: Build
 
     jobs:
-      - job: test_dotnet_solution
-        displayName: test dotnet solution
+      - job: TestJob
+        displayName: Unit Test
 
         steps:
           - task: DotNetCoreCLI@2
@@ -114,6 +116,6 @@ stages:
               ConnectionType: "AzureRM"
               azureSubscription: $(azSubscription)
               appType: "webApp"
-              WebAppName: "$(appservice)"
+              WebAppName: "$(appservice)-$(envflag)"
               packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
 
