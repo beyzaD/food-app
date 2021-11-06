@@ -62,7 +62,7 @@ stages:
               publishLocation: "Container"
 
   - stage: "Test"
-    displayName: "Test"
+    displayName: "Unit Test"
     dependsOn: Build
 
     jobs:
