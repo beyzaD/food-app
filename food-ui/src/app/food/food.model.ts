@@ -1,8 +1,8 @@
 export class FoodItem {
-  id: number;
+  id: number | undefined;
   name: string;
   amount: number;
   code: string;
-  date: Date;
-  pictureUrl: string;
+  date?: Date;
+  pictureUrl?: string;
 }

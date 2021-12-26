@@ -12,7 +12,7 @@ export class FoodService {
   private api: string = '';
 
   constructor(private httpClient: HttpClient, private cs: ConfigService) {
-    this.cs.config$.subscribe((cfg: AppConfig) => {
+    this.cs.getConfig().subscribe((cfg: AppConfig) => {
       this.api = cfg.apiUrl;
     });
   }
@@ -21,15 +21,15 @@ export class FoodService {
     return this.httpClient.get<FoodItem[]>(`${this.api}food`);
   }
 
-  mailFood(item: FoodItem) {
-    return this.httpClient.post<FoodItem>(`${this.api}mail`, item);
+  deleteFood(id: number): Observable<any> {
+    return this.httpClient.delete<FoodItem>(`${this.api}food/${id}`);
   }
 
-  deleteFood(item: FoodItem) {
-    return this.httpClient.delete<FoodItem>(`${this.api}food/${item.id}`);
+  addFood(food: FoodItem): Observable<FoodItem> {
+    return this.httpClient.post<FoodItem>(`${this.api}food`, food);
   }
 
-  saveFood(item: FoodItem): Observable<FoodItem> {
-    return this.httpClient.post<FoodItem>(`${this.api}food`, item);
+  updateFood(food: FoodItem): Observable<FoodItem> {
+    return this.httpClient.put<FoodItem>(`${this.api}food/${food.id}`, food);
   }
 }

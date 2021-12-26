@@ -6,7 +6,11 @@ import { AppConfig } from './app-config.model';
   providedIn: 'root',
 })
 export class ConfigService {
-  config$ = this.client.get<AppConfig>('assets/app-config.json');
+  // config$ = this.client.get<AppConfig>('assets/app-config.json');
 
   constructor(private client: HttpClient) {}
+
+  getConfig() {
+    return this.client.get<AppConfig>('assets/app-config.json');
+  }
 }
