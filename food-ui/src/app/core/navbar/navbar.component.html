@@ -1,0 +1,13 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <div
+        *ngFor="let mi of menuItems "
+        routerLink="{{ '/' + mi.url }}"
+        routerLinkActive="navLink-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="navLink"
+      >
+        {{ mi.title }}
+      </div>
+  </mat-toolbar-row>
+</mat-toolbar>

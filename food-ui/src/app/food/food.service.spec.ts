@@ -16,7 +16,7 @@ import { FoodService } from './food.service';
 import { foodUpdateItem, foodUpdatedItem } from './food.mocks';
 import { ConfigService } from '../core/config/config.service';
 import { of } from 'rxjs';
-import { cfgMock } from './config.mock';
+import { cfgMock } from '../../config.mock';
 
 describe('Service - HttpTestingController', () => {
   let fs: FoodService;

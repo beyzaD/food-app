@@ -15,14 +15,16 @@ import { ConfigService } from './core/config/config.service';
 import { LoginComponent } from './core/login/login.component';
 import { MaterialModule } from './material.module';
 import { ErrHandlerService } from './core/err-handler/err-handler.service';
+import { CoreModule } from './core/core.module';
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv;
 }
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent],
   imports: [
+    CoreModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

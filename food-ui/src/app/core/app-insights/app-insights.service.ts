@@ -4,6 +4,7 @@ import { ApplicationInsights } from '@microsoft/applicationinsights-web';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ConfigService } from '../config/config.service';
+import { AppConfig } from '../config/app-config.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class AppInsightsService implements OnDestroy {
     private router: Router,
     @Inject(forwardRef(() => ConfigService)) cs: ConfigService
   ) {
-    cs.config$.subscribe((cfg) => {
+    cs.getConfig().subscribe((cfg: AppConfig) => {
       if (cfg != null) {
         console.log('setting ai key:' + cfg.applicationInsights);
         this.appInsights = new ApplicationInsights({
@@ -27,27 +28,6 @@ export class AppInsightsService implements OnDestroy {
         });
 
         this.appInsights.loadAppInsights();
-
-        // this.appInsights.defaultClient.addTelemetryProcessor((envelope) => {
-        //   envelope.tags["ai.cloud.role"] = "ng-food-ui";
-        //   envelope.tags["ai.cloud.roleInstance"] = "your role instance";
-        // });
-
-        // this.routerSubscription = this.router.events
-        //   .pipe(filter((event) => event instanceof ResolveEnd))
-        //   .subscribe((event: ResolveEnd) => {
-        //     const activatedComponent = this.getActivatedComponent(
-        //       event.state.root
-        //     );
-        //     if (activatedComponent) {
-        //       this.logPageView(
-        //         `${activatedComponent.name} ${this.getRouteTemplate(
-        //           event.state.root
-        //         )}`,
-        //         event.urlAfterRedirects
-        //       );
-        //     }
-        //   });
       }
     });
   }
