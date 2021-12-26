@@ -14,8 +14,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
     this.menuItems = [
       { title: 'Home', url: '/' },
-      { title: 'Products', url: '/products' },
-      { title: 'Scan', url: '/scan' },
+      { title: 'Food', url: '/food' },
       { title: 'About', url: '/about' },
     ];
   }
