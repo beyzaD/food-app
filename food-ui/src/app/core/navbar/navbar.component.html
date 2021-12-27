@@ -1,5 +1,8 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
+    <div fxHide.gt-md (click)="toggleMenu()" class="menu">
+      <mat-icon color="accent">menu</mat-icon>
+    </div>
     <div
         *ngFor="let mi of menuItems "
         routerLink="{{ '/' + mi.url }}"
