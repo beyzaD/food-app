@@ -9,7 +9,7 @@ import { FoodItem } from '../food.model';
 })
 export class FoodContainerComponent implements OnInit {
   food = this.ff.getFood();
-  selected$ = this.ff.getSelected();
+  selected = this.ff.getSelected();
 
   constructor(public ff: FoodFacade) {}
 

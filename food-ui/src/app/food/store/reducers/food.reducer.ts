@@ -1,8 +1,14 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { FoodItem } from '../../food.model';
-import { addNewFood, deleteFood } from '../actions/food.actions';
 import {
+  updateFoodFailure,
+  updateFoodSuccess,
+  addFoodFailure,
+  addFoodSuccess,
+  addNewFood,
+  deleteFoodSuccess,
+  deleteFoodFailure,
   loadFood,
   loadFoodFailure,
   loadFoodSuccess,
@@ -32,10 +38,13 @@ export const foodReducer = createReducer(
   on(loadFood, (state, action) => {
     return { ...state };
   }),
+  on(selectFood, (state, action) => {
+    return { ...state, selected: action.food };
+  }),
   on(addNewFood, (state, action) => {
     return {
       ...state,
-      selectFood: {
+      selected: {
         id: 0,
         name: '',
         amount: 1,
@@ -54,13 +63,35 @@ export const foodReducer = createReducer(
   on(loadFoodFailure, (state, action) => {
     return { ...state, loading: false };
   }),
-  on(deleteFood, (state, action) => {
+  on(addFoodSuccess, (state, action) => {
+    return foodAdapter.addOne(action.food, {
+      ...state,
+      loading: false,
+    });
+  }),
+  on(addFoodFailure, (state, action) => {
+    return { ...state, loading: false };
+  }),
+  on(updateFoodSuccess, (state, action) => {
+    //Remove hack
+    return foodAdapter.updateOne(
+      { id: action.food.id ?? 0, changes: action.food },
+      {
+        ...state,
+        loading: false,
+      }
+    );
+  }),
+  on(updateFoodFailure, (state, action) => {
+    return { ...state, loading: false };
+  }),
+  on(deleteFoodSuccess, (state, action) => {
     return foodAdapter.removeOne(action.food.id as number, {
       ...state,
       loading: false,
     });
   }),
-  on(selectFood, (state, action) => {
-    return { ...state, selected: action.food };
+  on(deleteFoodFailure, (state, action) => {
+    return { ...state, loading: false };
   })
 );

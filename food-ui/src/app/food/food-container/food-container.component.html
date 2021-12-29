@@ -7,7 +7,7 @@
 
 
 <app-food-edit   
-  *ngIf="selected$ | async as selected"
-  [food]="selected"
+  *ngIf="selected | async as item"
+  [food]="item"
   (onSaveFood)="saveFood($event)"
 ></app-food-edit>
