@@ -22,9 +22,7 @@ export class FoodListComponent {
   @Output()
   onDeleteSelected: EventEmitter<FoodItem> = new EventEmitter();
   @Output()
-  onAddToCart: EventEmitter<FoodItem> = new EventEmitter();
-  @Output()
-  onDeleteFromCart: EventEmitter<FoodItem> = new EventEmitter();
+  onAddNew: EventEmitter<any> = new EventEmitter();
 
   filter$ = new FormControl('');
 
@@ -53,14 +51,7 @@ export class FoodListComponent {
   }
 
   addFood() {
-    this.onEditSelected.emit({
-      id: 0,
-      name: 'Pad Krapao',
-      amount: 1,
-      code: 'padk',
-      date: new Date(),
-      pictureUrl: '',
-    });
+    this.onAddNew.emit();
   }
 
   selectFood(p: FoodItem) {

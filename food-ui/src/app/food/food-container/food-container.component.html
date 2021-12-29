@@ -2,6 +2,7 @@
   [food]="food | async"
   (onEditSelected)="this.ff.selectFood($event)"
   (onDeleteSelected)="this.ff.deleteFood($event)"
+  (onAddNew)="this.ff.addNewFood()"
 ></app-food-list>
 
 

@@ -34,6 +34,14 @@ $medium-toolbar: 45px;
   }
 }
 
+//Toolbar
+.mat-toolbar {
+    margin-bottom: 1.5rem;
+    //todo: change to theme color
+    background-color: mat.get-color-from-palette($primary);
+    color: whitesmoke;
+}
+
 //Card
 .mat-card {
 //   background-color: mat.get-color-from-palette($primary);
@@ -80,7 +88,6 @@ $medium-toolbar: 45px;
 }
 
 //Table
-//Note: Table Format
 mat-header-row {
   background-color: mat.get-color-from-palette($primary);
 }

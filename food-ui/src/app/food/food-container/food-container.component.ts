@@ -17,5 +17,11 @@ export class FoodContainerComponent implements OnInit {
     this.ff.initFood();
   }
 
-  saveFood(item: FoodItem) {}
+  saveFood(item: FoodItem) {
+    if (item.id == 0) {
+      this.ff.addFood(item);
+    } else {
+      this.ff.updateFood(item);
+    }
+  }
 }

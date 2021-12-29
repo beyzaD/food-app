@@ -18,6 +18,8 @@ export const selectFood = createAction(
   props<{ food: FoodItem }>()
 );
 
+export const addNewFood = createAction('[Food] add new food');
+
 export const logActivity = createAction(
   '[Food] log activity',
   props<{ data: any }>()

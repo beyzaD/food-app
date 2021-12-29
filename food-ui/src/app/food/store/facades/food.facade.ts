@@ -5,6 +5,7 @@ import { getAllFood, getSelected } from '../selectors/food.selectors';
 import { tap } from 'rxjs/operators';
 import { FoodItem } from '../../food.model';
 import { AppInsightsService } from '../../../core/app-insights/app-insights.service';
+import { addNewFood } from '../actions/food.actions';
 import {
   loadFood,
   selectFood,
@@ -53,5 +54,9 @@ export class FoodFacade {
   updateFood(food: FoodItem) {
     this.ai.logEvent('Saving', food);
     this.store.dispatch(updateFood({ food }));
+  }
+
+  addNewFood() {
+    this.store.dispatch(addNewFood());
   }
 }

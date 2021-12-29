@@ -1,7 +1,7 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 import { FoodItem } from '../../food.model';
-import { deleteFood } from '../actions/food.actions';
+import { addNewFood, deleteFood } from '../actions/food.actions';
 import {
   loadFood,
   loadFoodFailure,
@@ -31,6 +31,19 @@ export const foodReducer = createReducer(
   initialState,
   on(loadFood, (state, action) => {
     return { ...state };
+  }),
+  on(addNewFood, (state, action) => {
+    return {
+      ...state,
+      selectFood: {
+        id: 0,
+        name: '',
+        amount: 1,
+        code: '',
+        date: new Date(),
+        pictureUrl: '',
+      },
+    };
   }),
   on(loadFoodSuccess, (state, action) => {
     return foodAdapter.setAll(action.food, {
