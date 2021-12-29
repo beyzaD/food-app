@@ -53,19 +53,4 @@ export class FoodEffects {
   //       )
   //     )
   //   );
-
-  //   mailFood$ = createEffect(() =>
-  //     this.actions$.pipe(
-  //       ofType(foodActions.mailFood),
-  //       mergeMap((action) =>
-  //         this.fs.mailFood(action.food).pipe(
-  //           map((food) => ({
-  //             type: '[Food] log activity',
-  //             data: food,
-  //           })),
-  //           catchError((err) => of(foodActions.loadFoodFailure({ err })))
-  //         )
-  //       )
-  //     )
-  //   );
 }

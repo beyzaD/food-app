@@ -18,7 +18,7 @@
   <div gdArea="navbar"><app-navbar></app-navbar></div>
   <div gdArea="mainrow" class="main">
     <mat-sidenav-container>
-      <mat-sidenav #sidenav [opened]="ms.sideNavVisible | async" [mode]="mode">
+      <mat-sidenav #sidenav [opened]="sidenavVisible | async" [mode]="sidenavMode">
         <app-sidebar></app-sidebar>
       </mat-sidenav>
       <mat-sidenav-content [ngStyle]="getWorbenchStyle()">

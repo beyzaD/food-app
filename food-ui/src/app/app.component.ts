@@ -12,7 +12,8 @@ import { MenuService } from './core/menu/menu.service';
 export class AppComponent implements OnInit {
   title = 'Passion for Food!';
   authenticated: boolean = false;
-  mode: MatDrawerMode = 'side';
+  sidenavMode: MatDrawerMode = 'side';
+  sidenavVisible = this.ms.sideNavVisible;
 
   constructor(
     private as: AuthService,
@@ -21,7 +22,10 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.ms.sideNavPosition.subscribe((m) => (this.mode = m as MatDrawerMode));
+    this.ms.sideNavPosition.subscribe(
+      (m) => (this.sidenavMode = m as MatDrawerMode)
+    );
+
     this.as.isAuthenticated().subscribe((isAuth) => {
       this.authenticated = isAuth;
       if (isAuth) {
