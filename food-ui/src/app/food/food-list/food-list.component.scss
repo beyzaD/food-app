@@ -14,3 +14,10 @@ table {
 button{
     margin-left: 1.5rem;
 }
+
+mat-toolbar{
+    margin-bottom: 1.5rem;
+    //todo: change to theme color
+    background-color:  #3F51B5;
+    color: whitesmoke;
+}
