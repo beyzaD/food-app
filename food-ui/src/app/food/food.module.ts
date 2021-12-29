@@ -11,6 +11,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { FoodEffects } from './store/effects/food.effects';
 import { foodFeatureKey, foodReducer } from './store/reducers/food.reducer';
+import { MaterialModule } from '../material.module';
 
 @NgModule({
   declarations: [FoodListComponent, FoodEditComponent, FoodContainerComponent],
@@ -19,6 +20,7 @@ import { foodFeatureKey, foodReducer } from './store/reducers/food.reducer';
     FoodRoutingModule,
     ReactiveFormsModule,
     FlexLayoutModule,
+    MaterialModule,
     StoreModule.forFeature(foodFeatureKey, foodReducer),
     EffectsModule.forFeature([FoodEffects]),
   ],

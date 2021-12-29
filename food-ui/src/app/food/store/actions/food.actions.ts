@@ -38,17 +38,32 @@ export const deleteFoodFailure = createAction(
   props<{ err: Error }>()
 );
 
-export const saveFood = createAction(
-  '[Food] save food',
+export const addFood = createAction(
+  '[Food] add food',
   props<{ food: FoodItem }>()
 );
 
-export const saveFoodSuccess = createAction(
-  '[Food] save food success',
+export const addFoodSuccess = createAction(
+  '[Food] add food success',
   props<{ food: FoodItem }>()
 );
 
-export const saveFoodFailure = createAction(
-  '[Food] save food failure',
+export const addFoodFailure = createAction(
+  '[Food] add food failure',
+  props<{ err: Error }>()
+);
+
+export const updateFood = createAction(
+  '[Food] update food',
+  props<{ food: FoodItem }>()
+);
+
+export const updateFoodSuccess = createAction(
+  '[Food] update food success',
+  props<{ food: FoodItem }>()
+);
+
+export const updateFoodFailure = createAction(
+  '[Food] update food failure',
   props<{ err: Error }>()
 );

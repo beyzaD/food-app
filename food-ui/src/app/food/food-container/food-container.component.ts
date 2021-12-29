@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FoodFacade } from '../store/facades/food.facade';
+import { Observable } from 'rxjs';
+import { FoodItem } from '../food.model';
 
 @Component({
   selector: 'app-food-container',
@@ -9,7 +11,7 @@ import { FoodFacade } from '../store/facades/food.facade';
 export class FoodContainerComponent implements OnInit {
   food = this.ff.getFood();
 
-  constructor(private ff: FoodFacade) {}
+  constructor(public ff: FoodFacade) {}
 
   ngOnInit(): void {}
 }

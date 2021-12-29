@@ -9,7 +9,8 @@ import {
   loadFood,
   selectFood,
   deleteFood,
-  saveFood,
+  addFood,
+  updateFood,
 } from '../actions/food.actions';
 
 @Injectable({
@@ -44,8 +45,13 @@ export class FoodFacade {
     this.store.dispatch(deleteFood({ food }));
   }
 
-  saveFood(food: FoodItem) {
+  addFood(food: FoodItem) {
     this.ai.logEvent('Saving', food);
-    this.store.dispatch(saveFood({ food }));
+    this.store.dispatch(addFood({ food }));
+  }
+
+  updateFood(food: FoodItem) {
+    this.ai.logEvent('Saving', food);
+    this.store.dispatch(updateFood({ food }));
   }
 }

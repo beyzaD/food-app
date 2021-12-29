@@ -39,18 +39,33 @@ export class FoodEffects {
     )
   );
 
-  //   saveFood$ = createEffect(() =>
-  //     this.actions$.pipe(
-  //       ofType(foodActions.saveFood),
-  //       mergeMap((action) =>
-  //         this.fs.saveFood(action.food).pipe(
-  //           map((food) => ({
-  //             type: '[Food] save food success',
-  //             food: food,
-  //           })),
-  //           catchError((err) => of(foodActions.saveFoodFailure({ err })))
-  //         )
-  //       )
-  //     )
-  //   );
+  addFood = createEffect(() =>
+    this.actions$.pipe(
+      ofType(foodActions.addFood),
+      mergeMap((action) =>
+        this.fs.addFood(action.food).pipe(
+          map((food) => ({
+            type: '[Food] add food success',
+            food: food,
+          })),
+          catchError((err) => of(foodActions.addFoodFailure({ err })))
+        )
+      )
+    )
+  );
+
+  updateFood = createEffect(() =>
+    this.actions$.pipe(
+      ofType(foodActions.updateFood),
+      mergeMap((action) =>
+        this.fs.addFood(action.food).pipe(
+          map((food) => ({
+            type: '[Food] update food success',
+            food: food,
+          })),
+          catchError((err) => of(foodActions.updateFoodFailure({ err })))
+        )
+      )
+    )
+  );
 }
