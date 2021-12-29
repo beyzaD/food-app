@@ -63,10 +63,6 @@ export class FoodListComponent {
     });
   }
 
-  // getNextId(): number {
-  //   return this.food.reduce((acc, f) => (acc = acc > f.id ? acc : f.id), 0) + 1;
-  // }
-
   selectFood(p: FoodItem) {
     this.ai.logEvent('FoodUI:FoodList:SelectFood', p);
     this.onEditSelected.emit(p);

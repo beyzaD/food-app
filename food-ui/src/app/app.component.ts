@@ -3,6 +3,7 @@ import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { MenuService } from './core/menu/menu.service';
+import { FoodFacade } from './food/store/facades/food.facade';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit {
   constructor(
     private as: AuthService,
     private router: Router,
-    public ms: MenuService
+    public ms: MenuService,
+    public ff: FoodFacade
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +45,6 @@ export class AppComponent implements OnInit {
           }
         : {};
     });
-    console.log('style:', result);
     return result;
   }
 }
