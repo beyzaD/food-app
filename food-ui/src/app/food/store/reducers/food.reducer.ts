@@ -19,6 +19,7 @@ export const foodFeatureKey = 'food';
 export interface FoodState extends EntityState<FoodItem> {
   selected: FoodItem | null;
   loading: boolean;
+  initialized: boolean;
 }
 
 export const foodAdapter: EntityAdapter<FoodItem> =
@@ -26,6 +27,7 @@ export const foodAdapter: EntityAdapter<FoodItem> =
 
 export const defaultFoodState: FoodState = {
   loading: false,
+  initialized: false,
   ids: [],
   entities: {},
   selected: null,
@@ -36,7 +38,7 @@ export const initialState = foodAdapter.getInitialState(defaultFoodState);
 export const foodReducer = createReducer(
   initialState,
   on(loadFood, (state, action) => {
-    return { ...state };
+    return { ...state, initialized: true };
   }),
   on(selectFood, (state, action) => {
     return { ...state, selected: action.food };
@@ -73,7 +75,7 @@ export const foodReducer = createReducer(
     return { ...state, loading: false };
   }),
   on(updateFoodSuccess, (state, action) => {
-    //Remove hack
+    // TODO: Remove hack with food id
     return foodAdapter.updateOne(
       { id: action.food.id ?? 0, changes: action.food },
       {
@@ -86,7 +88,8 @@ export const foodReducer = createReducer(
     return { ...state, loading: false };
   }),
   on(deleteFoodSuccess, (state, action) => {
-    return foodAdapter.removeOne(action.food.id as number, {
+    let id = action.food.id as number;
+    return foodAdapter.removeOne(id, {
       ...state,
       loading: false,
     });

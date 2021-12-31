@@ -12,7 +12,11 @@ export class FoodService {
   private api: string = '';
 
   constructor(private httpClient: HttpClient, private cs: ConfigService) {
-    this.cs.getConfig().subscribe((cfg: AppConfig) => {
+    this.loadConfig();
+  }
+
+  async loadConfig() {
+    await this.cs.getConfig().subscribe((cfg: AppConfig) => {
       this.api = cfg.apiUrl;
     });
   }

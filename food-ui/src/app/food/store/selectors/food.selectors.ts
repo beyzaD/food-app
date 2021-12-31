@@ -1,7 +1,7 @@
 import {
   foodFeatureKey,
   foodAdapter,
-  FoodState
+  FoodState,
 } from '../reducers/food.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
@@ -12,14 +12,16 @@ export const getFoodEntities = createSelector(
   foodAdapter.getSelectors().selectAll
 );
 
-export const getAllFood = createSelector(
-  getFoodEntities,
-  entities => {
-    return Object.keys(entities).map(id => entities[parseInt(id, 10)]);
-  }
-);
+export const getAllFood = createSelector(getFoodEntities, (entities) => {
+  return Object.keys(entities).map((id) => entities[parseInt(id, 10)]);
+});
 
 export const getSelected = createSelector(
   getFoodState,
-  state => state.selected
+  (state) => state.selected
+);
+
+export const getInitialized = createSelector(
+  getFoodState,
+  (state) => state.initialized
 );

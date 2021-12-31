@@ -29,9 +29,9 @@ export class FoodEffects {
       ofType(foodActions.deleteFood),
       mergeMap((action) =>
         this.fs.deleteFood(action.food.id as number).pipe(
-          map((food) => ({
+          map(() => ({
             type: '[Food] delete food success',
-            food: food,
+            food: action.food,
           })),
           catchError((err) => of(foodActions.deleteFoodFailure({ err })))
         )

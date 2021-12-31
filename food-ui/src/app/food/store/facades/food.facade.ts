@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { FoodState } from '../reducers/food.reducer';
-import { getAllFood, getSelected } from '../selectors/food.selectors';
+import {
+  getAllFood,
+  getSelected,
+  getInitialized,
+} from '../selectors/food.selectors';
 import { tap } from 'rxjs/operators';
 import { FoodItem } from '../../food.model';
 import { AppInsightsService } from '../../../core/app-insights/app-insights.service';
