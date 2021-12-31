@@ -15,7 +15,7 @@ export const loadFoodFailure = createAction(
 
 export const selectFood = createAction(
   '[Food] select food',
-  props<{ food: FoodItem }>()
+  props<{ food: FoodItem | null }>()
 );
 
 export const addNewFood = createAction('[Food] add new food');

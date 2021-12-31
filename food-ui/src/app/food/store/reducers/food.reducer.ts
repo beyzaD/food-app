@@ -92,6 +92,7 @@ export const foodReducer = createReducer(
     return foodAdapter.removeOne(id, {
       ...state,
       loading: false,
+      selected: null,
     });
   }),
   on(deleteFoodFailure, (state, action) => {

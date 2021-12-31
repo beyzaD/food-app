@@ -41,7 +41,7 @@ export class FoodFacade {
     return this.store.select(getSelected);
   }
 
-  selectFood(food: FoodItem) {
+  selectFood(food: FoodItem | null) {
     this.store.dispatch(selectFood({ food }));
   }
 
