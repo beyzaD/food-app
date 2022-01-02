@@ -1,12 +1,14 @@
-name: "food-api multistage provision-build-test-deploy"
+name: "api provision-build-test-deploy"
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none      
 
 variables:
   dotnetSdkVersion: "6.x"
@@ -15,15 +17,17 @@ variables:
   azSubscription: azFoodApp
   apifolder: FoodApi
   apitestfolder: FoodApiTest
-  appservice: foodapi-030
+  appservice: foodapi
+  envflag: staging
 
 pool:
   vmImage: "ubuntu-20.04"
 
 stages:
-  - stage: "Provision"
+  - stage: "Prepare"
     displayName: "Provision Api App"
     jobs:
+      
       - job: "Provision"
         displayName: "Build job"
 
@@ -34,10 +38,8 @@ stages:
               azureSubscription: $(azSubscription)
               scriptType: bash
               scriptPath: "$(System.DefaultWorkingDirectory)/az-cli/create-api-mi.sh"
+              arguments: '$(envflag)'
 
-  - stage: "Build"
-    displayName: "Build"
-    jobs:
       - job: "Build"
         displayName: "Build job"
 
@@ -75,13 +77,8 @@ stages:
               ArtifactName: "drop"
               publishLocation: "Container"
 
-  - stage: "Test"
-    displayName: "Test"
-    dependsOn: Build
-
-    jobs:
-      - job: test_dotnet_solution
-        displayName: test dotnet solution
+      - job: UnitTest
+        displayName: Unit Test
 
         steps:
           - task: DotNetCoreCLI@2
@@ -90,9 +87,10 @@ stages:
               projects: "apitestfolder/*.csproj"
               arguments: "--configuration $(buildConfiguration)"
 
-  - stage: "Deploy"
-    displayName: "Deploy"
-    dependsOn: Test
+
+  - stage: Deploy
+    displayName: Deploy
+    dependsOn: Prepare
 
     jobs:
       - job: Deploy
@@ -112,6 +110,6 @@ stages:
               ConnectionType: "AzureRM"
               azureSubscription: $(azSubscription)
               appType: "webApp"
-              WebAppName: "$(appservice)"
+              WebAppName: "$(appservice)-$(envflag)"
               packageForLinux: "$(System.ArtifactsDirectory)/**/*.zip"
 

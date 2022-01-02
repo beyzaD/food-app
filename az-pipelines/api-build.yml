@@ -1,16 +1,18 @@
 name: ".net core api build"
 
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none
+
 variables:
   buildConfiguration: Release
   apifolder: FoodApi
-
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - $(apifolder)
 
 pool:
   vmImage: "ubuntu-20.04"

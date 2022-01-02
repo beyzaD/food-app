@@ -1,19 +1,21 @@
 name: api-template
 
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none
+
 variables:
   dotnetSdkVersion: "6.x"
   buildConfiguration: "Release"
   releaseBranchName: "master"
   apifolder: "FoodApi"
   apitestfolder: "FoodApiTest"
-
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - $(apifolder)
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -41,18 +43,3 @@ stages:
               projects: "apitestfolder/*.csproj"
               arguments: "--configuration $(buildConfiguration)"
 
-
-  # - stage: "Test"
-  #   displayName: "Test"
-  #   dependsOn: Build
-
-  #   jobs:
-  #     - job: test_dotnet_solution
-  #       displayName: test dotnet solution
-
-  #       steps:
-  #         - task: DotNetCoreCLI@2
-  #           inputs:
-  #             command: "test"
-  #             projects: "apitestfolder/*.csproj"
-  #             arguments: "--configuration $(buildConfiguration)"

@@ -1,15 +1,17 @@
 name: spfx-build-deploy
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - "*"
-    exclude:
-      - az-pipelines/*
-      - _images/*
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - "*"
+#     exclude:
+#       - az-pipelines/*
+#       - _images/*
+
+trigger: none
 
 variables:
   sppkg: foodlist-wp.sppkg

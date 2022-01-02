@@ -1,18 +1,20 @@
 name: api-build-deploy
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi
+
+trigger: none
 
 variables:
   dotnetSdkVersion: "6.x"
   buildConfiguration: Release
   releaseBranchName: master
-  azSubscription: az400-mod11-subscription
+  azSubscription: az400-mod14-subscription
   apifolder: FoodApi
   appservice: foodapi-030
 

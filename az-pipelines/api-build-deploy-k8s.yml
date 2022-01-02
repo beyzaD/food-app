@@ -1,16 +1,14 @@
 name: Kubernetes Deploy
 
-pool:
-  vmImage: "ubuntu-20.04"
-  # name: aci-pool
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodApi/*
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodApi/*
+trigger: none
 
 variables:
   System.Debug: true
@@ -24,6 +22,10 @@ variables:
   ns: staging
   imagePullSecret: secret
   env: foodapp.staging
+
+pool:
+  vmImage: "ubuntu-20.04"
+  # name: aci-pool  
 
 stages:
   - stage: "Prepare"

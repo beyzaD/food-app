@@ -1,12 +1,14 @@
 name: ng-build-deploy-cli
 
-trigger:
-  branches:
-    include:
-      - master
-  paths:
-    include:
-      - FoodUI
+# trigger:
+#   branches:
+#     include:
+#       - master
+#   paths:
+#     include:
+#       - FoodUI
+
+trigger: none
 
 variables:
   azSubscription: conFoodApp
