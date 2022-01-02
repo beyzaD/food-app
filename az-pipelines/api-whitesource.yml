@@ -11,7 +11,7 @@ name: "food-api whitesource bolt"
 trigger: none
 
 variables:
-  dotnetSdkVersion: "5.x"
+  dotnetSdkVersion: "6.x"
   buildConfiguration: "Release"
   apifolder: "FoodApi"
 

@@ -11,7 +11,7 @@ name: api-build-unittest
 trigger: none
 
 variables:
-  dotnetSdkVersion: "5.x"
+  dotnetSdkVersion: "6.x"
   buildConfiguration: "Release"
   releaseBranchName: "master"
   apifolder: "FoodApi"

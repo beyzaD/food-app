@@ -6,7 +6,7 @@ vault=foodvault-$rnd
 cfg=foodconfig-$rnd
 principal=http://foodapp-$rnd
 feature=MailFeature
-identity=ui-food-$rnd
+identity=foodmi-$rnd
 
 az group create -n $grp -l $loc
 
