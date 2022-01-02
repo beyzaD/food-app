@@ -26,10 +26,32 @@ import { metaReducers, reducers } from './state/state';
 
 registerLocaleData(localeDe);
 
-export function appInit(configsrv: ConfigService) {
-  return () => configsrv;
-}
+//msal imports
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  IPublicClientApplication,
+  PublicClientApplication,
+  InteractionType,
+  BrowserCacheLocation,
+  LogLevel,
+} from '@azure/msal-browser';
+import {
+  MsalGuard,
+  MsalInterceptor,
+  MsalBroadcastService,
+  MsalInterceptorConfiguration,
+  MsalModule,
+  MsalService,
+  MSAL_GUARD_CONFIG,
+  MSAL_INSTANCE,
+  MSAL_INTERCEPTOR_CONFIG,
+  MsalGuardConfiguration,
+  MsalRedirectComponent,
+} from '@azure/msal-angular';
 
+//msal
+
+//module
 @NgModule({
   declarations: [AppComponent, AboutComponent],
   imports: [
@@ -56,7 +78,7 @@ export function appInit(configsrv: ConfigService) {
     ConfigService,
     {
       provide: APP_INITIALIZER,
-      useFactory: appInit,
+      useFactory: ConfigService.appInitFactory,
       multi: true,
       deps: [ConfigService],
     },
