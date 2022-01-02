@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
+import { ConfigService } from './core/config/config.service';
 import { FoodFacade } from './food/state/food.facade';
 import { MenuFacade } from './state/menu/menu.facade';
 
@@ -20,17 +21,18 @@ export class AppComponent implements OnInit {
     private as: AuthService,
     private router: Router,
     public mf: MenuFacade,
-    public ff: FoodFacade
+    public ff: FoodFacade,
+    public cs: ConfigService
   ) {}
 
   ngOnInit(): void {
     this.mf.sideNavPosition.subscribe(
-      (m) => (this.sidenavMode = m as MatDrawerMode)
+      (mode) => (this.sidenavMode = mode as MatDrawerMode)
     );
 
-    this.as.isAuthenticated().subscribe((isAuth) => {
-      this.authenticated = isAuth;
-      if (isAuth) {
+    this.as.isInitAndAuthenticated().subscribe((proceed) => {
+      if (proceed) {
+        this.authenticated = proceed;
         this.router.navigate(['/food']);
       }
     });

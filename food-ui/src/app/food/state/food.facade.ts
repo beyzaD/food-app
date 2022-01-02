@@ -28,9 +28,7 @@ export class FoodFacade {
   }
 
   getFood() {
-    return this.store
-      .select(getAllFood)
-      .pipe(tap((data) => console.log('data received from store', data)));
+    return this.store.select(getAllFood);
   }
 
   getSelected() {

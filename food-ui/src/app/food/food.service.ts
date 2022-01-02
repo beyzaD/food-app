@@ -1,9 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FoodItem } from './food.model';
-import { HttpClient } from '@angular/common/http';
 import { ConfigService } from '../core/config/config.service';
-import { AppConfig } from '../core/config/app-config.model';
+import { FoodItem } from './food.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,13 +11,7 @@ export class FoodService {
   private api: string = '';
 
   constructor(private httpClient: HttpClient, private cs: ConfigService) {
-    this.loadConfig();
-  }
-
-  async loadConfig() {
-    await this.cs.getConfig().subscribe((cfg: AppConfig) => {
-      this.api = cfg.apiUrl;
-    });
+    this.api = cs.config.apiUrl;
   }
 
   getFood(): Observable<FoodItem[]> {

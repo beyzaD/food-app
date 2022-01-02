@@ -29,7 +29,6 @@ export class FoodListComponent {
   constructor(private ai: AppInsightsService) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes['food']?.currentValue);
     this.dataSource = new MatTableDataSource(changes['food']?.currentValue);
   }
 
