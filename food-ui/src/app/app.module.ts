@@ -15,7 +15,7 @@ import { ConfigService } from './core/config/config.service';
 import { CoreModule } from './core/core.module';
 import { ErrHandlerService } from './core/err-handler/err-handler.service';
 import { MaterialModule } from './material.module';
-import { metaReducers, reducers } from './store';
+import { metaReducers, reducers } from './state';
 
 export function appInit(configsrv: ConfigService) {
   return () => configsrv;

@@ -1,6 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
-import { FoodItem } from '../../food.model';
+import { FoodItem } from '../food.model';
 import {
   updateFoodFailure,
   updateFoodSuccess,
@@ -13,7 +13,7 @@ import {
   loadFoodFailure,
   loadFoodSuccess,
   selectFood,
-} from '../actions/food.actions';
+} from './food.actions';
 export const foodFeatureKey = 'food';
 
 export interface FoodState extends EntityState<FoodItem> {
@@ -37,13 +37,13 @@ export const initialState = foodAdapter.getInitialState(defaultFoodState);
 
 export const foodReducer = createReducer(
   initialState,
-  on(loadFood, (state, action) => {
+  on(loadFood, (state) => {
     return { ...state, initialized: true };
   }),
   on(selectFood, (state, action) => {
     return { ...state, selected: action.food };
   }),
-  on(addNewFood, (state, action) => {
+  on(addNewFood, (state) => {
     return {
       ...state,
       selected: {
@@ -62,7 +62,7 @@ export const foodReducer = createReducer(
       loading: false,
     });
   }),
-  on(loadFoodFailure, (state, action) => {
+  on(loadFoodFailure, (state) => {
     return { ...state, loading: false };
   }),
   on(addFoodSuccess, (state, action) => {
@@ -71,7 +71,7 @@ export const foodReducer = createReducer(
       loading: false,
     });
   }),
-  on(addFoodFailure, (state, action) => {
+  on(addFoodFailure, (state) => {
     return { ...state, loading: false };
   }),
   on(updateFoodSuccess, (state, action) => {
@@ -84,7 +84,7 @@ export const foodReducer = createReducer(
       }
     );
   }),
-  on(updateFoodFailure, (state, action) => {
+  on(updateFoodFailure, (state) => {
     return { ...state, loading: false };
   }),
   on(deleteFoodSuccess, (state, action) => {
@@ -95,7 +95,7 @@ export const foodReducer = createReducer(
       selected: null,
     });
   }),
-  on(deleteFoodFailure, (state, action) => {
+  on(deleteFoodFailure, (state) => {
     return { ...state, loading: false };
   })
 );

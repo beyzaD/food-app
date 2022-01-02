@@ -9,9 +9,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { FoodEffects } from './store/effects/food.effects';
-import { foodFeatureKey, foodReducer } from './store/reducers/food.reducer';
 import { MaterialModule } from '../material.module';
+import { FoodEffects } from './state/food.effects';
+import { foodFeatureKey, foodReducer } from './state/food.reducer';
 
 @NgModule({
   declarations: [FoodListComponent, FoodEditComponent, FoodContainerComponent],

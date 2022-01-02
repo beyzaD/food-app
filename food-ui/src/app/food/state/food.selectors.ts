@@ -1,8 +1,4 @@
-import {
-  foodFeatureKey,
-  foodAdapter,
-  FoodState,
-} from '../reducers/food.reducer';
+import { foodFeatureKey, foodAdapter, FoodState } from './food.reducer';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const getFoodState = createFeatureSelector<FoodState>(foodFeatureKey);

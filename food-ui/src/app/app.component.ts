@@ -3,7 +3,7 @@ import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
 import { MenuService } from './core/menu/menu.service';
-import { FoodFacade } from './food/store/facades/food.facade';
+import { FoodFacade } from './food/state/food.facade';
 
 @Component({
   selector: 'app-root',
