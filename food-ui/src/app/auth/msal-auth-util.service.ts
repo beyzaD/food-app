@@ -1,31 +1,41 @@
 import { forwardRef, Inject, Injectable } from '@angular/core';
 import {
-  MsalInterceptorConfiguration,
+  MsalBroadcastService,
   MsalGuardConfiguration,
+  MsalInterceptorConfiguration,
 } from '@azure/msal-angular';
 import {
   BrowserCacheLocation,
+  EventMessage,
+  EventType,
   InteractionType,
   IPublicClientApplication,
   LogLevel,
   PublicClientApplication,
 } from '@azure/msal-browser';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ConfigService } from '../core/config/config.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthService {
+@Injectable()
+export class MsalAuthUtilService {
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
+  private readonly _destroying$ = new Subject<void>();
 
   constructor(
-    @Inject(forwardRef(() => ConfigService)) private cs: ConfigService
+    @Inject(forwardRef(() => ConfigService)) private cs: ConfigService,
+    private msalBC: MsalBroadcastService
   ) {
     this.isAuthenticated.next(this.getAuthState());
+    handleLoginSuccess(this.msalBC);
+  }
+
+  ngOnDestroy(): void {
+    this._destroying$.next(undefined);
+    this._destroying$.complete();
   }
 
   getAuthState() {
@@ -39,16 +49,52 @@ export class AuthService {
     );
   }
 
-  //app module statics
+  static getMSALInstance(): IPublicClientApplication {
+    let config = {
+      auth: {
+        clientId: 'fb9e23e2-7727-40a3-9515-7f53d90c6cab',
+        authority:
+          'https://login.microsoftonline.com/d92b247e-90e0-4469-a129-6a32866c0d0a',
+        redirectUri: 'http://localhost:4200/',
+      },
+      cache: {
+        cacheLocation: BrowserCacheLocation.LocalStorage,
+        storeAuthStateInCookie: isIE, // set to true for IE 11
+      },
+      system: {
+        loggerOptions: {
+          loggerCallback,
+          logLevel: LogLevel.Info,
+          piiLoggingEnabled: false,
+        },
+      },
+    };
+    return new PublicClientApplication(config);
+  }
 }
 
-//msal utils
+//msal util functs
+export const handleLoginSuccess = (broadcast: MsalBroadcastService) => {
+  return broadcast.msalSubject$
+    .pipe(
+      filter(
+        (msg: EventMessage) =>
+          msg.eventType === EventType.LOGIN_SUCCESS ||
+          msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+      )
+    )
+    .subscribe((result: EventMessage) => {
+      console.log(`MSAL Event ${result.eventType}`, result.payload);
+    });
+};
+
+//app module statics
 export const isIE =
   window.navigator.userAgent.indexOf('MSIE ') > -1 ||
   window.navigator.userAgent.indexOf('Trident/') > -1;
 
 export const loggerCallback = (logLevel: LogLevel, message: string) => {
-  console.log(message);
+  console.log(logLevel, message);
 };
 
 export function MSALInstanceFactory(): IPublicClientApplication {
