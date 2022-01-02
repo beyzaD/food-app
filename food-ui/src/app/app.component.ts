@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   authenticated: boolean = false;
   sidenavMode: MatDrawerMode = 'side';
   sidenavVisible = this.mf.sideNavVisible;
+  isIframe = window !== window.parent && !window.opener;
 
   constructor(
     private as: AuthService,

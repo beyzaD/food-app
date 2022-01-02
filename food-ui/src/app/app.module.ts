@@ -37,14 +37,13 @@ import {
   MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
   MSAL_INTERCEPTOR_CONFIG,
+  MsalRedirectComponent,
 } from '@azure/msal-angular';
 import {
   MSALInstanceFactory,
   MSALGuardConfigFactory,
   MSALInterceptorConfigFactory,
 } from './auth/auth.service';
-
-//msal
 
 //module
 @NgModule({
@@ -101,6 +100,6 @@ import {
     MsalGuard,
     MsalBroadcastService,
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

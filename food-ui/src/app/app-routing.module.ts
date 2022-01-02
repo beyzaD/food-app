@@ -13,8 +13,15 @@ const routes: Routes = [
   },
 ];
 
+//msal
+const isIframe = window !== window.parent && !window.opener;
+
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: !isIframe ? 'enabled' : 'disabled', // Don't perform initial navigation in iframes
+    }),
+  ],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
