@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuFacade } from '../../state/menu/menu.facade';
 import { NavItem } from './nav-item.model';
-import { MenuService } from '../menu/menu.service';
 
 @Component({
   selector: 'app-navbar',
@@ -8,7 +8,7 @@ import { MenuService } from '../menu/menu.service';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  constructor(private ms: MenuService) {}
+  constructor(private mf: MenuFacade) {}
 
   menuItems: NavItem[];
 
@@ -21,6 +21,6 @@ export class NavbarComponent implements OnInit {
   }
 
   toggleMenu() {
-    this.ms.toggleMenuVisibility();
+    this.mf.toggleMenuVisibility();
   }
 }

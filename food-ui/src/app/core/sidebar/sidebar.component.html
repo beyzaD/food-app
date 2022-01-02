@@ -1,9 +1,7 @@
 <mat-toolbar color="primary">
-  Mock Submenu
+  Actions
 </mat-toolbar>
 
-<mat-list role="list" color="accent">
-  <mat-list-item role="listitem">Item 1</mat-list-item>
-  <mat-list-item role="listitem">Item 2</mat-list-item>
-  <mat-list-item role="listitem">Item 3</mat-list-item>
-</mat-list>
+<button mat-raised-button (click)="addFood()">
+  <mat-icon>add_circle</mat-icon><span>Add</span>
+</button>

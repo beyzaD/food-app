@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { AuthService } from './auth/auth.service';
-import { MenuService } from './core/menu/menu.service';
 import { FoodFacade } from './food/state/food.facade';
+import { MenuFacade } from './state/menu/menu.facade';
 
 @Component({
   selector: 'app-root',
@@ -14,17 +14,17 @@ export class AppComponent implements OnInit {
   title = 'Passion for Food!';
   authenticated: boolean = false;
   sidenavMode: MatDrawerMode = 'side';
-  sidenavVisible = this.ms.sideNavVisible;
+  sidenavVisible = this.mf.sideNavVisible;
 
   constructor(
     private as: AuthService,
     private router: Router,
-    public ms: MenuService,
+    public mf: MenuFacade,
     public ff: FoodFacade
   ) {}
 
   ngOnInit(): void {
-    this.ms.sideNavPosition.subscribe(
+    this.mf.sideNavPosition.subscribe(
       (m) => (this.sidenavMode = m as MatDrawerMode)
     );
 
@@ -38,7 +38,7 @@ export class AppComponent implements OnInit {
 
   getWorbenchStyle() {
     let result = {};
-    this.ms.sideNavVisible.subscribe((visible) => {
+    this.mf.sideNavVisible.subscribe((visible) => {
       result = visible
         ? {
             'padding-left': '10px',

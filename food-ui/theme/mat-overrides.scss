@@ -78,7 +78,7 @@ $medium-toolbar: 45px;
   width: 220px;
   background-color: mat.get-color-from-palette($primary);
   color: whitesmoke;
-  padding-left: 0;
+  padding: 0 1rem;
 }
 
 .mat-sidenav-container {
