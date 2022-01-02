@@ -40,28 +40,6 @@ export class AuthService {
   }
 
   //app module statics
-  getMSALFactory(): IPublicClientApplication {
-    let config = {
-      auth: {
-        clientId: 'fb9e23e2-7727-40a3-9515-7f53d90c6cab',
-        authority:
-          'https://login.microsoftonline.com/d92b247e-90e0-4469-a129-6a32866c0d0a',
-        redirectUri: 'http://localhost:4200/',
-      },
-      cache: {
-        cacheLocation: BrowserCacheLocation.LocalStorage,
-        storeAuthStateInCookie: isIE, // set to true for IE 11
-      },
-      system: {
-        loggerOptions: {
-          loggerCallback,
-          logLevel: LogLevel.Info,
-          piiLoggingEnabled: false,
-        },
-      },
-    };
-    return new PublicClientApplication(config);
-  }
 }
 
 //msal utils
@@ -72,6 +50,29 @@ export const isIE =
 export const loggerCallback = (logLevel: LogLevel, message: string) => {
   console.log(message);
 };
+
+export function MSALInstanceFactory(): IPublicClientApplication {
+  let config = {
+    auth: {
+      clientId: 'fb9e23e2-7727-40a3-9515-7f53d90c6cab',
+      authority:
+        'https://login.microsoftonline.com/d92b247e-90e0-4469-a129-6a32866c0d0a',
+      redirectUri: 'http://localhost:4200/',
+    },
+    cache: {
+      cacheLocation: BrowserCacheLocation.LocalStorage,
+      storeAuthStateInCookie: isIE, // set to true for IE 11
+    },
+    system: {
+      loggerOptions: {
+        loggerCallback,
+        logLevel: LogLevel.Info,
+        piiLoggingEnabled: false,
+      },
+    },
+  };
+  return new PublicClientApplication(config);
+}
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();

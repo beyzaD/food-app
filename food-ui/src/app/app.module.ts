@@ -29,25 +29,20 @@ registerLocaleData(localeDe);
 //msal imports
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  IPublicClientApplication,
-  PublicClientApplication,
-  InteractionType,
-  BrowserCacheLocation,
-  LogLevel,
-} from '@azure/msal-browser';
-import {
   MsalGuard,
   MsalInterceptor,
   MsalBroadcastService,
-  MsalInterceptorConfiguration,
   MsalModule,
   MsalService,
   MSAL_GUARD_CONFIG,
   MSAL_INSTANCE,
   MSAL_INTERCEPTOR_CONFIG,
-  MsalGuardConfiguration,
-  MsalRedirectComponent,
 } from '@azure/msal-angular';
+import {
+  MSALInstanceFactory,
+  MSALGuardConfigFactory,
+  MSALInterceptorConfigFactory,
+} from './auth/auth.service';
 
 //msal
 
@@ -73,6 +68,7 @@ import {
     }),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    MsalModule,
   ],
   providers: [
     ConfigService,
@@ -84,6 +80,26 @@ import {
     },
     { provide: ErrorHandler, useClass: ErrHandlerService },
     { provide: LOCALE_ID, useValue: 'de' },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: MsalInterceptor,
+      multi: true,
+    },
+    {
+      provide: MSAL_INSTANCE,
+      useFactory: MSALInstanceFactory,
+    },
+    {
+      provide: MSAL_GUARD_CONFIG,
+      useFactory: MSALGuardConfigFactory,
+    },
+    {
+      provide: MSAL_INTERCEPTOR_CONFIG,
+      useFactory: MSALInterceptorConfigFactory,
+    },
+    MsalService,
+    MsalGuard,
+    MsalBroadcastService,
   ],
   bootstrap: [AppComponent],
 })
