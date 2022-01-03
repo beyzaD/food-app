@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  MsalAuthUtilService,
+  MsalAuthFacadeService,
   MSALGuardConfigFactory,
   MSALInstanceFactory,
   MSALInterceptorConfigFactory,
-} from './msal-auth-util.service';
+} from './state/auth.facade';
+
 import {
   MsalBroadcastService,
   MsalGuard,
@@ -18,11 +19,19 @@ import {
   MSAL_INTERCEPTOR_CONFIG,
 } from '@azure/msal-angular';
 
+import { authFeatureKey, authReducer } from './state/auth.reducer';
+import { StoreModule } from '@ngrx/store';
+
 @NgModule({
   declarations: [],
-  imports: [CommonModule, HttpClientModule, MsalModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    MsalModule,
+    StoreModule.forFeature(authFeatureKey, authReducer),
+  ],
   providers: [
-    MsalAuthUtilService,
+    MsalAuthFacadeService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,

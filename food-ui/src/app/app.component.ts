@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { MsalAuthUtilService } from './auth/msal-auth-util.service';
 import { ConfigService } from './core/config/config.service';
 import { FoodFacade } from './food/state/food.facade';
 import { MenuFacade } from './state/menu/menu.facade';
+import { MsalAuthFacadeService } from './auth/state/auth.facade';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   isIframe = window !== window.parent && !window.opener;
 
   constructor(
-    private as: MsalAuthUtilService,
+    private as: MsalAuthFacadeService,
     private router: Router,
     public mf: MenuFacade,
     public ff: FoodFacade,

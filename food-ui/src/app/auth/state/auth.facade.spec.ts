@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { MsalAuthUtilService } from './msal-auth-util.service';
+import { MsalAuthFacadeService } from './auth.facade';
 
 describe('AuthService', () => {
-  let service: MsalAuthUtilService;
+  let service: MsalAuthFacadeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MsalAuthUtilService);
+    service = TestBed.inject(MsalAuthFacadeService);
   });
 
   it('should be created', () => {

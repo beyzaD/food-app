@@ -16,10 +16,14 @@ import {
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ConfigService } from '../core/config/config.service';
+import { ConfigService } from '../../core/config/config.service';
+import { MsalAuthState } from './auth.reducer';
+import { Store } from '@ngrx/store';
+import { loginSuccess } from './auth.actions';
+import { MsalAuthResponse } from '../auth.model';
 
 @Injectable()
-export class MsalAuthUtilService {
+export class MsalAuthFacadeService {
   isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
     false
   );
@@ -27,10 +31,11 @@ export class MsalAuthUtilService {
 
   constructor(
     @Inject(forwardRef(() => ConfigService)) private cs: ConfigService,
-    private msalBC: MsalBroadcastService
+    private msalBC: MsalBroadcastService,
+    private store: Store<MsalAuthState>
   ) {
     this.isAuthenticated.next(this.getAuthState());
-    handleLoginSuccess(this.msalBC);
+    this.handleLoginSuccess(this.msalBC);
   }
 
   ngOnDestroy(): void {
@@ -45,7 +50,7 @@ export class MsalAuthUtilService {
   isInitAndAuthenticated() {
     return combineLatest(
       [this.isAuthenticated, this.cs.cfgInit],
-      (isAuth, isInit) => isAuth && isInit
+      (isAuth: boolean, isInit: boolean) => isAuth && isInit
     );
   }
 
@@ -71,22 +76,39 @@ export class MsalAuthUtilService {
     };
     return new PublicClientApplication(config);
   }
+
+  handleLoginSuccess = (broadcast: MsalBroadcastService) => {
+    return broadcast.msalSubject$
+      .pipe(
+        filter(
+          (msg: EventMessage) =>
+            msg.eventType === EventType.LOGIN_SUCCESS ||
+            msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+        )
+      )
+      .subscribe((result: EventMessage) => {
+        let resp: MsalAuthResponse = result.payload as MsalAuthResponse;
+        this.store.dispatch(loginSuccess({ authResponse: resp }));
+        console.log(`MSAL Event ${result.eventType}`, result.payload);
+      });
+  };
 }
 
-//msal util functs
-export const handleLoginSuccess = (broadcast: MsalBroadcastService) => {
-  return broadcast.msalSubject$
-    .pipe(
-      filter(
-        (msg: EventMessage) =>
-          msg.eventType === EventType.LOGIN_SUCCESS ||
-          msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
-      )
-    )
-    .subscribe((result: EventMessage) => {
-      console.log(`MSAL Event ${result.eventType}`, result.payload);
-    });
-};
+// //msal util functs
+// export const handleLoginSuccess = (broadcast: MsalBroadcastService) => {
+//   return broadcast.msalSubject$
+//     .pipe(
+//       filter(
+//         (msg: EventMessage) =>
+//           msg.eventType === EventType.LOGIN_SUCCESS ||
+//           msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
+//       )
+//     )
+//     .subscribe((result: EventMessage) => {
+
+//       // console.log(`MSAL Event ${result.eventType}`, result.payload);
+//     });
+// };
 
 //app module statics
 export const isIE =
