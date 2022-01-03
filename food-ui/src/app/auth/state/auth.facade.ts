@@ -19,14 +19,12 @@ import { environment } from 'src/environments/environment';
 import { ConfigService } from '../../core/config/config.service';
 import { MsalAuthState } from './auth.reducer';
 import { Store } from '@ngrx/store';
-import { loginSuccess } from './auth.actions';
+import { loginSuccess, logout } from './auth.actions';
 import { MsalAuthResponse } from '../auth.model';
+import { getUser, isAuthenticated } from './auth.selectors';
 
 @Injectable()
-export class MsalAuthFacadeService {
-  isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
+export class MsalAuthFacade {
   private readonly _destroying$ = new Subject<void>();
 
   constructor(
@@ -34,7 +32,6 @@ export class MsalAuthFacadeService {
     private msalBC: MsalBroadcastService,
     private store: Store<MsalAuthState>
   ) {
-    this.isAuthenticated.next(this.getAuthState());
     this.handleLoginSuccess(this.msalBC);
   }
 
@@ -47,9 +44,13 @@ export class MsalAuthFacadeService {
     return !environment.authEnabled;
   }
 
+  getUser() {
+    return this.store.select(getUser);
+  }
+
   isInitAndAuthenticated() {
     return combineLatest(
-      [this.isAuthenticated, this.cs.cfgInit],
+      [this.store.select(isAuthenticated), this.cs.cfgInit],
       (isAuth: boolean, isInit: boolean) => isAuth && isInit
     );
   }
@@ -92,23 +93,11 @@ export class MsalAuthFacadeService {
         console.log(`MSAL Event ${result.eventType}`, result.payload);
       });
   };
+
+  logout() {
+    this.store.dispatch(logout());
+  }
 }
-
-// //msal util functs
-// export const handleLoginSuccess = (broadcast: MsalBroadcastService) => {
-//   return broadcast.msalSubject$
-//     .pipe(
-//       filter(
-//         (msg: EventMessage) =>
-//           msg.eventType === EventType.LOGIN_SUCCESS ||
-//           msg.eventType === EventType.ACQUIRE_TOKEN_SUCCESS
-//       )
-//     )
-//     .subscribe((result: EventMessage) => {
-
-//       // console.log(`MSAL Event ${result.eventType}`, result.payload);
-//     });
-// };
 
 //app module statics
 export const isIE =

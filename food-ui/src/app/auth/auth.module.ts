@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  MsalAuthFacadeService,
+  MsalAuthFacade,
   MSALGuardConfigFactory,
   MSALInstanceFactory,
   MSALInterceptorConfigFactory,
@@ -31,7 +31,7 @@ import { StoreModule } from '@ngrx/store';
     StoreModule.forFeature(authFeatureKey, authReducer),
   ],
   providers: [
-    MsalAuthFacadeService,
+    MsalAuthFacade,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: MsalInterceptor,

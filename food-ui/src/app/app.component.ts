@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ConfigService } from './core/config/config.service';
 import { FoodFacade } from './food/state/food.facade';
 import { MenuFacade } from './state/menu/menu.facade';
-import { MsalAuthFacadeService } from './auth/state/auth.facade';
+import { MsalAuthFacade } from './auth/state/auth.facade';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   isIframe = window !== window.parent && !window.opener;
 
   constructor(
-    private as: MsalAuthFacadeService,
+    private as: MsalAuthFacade,
     private router: Router,
     public mf: MenuFacade,
     public ff: FoodFacade,
