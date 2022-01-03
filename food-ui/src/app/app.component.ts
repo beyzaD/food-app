@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDrawerMode } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { AuthService } from './auth/auth.service';
 import { ConfigService } from './core/config/config.service';
 import { FoodFacade } from './food/state/food.facade';
 import { MenuFacade } from './state/menu/menu.facade';
+import { MsalAuthFacade } from './auth/state/auth.facade';
 
 @Component({
   selector: 'app-root',
@@ -16,9 +16,10 @@ export class AppComponent implements OnInit {
   authenticated: boolean = false;
   sidenavMode: MatDrawerMode = 'side';
   sidenavVisible = this.mf.sideNavVisible;
+  isIframe = window !== window.parent && !window.opener;
 
   constructor(
-    private as: AuthService,
+    private as: MsalAuthFacade,
     private router: Router,
     public mf: MenuFacade,
     public ff: FoodFacade,

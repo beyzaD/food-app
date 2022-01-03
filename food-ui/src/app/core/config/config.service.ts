@@ -21,4 +21,9 @@ export class ConfigService {
       this.cfgInit.next(true);
     });
   }
+
+  //app module statics
+  static appInitFactory(configsrv: ConfigService) {
+    return () => configsrv;
+  }
 }

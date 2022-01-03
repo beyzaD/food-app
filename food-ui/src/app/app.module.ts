@@ -1,16 +1,17 @@
+import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import localeDe from '@angular/common/locales/de';
 import {
   APP_INITIALIZER,
   ErrorHandler,
   LOCALE_ID,
   NgModule,
 } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import localeDe from '@angular/common/locales/de';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MsalRedirectComponent } from '@azure/msal-angular';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -18,6 +19,7 @@ import { environment } from 'src/environments/environment';
 import { AboutComponent } from './about/about.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MsalAuthUtilModule } from './auth/auth.module';
 import { ConfigService } from './core/config/config.service';
 import { CoreModule } from './core/core.module';
 import { ErrHandlerService } from './core/err-handler/err-handler.service';
@@ -26,10 +28,7 @@ import { metaReducers, reducers } from './state/state';
 
 registerLocaleData(localeDe);
 
-export function appInit(configsrv: ConfigService) {
-  return () => configsrv;
-}
-
+//module
 @NgModule({
   declarations: [AppComponent, AboutComponent],
   imports: [
@@ -51,18 +50,19 @@ export function appInit(configsrv: ConfigService) {
     }),
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
+    MsalAuthUtilModule,
   ],
   providers: [
     ConfigService,
     {
       provide: APP_INITIALIZER,
-      useFactory: appInit,
+      useFactory: ConfigService.appInitFactory,
       multi: true,
       deps: [ConfigService],
     },
     { provide: ErrorHandler, useClass: ErrHandlerService },
     { provide: LOCALE_ID, useValue: 'de' },
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}
