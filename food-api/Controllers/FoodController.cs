@@ -8,10 +8,13 @@ using Microsoft.Extensions.Options;
 
 namespace FoodApi
 {
-    // [Authorize]
+    [Authorize]
     [Route ("[controller]")]
     [ApiController]
     public class FoodController : ControllerBase {
+        
+        static readonly string [] scopeRequiredByApi = new string[] {"Food.GetAll"};
+        
         public FoodController (FoodDBContext context) {
             ctx = context;
         }

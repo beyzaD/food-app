@@ -14,9 +14,11 @@ using Microsoft.OpenApi.Models;
 
 namespace FoodApi
 {
-    public class Startup {
+    public class Startup
+    {
 
-        public Startup (IWebHostEnvironment environment, IConfiguration configuration) {
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
+        {
             Configuration = configuration;
             env = environment;
         }
@@ -24,22 +26,26 @@ namespace FoodApi
         public IConfiguration Configuration { get; }
 
         private readonly IWebHostEnvironment env;
-        
-        public void ConfigureServices (IServiceCollection services) {
 
-            services.AddSingleton < IConfiguration > (Configuration);  
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+            services.AddSingleton<IConfiguration>(Configuration);
 
             //Aplication Insights
-            services.AddApplicationInsightsTelemetry (Configuration["Azure:ApplicationInsights"]);
+            services.AddApplicationInsightsTelemetry(Configuration["Azure:ApplicationInsights"]);
             services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
             services.AddSingleton<AILogger>();
 
             //EF
             bool sqlite = bool.Parse(Configuration["App:UseSQLite"]);
-            if(sqlite){
+            if (sqlite)
+            {
                 var conStrLite = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
-                services.AddEntityFrameworkSqlite ().AddDbContext<FoodDBContext> (options => options.UseSqlite (conStrLite));
-            }else{
+                services.AddEntityFrameworkSqlite().AddDbContext<FoodDBContext>(options => options.UseSqlite(conStrLite));
+            }
+            else
+            {
                 var conStr = Configuration["App:ConnectionStrings:SQLServerConnection"];
                 services.AddEntityFrameworkSqlServer()
                 .AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
@@ -47,54 +53,65 @@ namespace FoodApi
 
             //AzureAD auth
             services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAD"));
-           
+            .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAD"));
+
+            services.AddAuthorization();
+
             //Swagger
-            services.AddSwaggerGen (c => {
-                c.SwaggerDoc ("v1", new OpenApiInfo { Title = "Food API", Version = "v1" });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food API", Version = "v1" });
             });
+            services.AddControllers();
+
+            //TODO: move domain to config
+            string corsDomains = "http://localhost:4200";
+            string[] domains = corsDomains.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
             // Cors
-            services.AddCors (options => {
-                options.AddPolicy ("allowAll",
-                    builder => builder
-                    .SetIsOriginAllowed (host => true)
-                    .AllowAnyMethod ()
-                    .AllowAnyHeader ()
-                    .AllowCredentials ());
-            });
+            services.AddCors(o => o.AddPolicy("default", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowCredentials()
+                       .WithOrigins(domains);
+            }));
 
-            services.AddControllers ();
         }
 
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
-            
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+
             Console.WriteLine("Environment: " + env.EnvironmentName);
 
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
             }
 
             // Swagger
-            app.UseSwagger ();
-            app.UseSwaggerUI (c => {
-                c.SwaggerEndpoint ("/swagger/v1/swagger.json", "Food API");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food API");
                 c.RoutePrefix = string.Empty;
             });
 
-            //Cors
-            app.UseCors ("allowAll");
+            //Cors and Routing
+            app.UseCors("default");        
+            app.UseHttpsRedirection();
+            app.UseRouting();
 
-            app.UseHttpsRedirection ();
-
-            app.UseRouting ();
-
-            if(Boolean.Parse(Configuration["App:AuthEnabled"])){
-                app.UseAuthorization ();
+            if (Boolean.Parse(Configuration["App:AuthEnabled"]))
+            {
+                app.UseAuthentication();
+                app.UseAuthorization();
             }
 
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllers ();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
         }
     }
