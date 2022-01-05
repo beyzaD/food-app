@@ -150,7 +150,12 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: ['user.read'],
+      scopes: [
+        'offline_access',
+        'openid',
+        'profile',
+        'api://b509d389-361a-447b-afb2-97cc8131dad6/access_as_user',
+      ],
     },
   };
 }
