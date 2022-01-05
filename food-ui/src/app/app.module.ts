@@ -25,12 +25,12 @@ import { CoreModule } from './core/core.module';
 import { ErrHandlerService } from './core/err-handler/err-handler.service';
 import { MaterialModule } from './material.module';
 import { metaReducers, reducers } from './state/state';
+import { HomeComponent } from './home/home.component';
 
 registerLocaleData(localeDe);
 
-//module
 @NgModule({
-  declarations: [AppComponent, AboutComponent],
+  declarations: [AppComponent, AboutComponent, HomeComponent],
   imports: [
     CoreModule,
     BrowserModule,

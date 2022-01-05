@@ -13,3 +13,8 @@ export const getUser = createSelector(
   getAuthState,
   (state) => state.authResponse?.account.username
 );
+
+export const getToken = createSelector(
+  getAuthState,
+  (state) => state.authResponse?.accessToken
+);

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDrawerMode } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { MsalAuthFacade } from './auth/state/auth.facade';
 import { ConfigService } from './core/config/config.service';
 import { FoodFacade } from './food/state/food.facade';
 import { MenuFacade } from './state/menu/menu.facade';
-import { MsalAuthFacade } from './auth/state/auth.facade';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +18,7 @@ export class AppComponent implements OnInit {
   isIframe = window !== window.parent && !window.opener;
 
   constructor(
-    private as: MsalAuthFacade,
-    private router: Router,
+    private af: MsalAuthFacade,
     public mf: MenuFacade,
     public ff: FoodFacade,
     public cs: ConfigService
@@ -31,10 +29,9 @@ export class AppComponent implements OnInit {
       (mode) => (this.sidenavMode = mode as MatDrawerMode)
     );
 
-    this.as.isInitAndAuthenticated().subscribe((proceed) => {
+    this.af.isInitAndAuthenticated().subscribe((proceed) => {
       if (proceed) {
         this.authenticated = proceed;
-        this.router.navigate(['/food']);
       }
     });
   }

@@ -5,10 +5,10 @@ import { AppInsightsService } from '../app-insights/app-insights.service';
   providedIn: 'root',
 })
 export class ErrHandlerService extends ErrorHandler {
-  // constructor(private ai: AppInsightsService) {
-  //   super();
-  // }
-  // override handleError(error: Error) {
-  //   this.ai.logException(error);
-  // }
+  constructor(private ai: AppInsightsService) {
+    super();
+  }
+  override handleError(error: Error) {
+    this.ai.logException(error);
+  }
 }

@@ -19,7 +19,6 @@ import {
 export class LoginComponent implements OnInit {
   entryPic = '/assets/images/burger.png';
   isIframe = false;
-  // loginDisplay = false;
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
@@ -55,8 +54,4 @@ export class LoginComponent implements OnInit {
       }
     }
   }
-
-  // setLoginDisplay() {
-  //   this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-  // }
 }

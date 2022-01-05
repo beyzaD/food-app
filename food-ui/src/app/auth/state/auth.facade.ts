@@ -5,7 +5,6 @@ import {
   MsalInterceptorConfiguration,
 } from '@azure/msal-angular';
 import {
-  BrowserCacheLocation,
   EventMessage,
   EventType,
   InteractionType,
@@ -13,14 +12,14 @@ import {
   LogLevel,
   PublicClientApplication,
 } from '@azure/msal-browser';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { combineLatest, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { ConfigService } from '../../core/config/config.service';
-import { MsalAuthState } from './auth.reducer';
-import { Store } from '@ngrx/store';
-import { loginSuccess, logout } from './auth.actions';
 import { MsalAuthResponse } from '../auth.model';
+import { loginSuccess, logout } from './auth.actions';
+import { MsalAuthState } from './auth.reducer';
 import { getUser, isAuthenticated } from './auth.selectors';
 
 @Injectable()
@@ -54,29 +53,6 @@ export class MsalAuthFacade {
       (isAuth: boolean, isInit: boolean) => isAuth && isInit
     );
   }
-
-  // static getMSALInstance(): IPublicClientApplication {
-  //   let config = {
-  //     auth: {
-  //       clientId: 'fb9e23e2-7727-40a3-9515-7f53d90c6cab',
-  //       authority:
-  //         'https://login.microsoftonline.com/d92b247e-90e0-4469-a129-6a32866c0d0a',
-  //       redirectUri: 'http://localhost:4200/',
-  //     },
-  //     cache: {
-  //       cacheLocation: BrowserCacheLocation.LocalStorage,
-  //       storeAuthStateInCookie: isIE, // set to true for IE 11
-  //     },
-  //     system: {
-  //       loggerOptions: {
-  //         loggerCallback,
-  //         logLevel: LogLevel.Info,
-  //         piiLoggingEnabled: false,
-  //       },
-  //     },
-  //   };
-  //   return new PublicClientApplication(config);
-  // }
 
   handleLoginSuccess = (broadcast: MsalBroadcastService) => {
     return broadcast.msalSubject$
@@ -133,9 +109,9 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
   const protectedResourceMap = new Map<string, Array<string>>();
-  // protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', [
-  //   'user.read',
-  // ]);
+  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', [
+    'user.read',
+  ]);
   protectedResourceMap.set('https://localhost:5001/food', [
     'api://b509d389-361a-447b-afb2-97cc8131dad6/FoodApp.BasicUser',
   ]);
@@ -150,12 +126,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: [
-        'offline_access',
-        'openid',
-        'profile',
-        'api://b509d389-361a-447b-afb2-97cc8131dad6/access_as_user',
-      ],
+      scopes: ['api://b509d389-361a-447b-afb2-97cc8131dad6/access_as_user'],
     },
   };
 }

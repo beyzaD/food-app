@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './core/login/login.component';
 import { AboutComponent } from './about/about.component';
 import { MsalGuard } from '@azure/msal-angular';
+import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
+  { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'about', component: AboutComponent, canActivate: [MsalGuard] },
   {
@@ -13,13 +15,12 @@ const routes: Routes = [
   },
 ];
 
-//msal
 const isIframe = window !== window.parent && !window.opener;
 
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, {
-      initialNavigation: !isIframe ? 'enabled' : 'disabled', // Don't perform initial navigation in iframes
+      initialNavigation: !isIframe ? 'enabled' : 'disabled',
     }),
   ],
   exports: [RouterModule],
