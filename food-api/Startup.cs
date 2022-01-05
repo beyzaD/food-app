@@ -52,8 +52,15 @@ namespace FoodApi
             }
 
             //AzureAD auth
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAD"));
+            // services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            // .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAD"));
+
+            var cfg = Configuration.GetSection("AzureAd");
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(Configuration)
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                .AddInMemoryTokenCaches();
 
             services.AddAuthorization();
 
@@ -99,7 +106,7 @@ namespace FoodApi
             });
 
             //Cors and Routing
-            app.UseCors("default");        
+            app.UseCors("default");
             app.UseHttpsRedirection();
             app.UseRouting();
 
