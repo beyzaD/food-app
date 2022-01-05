@@ -5,6 +5,7 @@ import {
   MsalInterceptorConfiguration,
 } from '@azure/msal-angular';
 import {
+  BrowserCacheLocation,
   EventMessage,
   EventType,
   InteractionType,
@@ -93,7 +94,7 @@ export function MSALInstanceFactory(): IPublicClientApplication {
       redirectUri: '/',
     },
     cache: {
-      cacheLocation: 'localStorage',
+      cacheLocation: BrowserCacheLocation.LocalStorage,
       storeAuthStateInCookie: isIE, // set to true for IE 11
     },
     system: {
@@ -113,7 +114,7 @@ export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
     'user.read',
   ]);
   protectedResourceMap.set('https://localhost:5001/food', [
-    'api://b509d389-361a-447b-afb2-97cc8131dad6/FoodApp.BasicUser',
+    'api://b509d389-361a-447b-afb2-97cc8131dad6/access_as_user',
   ]);
 
   return {
@@ -126,7 +127,7 @@ export function MSALGuardConfigFactory(): MsalGuardConfiguration {
   return {
     interactionType: InteractionType.Redirect,
     authRequest: {
-      scopes: ['api://b509d389-361a-447b-afb2-97cc8131dad6/access_as_user'],
+      scopes: ['user.read'],
     },
   };
 }
