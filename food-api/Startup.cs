@@ -35,21 +35,20 @@ namespace FoodApi
             services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
             services.AddSingleton<AILogger>();
 
-            //EF
+            //Database
             bool sqlite = bool.Parse(Configuration["App:UseSQLite"]);
             if (sqlite)
             {
                 var conStrLite = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
-                services.AddEntityFrameworkSqlite().AddDbContext<FoodDBContext>(options => options.UseSqlite(conStrLite));
+                services.AddDbContext<FoodDBContext>(options => options.UseSqlite(conStrLite));
             }
             else
             {
                 var conStr = Configuration["App:ConnectionStrings:SQLServerConnection"];
-                services.AddEntityFrameworkSqlServer()
-                .AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
+                services.AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
             }
 
-            //AzureAD auth
+            //Microsoft Identity auth
             var cfg = Configuration.GetSection("Azure");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration)
@@ -78,7 +77,7 @@ namespace FoodApi
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            Console.WriteLine("Environment: " + env.EnvironmentName);
+            Console.WriteLine($"Use environment: {env.EnvironmentName}");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -97,7 +96,10 @@ namespace FoodApi
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            if (Boolean.Parse(Configuration["App:AuthEnabled"]))
+            //Auth -> Uncomment [Authorize] and Scope related info in FoodController if true
+            var useAuth = Boolean.Parse(Configuration["App:AuthEnabled"]);
+            Console.WriteLine($"Use auth: {useAuth}");
+            if (useAuth)
             {
                 app.UseAuthentication();
                 app.UseAuthorization();
