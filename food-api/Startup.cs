@@ -30,6 +30,7 @@ namespace FoodApi
             //Config
             services.AddSingleton<IConfiguration>(Configuration);
             var cfg = Configuration.Get<FoodConfig>();
+            var env = Environment.GetEnvironmentVariables();
             
             //Aplication Insights
             services.AddApplicationInsightsTelemetry(cfg.Azure.ApplicationInsights);

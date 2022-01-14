@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Identity.Web.Resource;
+using System;
 
 namespace FoodApi
 {
@@ -56,6 +57,14 @@ namespace FoodApi
                 ctx.SaveChanges ();
             }
             return Ok ();
+        }
+
+        // http://localhost:PORT/food/env
+        [HttpGet ()]
+        [Route("env")]
+        public object GetConfig () {
+            var val = Environment.GetEnvironmentVariables();
+            return val;
         }
     }
 }

@@ -14,13 +14,18 @@ ENTRYPOINT ["dotnet", "food-api.dll"]
 
 # Build Image
 # docker build --rm -f "dockerfile" -t foodapi .
+# docker build --rm -f "dockerfile" -t foodapi-env .
 
 # Run Image
 # docker run -it --rm -p 5051:80 foodapi
+# docker run -it --rm -p 5051:80 foodapi-env -e USE_ENV='true'
 
 # Browse using: 
 # http://localhost:5051/food
+# http://localhost:5051/env
 
 # Publish Image to dockerhub
 # docker tag foodapi arambazamba/foodapi
 # docker push arambazamba/foodapi
+# docker tag foodapi-env arambazamba/foodapi-env
+# docker push arambazamba/foodapi-env
