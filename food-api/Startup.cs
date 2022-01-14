@@ -1,7 +1,6 @@
 using System;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,11 +51,7 @@ namespace FoodApi
             }
 
             //AzureAD auth
-            // services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            // .AddMicrosoftIdentityWebApi(Configuration.GetSection("AzureAD"));
-
-            var cfg = Configuration.GetSection("AzureAd");
-
+            var cfg = Configuration.GetSection("Azure");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(Configuration)
                 .EnableTokenAcquisitionToCallDownstreamApi()
@@ -67,31 +62,24 @@ namespace FoodApi
             //Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food-API", Version = "v1" });
             });
             services.AddControllers();
 
-            //TODO: move domain to config
-            string corsDomains = "http://localhost:4200";
-            string[] domains = corsDomains.Split(",".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-
             // Cors
-            services.AddCors(o => o.AddPolicy("default", builder =>
+            services.AddCors(o => o.AddPolicy("nocors", builder =>
             {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials()
-                       .WithOrigins(domains);
+                builder
+                    .SetIsOriginAllowed(host => true)
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
             }));
-
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-
             Console.WriteLine("Environment: " + env.EnvironmentName);
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -101,12 +89,12 @@ namespace FoodApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food-API");
                 c.RoutePrefix = string.Empty;
             });
 
             //Cors and Routing
-            app.UseCors("default");
+            app.UseCors("nocors");
             app.UseHttpsRedirection();
             app.UseRouting();
 
