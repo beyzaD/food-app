@@ -15,7 +15,6 @@ namespace FoodApi
 {
     public class Startup
     {
-
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
             Configuration = configuration;
