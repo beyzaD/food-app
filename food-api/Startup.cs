@@ -36,8 +36,8 @@ namespace FoodApi
             services.AddSingleton<AILogger>();
 
             //Database
-            bool sqlite = bool.Parse(Configuration["App:UseSQLite"]);
-            if (sqlite)
+            bool useSQLite = bool.Parse(Configuration["App:UseSQLite"]);
+            if (useSQLite)
             {
                 var conStrLite = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
                 services.AddDbContext<FoodDBContext>(options => options.UseSqlite(conStrLite));
@@ -54,7 +54,6 @@ namespace FoodApi
                 .AddMicrosoftIdentityWebApi(Configuration)
                 .EnableTokenAcquisitionToCallDownstreamApi()
                 .AddInMemoryTokenCaches();
-
             services.AddAuthorization();
 
             //Swagger
