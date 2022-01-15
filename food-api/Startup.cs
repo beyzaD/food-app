@@ -1,4 +1,5 @@
 using System;
+using System.Text.Json;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,7 +23,6 @@ namespace FoodApi
         }
 
         public IConfiguration Configuration { get; }
-
         private readonly IWebHostEnvironment env;
 
         public void ConfigureServices(IServiceCollection services)
@@ -30,8 +30,8 @@ namespace FoodApi
             //Config
             services.AddSingleton<IConfiguration>(Configuration);
             var cfg = Configuration.Get<FoodConfig>();
-            var env = Environment.GetEnvironmentVariables();
-            
+            // var cfg = FoodConfig.GetMergedConfigWithEnv(Configuration);    
+
             //Aplication Insights
             services.AddApplicationInsightsTelemetry(cfg.Azure.ApplicationInsights);
             services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
@@ -72,7 +72,7 @@ namespace FoodApi
                     .AllowCredentials();
             }));
         }
-
+       
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var cfg = Configuration.Get<FoodConfig>();
