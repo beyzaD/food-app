@@ -26,8 +26,7 @@
         "ConnectionStrings": {
             "SQLiteDBConnection": "Data Source=./food.db",
             "SQLServerConnection": "Data Source=...;Initial Catalog=...;Persist Security Info=True;
-                                    User ID=sa;Password='...'"
-        }
+                                    User ID=sa;Password='...'"}
     },
     "Logging": {
         "LogLevel": {
