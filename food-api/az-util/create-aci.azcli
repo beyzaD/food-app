@@ -1,0 +1,9 @@
+env=dev
+grp=food-app-$env
+loc=westeurope
+app=food-app-$env
+img="arambazamba/foodapi-env"
+
+az group create -n $grp -l $loc
+
+az container create -g $grp -l $loc -n $app --image $img --cpu 1 --memory 1 --dns-name-label $app --port 80 --environment-variables 'USE_ENV'='true' 'Azure__TenantId'='d92b0000-90e0-4469-a129-6a32866c0d0a'

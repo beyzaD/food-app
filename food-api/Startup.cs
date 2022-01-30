@@ -2,8 +2,10 @@ using System;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +24,6 @@ namespace FoodApi
         }
 
         public IConfiguration Configuration { get; }
-
         private readonly IWebHostEnvironment env;
 
         public void ConfigureServices(IServiceCollection services)
@@ -30,7 +31,7 @@ namespace FoodApi
             //Config
             services.AddSingleton<IConfiguration>(Configuration);
             var cfg = Configuration.Get<FoodConfig>();
-            
+
             //Aplication Insights
             services.AddApplicationInsightsTelemetry(cfg.Azure.ApplicationInsights);
             services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
@@ -46,36 +47,49 @@ namespace FoodApi
                 services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(cfg.App.ConnectionStrings.SQLiteDBConnection));
             }
 
-            //Microsoft Identity auth        
+            //Microsoft Identity auth and Authorization attribute
             var az = Configuration.GetSection("Azure");
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            if (cfg.App.AuthEnabled && az != null)
+            {
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddMicrosoftIdentityWebApi(az)
                 .EnableTokenAcquisitionToCallDownstreamApi()
                 .AddInMemoryTokenCaches();
-            services.AddAuthorization();
+                services.AddAuthorization();
+
+                services.AddControllers(obj =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    obj.Filters.Add(new AuthorizeFilter(policy));
+                });
+            }
+            else
+            {
+                services.AddControllers();
+            }
 
             //Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food-API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food-Api", Version = "v1" });
             });
-            services.AddControllers();
 
             // Cors
             services.AddCors(o => o.AddPolicy("nocors", builder =>
-            {
-                builder
-                    .SetIsOriginAllowed(host => true)
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-            }));
+                {
+                    builder
+                        .SetIsOriginAllowed(host => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var cfg = Configuration.Get<FoodConfig>();
-            Console.WriteLine($"Use environment: {env.EnvironmentName}");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

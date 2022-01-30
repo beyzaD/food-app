@@ -1,9 +1,33 @@
+using System;
+using System.Text.Json;
+using Microsoft.Extensions.Configuration;
+
 namespace FoodApp
 {
     public class FoodConfig    {
         public AppConfig App { get; set; } 
         public Azure Azure { get; set; } 
         public Logging Logging { get; set; } 
+
+         public static FoodConfig GetMergedConfigWithEnv(IConfiguration Configuration)
+        {
+            var cfg = Configuration.Get<FoodConfig>();
+            var env = Environment.GetEnvironmentVariable("App__USEENV");
+            if (bool.Parse(env))
+            {
+                cfg.Azure = MergeEnvSection<FoodApp.Azure>(cfg, "FOODAPP_AZURE");
+            }
+            return cfg;
+        }
+
+        private static T MergeEnvSection<T>(FoodConfig cfg, string section)
+        {            
+            if (Environment.GetEnvironmentVariable(section)!=null)
+            {
+                return JsonSerializer.Deserialize<T>(Environment.GetEnvironmentVariable(section));
+            }
+            return default(T);
+        }
     }
 
      public class AppConfig    {
