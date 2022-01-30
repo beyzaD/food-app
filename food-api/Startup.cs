@@ -1,5 +1,4 @@
 using System;
-using System.Text.Json;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,7 +29,6 @@ namespace FoodApi
             //Config
             services.AddSingleton<IConfiguration>(Configuration);
             var cfg = Configuration.Get<FoodConfig>();
-            // var cfg = FoodConfig.GetMergedConfigWithEnv(Configuration);    
 
             //Aplication Insights
             services.AddApplicationInsightsTelemetry(cfg.Azure.ApplicationInsights);
@@ -47,18 +45,21 @@ namespace FoodApi
                 services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(cfg.App.ConnectionStrings.SQLiteDBConnection));
             }
 
-            //Microsoft Identity auth        
-            var az = Configuration.GetSection("Azure");
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApi(az)
-                .EnableTokenAcquisitionToCallDownstreamApi()
-                .AddInMemoryTokenCaches();
-            services.AddAuthorization();
+            //Microsoft Identity auth    
+            if (cfg.App.AuthEnabled)
+            {
+                var az = Configuration.GetSection("Azure");
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddMicrosoftIdentityWebApi(az)
+                    .EnableTokenAcquisitionToCallDownstreamApi()
+                    .AddInMemoryTokenCaches();
+                services.AddAuthorization();
+            }
 
             //Swagger
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food-API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food-Api", Version = "v1" });
             });
             services.AddControllers();
 
@@ -72,11 +73,10 @@ namespace FoodApi
                     .AllowCredentials();
             }));
         }
-       
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var cfg = Configuration.Get<FoodConfig>();
-            Console.WriteLine($"Use environment: {env.EnvironmentName}");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

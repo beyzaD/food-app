@@ -13,7 +13,7 @@ namespace FoodApi
     [ApiController]
     public class FoodController : ControllerBase {
         
-        // static readonly string[] scopeRequiredByApi = new string[] { "access_as_user" };
+        static readonly string[] scopeRequiredByApi = new string[] { "access_as_user" };
         
         public FoodController (FoodDBContext context) {
             ctx = context;

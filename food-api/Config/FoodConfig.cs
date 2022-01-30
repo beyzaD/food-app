@@ -12,10 +12,9 @@ namespace FoodApp
          public static FoodConfig GetMergedConfigWithEnv(IConfiguration Configuration)
         {
             var cfg = Configuration.Get<FoodConfig>();
-            var env = Environment.GetEnvironmentVariable("FOODAPP_USE_ENV");
+            var env = Environment.GetEnvironmentVariable("App__USEENV");
             if (bool.Parse(env))
             {
-                cfg.App = MergeEnvSection<FoodApp.AppConfig>(cfg, "FOODAPP_APP");
                 cfg.Azure = MergeEnvSection<FoodApp.Azure>(cfg, "FOODAPP_AZURE");
             }
             return cfg;

@@ -6,7 +6,4 @@ img="arambazamba/foodapi-env"
 
 az group create -n $grp -l $loc
 
-az container create -g $grp -l $loc -n $app --image $img --cpu 1 --memory 1 --dns-name-label $app --port 80 --environment-variables 'FOODAPP_USE_ENV'='true' 'FOODAPP_AZURE'='{"TenantId": "d92b247e-90e0-4469-a129-6a32866c0d0a","ClientId": "aaa9d389-361a-447b-afb2-97cc8131dad6","Instance": "https://login.microsoftonline.com/","cacheLocation": "localStorage","ApplicationInsights": "da2aaf3f-cfcd-4741-a0f0-b6b15a0ff47c","AppConfiguration": "","KeyVault": ""}'
-
-
-# setx FOODAPP_AZURE = "{\"TenantId\": \"d92b247e-90e0-4469-a129-6a32866c0d0a\",\"ClientId\": \"aaa9d389-361a-447b-afb2-97cc8131dad6\",\"Instance\": \"https://login.microsoftonline.com/\",\"cacheLocation\": \"localStorage\",\"ApplicationInsights\": \"da2aaf3f-cfcd-4741-a0f0-b6b15a0ff47c\",\"AppConfiguration\": \"\",\"KeyVault\": \"\"}"
+az container create -g $grp -l $loc -n $app --image $img --cpu 1 --memory 1 --dns-name-label $app --port 80 --environment-variables 'USE_ENV'='true' 'Azure__TenantId'='d92b0000-90e0-4469-a129-6a32866c0d0a'
