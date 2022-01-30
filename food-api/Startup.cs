@@ -2,8 +2,10 @@ using System;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,15 +47,27 @@ namespace FoodApi
                 services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(cfg.App.ConnectionStrings.SQLiteDBConnection));
             }
 
-            //Microsoft Identity auth    
-            if (cfg.App.AuthEnabled)
+            //Microsoft Identity auth and Authorization attribute
+            var az = Configuration.GetSection("Azure");
+            if (cfg.App.AuthEnabled && az != null)
             {
-                var az = Configuration.GetSection("Azure");
                 services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddMicrosoftIdentityWebApi(az)
-                    .EnableTokenAcquisitionToCallDownstreamApi()
-                    .AddInMemoryTokenCaches();
+                .AddMicrosoftIdentityWebApi(az)
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                .AddInMemoryTokenCaches();
                 services.AddAuthorization();
+
+                services.AddControllers(obj =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    obj.Filters.Add(new AuthorizeFilter(policy));
+                });
+            }
+            else
+            {
+                services.AddControllers();
             }
 
             //Swagger
@@ -61,17 +75,16 @@ namespace FoodApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food-Api", Version = "v1" });
             });
-            services.AddControllers();
 
             // Cors
             services.AddCors(o => o.AddPolicy("nocors", builder =>
-            {
-                builder
-                    .SetIsOriginAllowed(host => true)
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials();
-            }));
+                {
+                    builder
+                        .SetIsOriginAllowed(host => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                }));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

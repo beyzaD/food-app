@@ -8,7 +8,6 @@ using System;
 
 namespace FoodApi
 {
-    // [Authorize]
     [Route ("[controller]")]
     [ApiController]
     public class FoodController : ControllerBase {
