@@ -12,6 +12,7 @@ export interface IFoodListWpWebPartProps {
     description: string;
 }
 
+// TODO: Update to spfx v13 and AAD client
 export default class FoodListWpWebPart extends BaseClientSideWebPart<IFoodListWpWebPartProps> {
     public render(): void {
         const element: React.ReactElement<IFoodListWpProps> = React.createElement(FoodListWp, {
