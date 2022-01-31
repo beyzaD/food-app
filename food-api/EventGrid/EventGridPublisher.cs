@@ -7,18 +7,18 @@ using Microsoft.Extensions.Configuration;
 
 namespace FoodApi
 {
-    public class EventGridHelper
+    public class EventGridPublisher
     {
         FoodConfig cfg;
 
-        public EventGridHelper(IConfiguration config)
+        public EventGridPublisher(IConfiguration config)
         {
             cfg = config.Get<FoodConfig>();
         }
 
         public void PublishEvent(FoodItem item, FoodEventType type)
         {
-            //TODO: Set correct evt data ... this is just a placeholder
+            //TODO: Update Event to use CloudEventV10 schema
             EventGridEvent evt = new EventGridEvent()
             {
                 Id = Guid.NewGuid().ToString(),

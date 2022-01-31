@@ -13,14 +13,16 @@ namespace FoodApi
     [ApiController]
     public class FoodController : ControllerBase
     {
-        public FoodController(FoodDBContext context, IConfiguration config)
+        public FoodController(FoodDBContext context, IConfiguration config, EventGridPublisher evtpub)
         {
             ctx = context;
             cfg = config.Get<FoodConfig>();
+            publisher = evtpub;
         }
 
         FoodDBContext ctx;
         FoodConfig cfg;
+        EventGridPublisher publisher;
 
         // http://localhost:PORT/food
         [HttpGet()]
@@ -46,13 +48,16 @@ namespace FoodApi
             if (item.ID == 0)
             {
                 ctx.Food.Add(item);
+                ctx.SaveChanges();
+                publisher.PublishEvent(item, FoodEventType.Create);
             }
             else
             {
                 ctx.Food.Attach(item);
                 ctx.Entry(item).State = EntityState.Modified;
-            }
-            ctx.SaveChanges();
+                ctx.SaveChanges();
+                publisher.PublishEvent(item, FoodEventType.Update);
+            }            
             return item;
         }
 

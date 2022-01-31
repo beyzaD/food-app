@@ -3,7 +3,7 @@ export const environment = {
   authEnabled: true,
   apiUrl: 'https://localhost:5001/',
   azure: {
-    applicationInsights: 'a196d36f-1782-4da4-8f95-a80585361df7',
+    applicationInsights: '5bff2582-2ca2-47d9-a4b2-682a3cc2be7f',
     signalREndpoint: 'https://food-ep-prod.azurewebsites.net/api',
     appReg: {
       clientId: 'd23642f7-9ccf-4165-92e7-919f625a5acc',

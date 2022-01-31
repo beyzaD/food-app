@@ -37,6 +37,9 @@ namespace FoodApi
             services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
             services.AddSingleton<AILogger>();
 
+            //EventGrid
+            services.AddSingleton<EventGridPublisher>();
+
             //Database
             if (cfg.App.UseSQLite)
             {
