@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FoodApp;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace FoodApi
 {
@@ -11,20 +13,33 @@ namespace FoodApi
     [ApiController]
     public class ConfigController : ControllerBase
     {
-        public ConfigController()
+        IConfiguration cfg;
+        IWebHostEnvironment env;
+
+        public ConfigController(IConfiguration config, IWebHostEnvironment environment)
         {
+            cfg = config;
+            env = environment;
         }
 
-        [HttpGet("")]
-        public ActionResult<FoodConfig> GetConfig()
+        // https://localhost:5001/config/
+        [HttpGet]
+        public ActionResult GetConfig()
         {
-            return null;
+           //access a single key
+           var useSQLite = cfg.GetValue<string>("AppSettings:UseSQLite");
+           
+           //get string typed config
+           var config = cfg.Get<FoodConfig>();
+           return Ok(config);  
         }
 
-        // http://localhost:PORT/config/env
-        [HttpGet("env")]
-        public object GetEnv () {
-            return Environment.GetEnvironmentVariables();;
+        // https://localhost:5001/config/getAllEnv
+        [HttpGet("getAllEnv")]
+        public ActionResult GetAllEnv()
+        {
+            var val = Environment.GetEnvironmentVariables();
+            return Ok(val);  
         }
     }
 }
