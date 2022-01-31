@@ -47,7 +47,7 @@ namespace FoodApi
                 services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(cfg.App.ConnectionStrings.SQLiteDBConnection));
             }
 
-            //Microsoft Identity auth and Authorization attribute
+            //Microsoft Identity auth
             var az = Configuration.GetSection("Azure");
             if (cfg.App.AuthEnabled && az != null)
             {
@@ -57,6 +57,7 @@ namespace FoodApi
                 .AddInMemoryTokenCaches();
                 services.AddAuthorization();
 
+                //Add auth policy instead of Autorize Attribute on Controllers
                 services.AddControllers(obj =>
                 {
                     var policy = new AuthorizationPolicyBuilder()
@@ -99,7 +100,7 @@ namespace FoodApi
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food-API");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food-Api");
                 c.RoutePrefix = string.Empty;
             });
 
@@ -108,8 +109,6 @@ namespace FoodApi
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            //Auth -> Uncomment [Authorize] and Scope related info in FoodController if true
-            //TODO: Change using code ... custom filter?
             if (cfg.App.AuthEnabled)
             {
                 Console.WriteLine($"Using auth with App Reg: {cfg.Azure.ClientId}");
