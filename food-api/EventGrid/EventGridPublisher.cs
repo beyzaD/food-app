@@ -1,9 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using FoodApp;
 using Microsoft.Azure.EventGrid;
 using Microsoft.Azure.EventGrid.Models;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace FoodApi
 {
@@ -16,29 +21,39 @@ namespace FoodApi
             cfg = config.Get<FoodConfig>();
         }
 
-        public void PublishEvent(FoodItem item, FoodEventType type)
+        public async void PublishEvent(FoodItem item, FoodEventType type)
         {
-            //TODO: Update Event to use CloudEventV10 schema
-            EventGridEvent evt = new EventGridEvent()
-            {
-                Id = Guid.NewGuid().ToString(),
-                EventType = $"FoodApp.{type.ToString()}",
-                Data = new FoodEventData()
-                {
-                    id = item.ID,
-                    type = FoodEventType.Create.ToString(),
-                    quantity = 1
-                },
-                EventTime = DateTime.Now,
-                Subject = "FoodEvent",
-                DataVersion = "2.0"
-            };
-            List<EventGridEvent> evts = new List<EventGridEvent> (){evt};
+            var evtItem = new CloudEvent<FoodItem>(item);
+            var ct = "application/cloudevents+json; charset=utf-8";
+            var client = new HttpClient { BaseAddress = new Uri(cfg.Azure.EventGridEP) };
+            client.DefaultRequestHeaders.Accept.Clear();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            
+            client.DefaultRequestHeaders.Add("aeg-sas-key", cfg.Azure.EventGridKey);
+            var json = JsonConvert.SerializeObject(evtItem);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync(string.Empty, content);
 
-            string topicHostname = new Uri(cfg.Azure.EventGridEP).Host;
-            TopicCredentials topicCredentials = new TopicCredentials(cfg.Azure.EventGridKey);
-            EventGridClient client = new EventGridClient(topicCredentials);
-            client.PublishEventsAsync (topicHostname, evts).GetAwaiter ().GetResult ();
+            //TODO: Update Event to use CloudEventV10 schema
+            // EventGridEvent evt = new EventGridEvent()
+            // {
+            //     Id = Guid.NewGuid().ToString(),
+            //     EventType = $"FoodApp.{type.ToString()}",
+            //     Data = new FoodEventData()
+            //     {
+            //         id = item.ID,
+            //         type = FoodEventType.Create.ToString(),
+            //         quantity = 1
+            //     },
+            //     EventTime = DateTime.Now,
+            //     Subject = "FoodEvent",
+            //     DataVersion = "2.0"
+            // };
+            // List<CloudEvent<FoodItem>> events = new List<CloudEvent<FoodItem>> (){cloudEvent};
+
+            // string topicHostname = new Uri(cfg.Azure.EventGridEP).Host;
+            // TopicCredentials topicCredentials = new TopicCredentials(cfg.Azure.EventGridKey);
+            // EventGridClient client = new EventGridClient(topicCredentials);
+            // client.PublishEventsAsync (topicHostname, events).GetAwaiter ().GetResult ();
         }
     }
 }

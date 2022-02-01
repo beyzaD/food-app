@@ -55,6 +55,7 @@ namespace Integrations
             if(HttpMethods.IsPost(req.Method)) 
             {
                 string @event = await new StreamReader(req.Body).ReadToEndAsync();
+                log.LogInformation("Forwarding Event to SignalR", @event);
                 await signalRMessages.AddAsync(new SignalRMessage
                 {
                     Target = "foodEvent",

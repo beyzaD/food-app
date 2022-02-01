@@ -7,20 +7,16 @@ import { environment } from 'src/environments/environment';
 })
 export class SignalrService {
   private hubConnection: SignalR.HubConnection;
-  events: string[] = [];
 
   constructor() {
     // Create connection
+    let signalREP = `https://${environment.azure.signalREndpoint}/api`;
     this.hubConnection = new SignalR.HubConnectionBuilder()
-      .withUrl(environment.azure.signalREndpoint)
+      .withUrl(signalREP)
       .build();
-
-    // Start connection. This will call negotiate endpoint
     this.hubConnection.start();
-
     this.hubConnection.on('foodEvent', (event: any) => {
-      console.log('received event', event);
-      this.events.push(event);
+      console.log('received foodEvent', event);
     });
   }
 }
