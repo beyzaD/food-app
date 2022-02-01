@@ -2,10 +2,10 @@
   window["env"] = window["env"] || {};
   window["env"].authEnabled = "${authEnabled}";
   window["env"].apiUrl = "${apiUrl}";
-  window["env"].azure.applicationInsights = "${applicationInsights}";
-  window["env"].azure.signalREndpoint = "${signalREndpoint}";
-  window["env"].appReg.clientId = "${clientId}";
-  window["env"].appReg.authority = "${authority}";
-  window["env"].appReg.redirectUri = "${redirectUri}";
-  window["env"].appReg.scopes = "${scopes}";
+  window["env"].applicationInsights = "${applicationInsights}";
+  window["env"].signalREndpoint = "${signalREndpoint}";
+  window["env"].clientId = "${clientId}";
+  window["env"].authority = "${authority}";
+  window["env"].redirectUri = "${redirectUri}";
+  window["env"].scopes = "${scopes}";
 })(this);
