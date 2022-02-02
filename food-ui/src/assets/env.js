@@ -1,6 +1,6 @@
 (function (window) {
   window["env"] = window["env"] || {};
-  window["env"].authEnabled = true;
+  window["env"].authEnabled = false;
   window["env"].apiUrl = "https://localhost:5001/";
   window["env"].applicationInsights = "0b9bbe9b-5402-4e1e-9419-750e82391293";
   window["env"].signalREndpoint = "food-ep-staging.service.signalr.net";

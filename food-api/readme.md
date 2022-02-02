@@ -11,13 +11,17 @@
 ```json
 {
     "Azure": {
-        "TenantId": "d92b247e-...",
-        "ClientId": "b509d389-...",
+        "TenantId": "d92b247e-90e0-4469-a129-6a32866c0d0a",
+        "ClientId": "b509d389-361a-447b-afb2-97cc8131dad6",
         "Instance": "https://login.microsoftonline.com/",
         "cacheLocation": "localStorage",
-        "ApplicationInsights": "da2aaf3f-...",
+        "ApplicationInsights": "0b9bbe9b-5402-4e1e-9419-750e82391293",
         "AppConfiguration": "",
-        "KeyVault": ""
+        "KeyVault": "",
+        "SignalRConString": "",
+        "SignalREndpoint": "",
+        "EventGridKey": "=",
+        "EventGridEP": ""
     },
     "App": {
         "AuthEnabled": false,
@@ -25,8 +29,11 @@
         "UseAppConfig": false,
         "ConnectionStrings": {
             "SQLiteDBConnection": "Data Source=./food.db",
-            "SQLServerConnection": "Data Source=...;Initial Catalog=...;Persist Security Info=True;
-                                    User ID=sa;Password='...'"}
+            "SQLServerConnection": "Data Source=localhost;Initial Catalog=food-db;Persist Security Info=True;User ID=sa;Password='TiTp4SQL@dmin'"
+        }
+    },
+    "Features":{
+        "Reactive" : false
     },
     "Logging": {
         "LogLevel": {
