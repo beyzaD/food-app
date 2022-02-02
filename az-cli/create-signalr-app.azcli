@@ -1,4 +1,4 @@
-env=dev
+env=staging
 grp=food-app-$env
 loc=westeurope
 storage=foodstorage$env
@@ -23,7 +23,7 @@ az resource update --ids $funcappid/config/web --set properties.cors.supportCred
 webhookEP=$(az functionapp show -n $app -g $grp --query "hostNames" --output tsv)
 
 # Deploy function app from az-cli folder. Adjust path when using another folder
-cd ../food-hub-funcapp
+cd food-hub-funcapp
 func azure functionapp publish $app --csharp
 cd ..
 
@@ -33,8 +33,8 @@ az eventgrid event-subscription create --name $app --source-resource-id $topicid
 # status
 topicurl=$(az eventgrid topic show -n $topic -g $grp --query "endpoint" --output tsv)
 topickey=$(az eventgrid topic key list -n $topic -g $grp --query "key1" --output tsv)
-echo "*** Provisioned App"
+echo "*** Provisioned App - Update values in apps for testing"
 echo "*** Application Insights Key:" $aikey
 echo "*** SignalR Endpoint:" $signalREndpoint
-echo "*** Topic Url: "$topicurl
 echo "*** Topic Key: "$topickey
+echo "*** Topic Endpoint: "$topicurl

@@ -48,16 +48,19 @@ namespace FoodApi
             if (item.ID == 0)
             {
                 ctx.Food.Add(item);
-                ctx.SaveChanges();
-                publisher.PublishEvent(item, FoodEventType.Create);
             }
             else
             {
                 ctx.Food.Attach(item);
                 ctx.Entry(item).State = EntityState.Modified;
-                ctx.SaveChanges();
-                publisher.PublishEvent(item, FoodEventType.Update);
             }            
+
+            ctx.SaveChanges();
+            
+            if(cfg.Features.Reactive){                
+                publisher.PublishEvent(item, FoodEventType.Update);
+            }
+
             return item;
         }
 

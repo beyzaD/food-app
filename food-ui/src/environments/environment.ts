@@ -18,4 +18,7 @@ export const environment = {
       scopes: window['env'].scopes,
     },
   },
+  features: {
+    reactive: window['env'].reactive,
+  },
 };

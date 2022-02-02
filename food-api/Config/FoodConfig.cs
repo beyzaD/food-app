@@ -3,6 +3,7 @@ namespace FoodApp
     public class FoodConfig    {
         public AppConfig App { get; set; } 
         public Azure Azure { get; set; } 
+        public Features Features { get; set; } 
         public Logging Logging { get; set; } 
     }
 
@@ -23,11 +24,17 @@ namespace FoodApp
         public string KeyVault { get; set; } 
         public string EventGridKey { get; set; }
         public string EventGridEP { get; set; }
+        public string SignalREndpoint { get; set; }
+        public string SignalRConString { get; set; }
     }    
 
     public class ConnectionStrings    {
         public string SQLiteDBConnection { get; set; } 
         public string SQLServerConnection { get; set; } 
+    }
+        
+    public class Features{
+        public bool Reactive { get; set; } 
     }
     
     public class LogLevel    {

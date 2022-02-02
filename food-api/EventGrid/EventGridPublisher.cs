@@ -24,7 +24,6 @@ namespace FoodApi
         public async void PublishEvent(FoodItem item, FoodEventType type)
         {
             var evtItem = new CloudEvent<FoodItem>(item);
-            var ct = "application/cloudevents+json; charset=utf-8";
             var client = new HttpClient { BaseAddress = new Uri(cfg.Azure.EventGridEP) };
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));            

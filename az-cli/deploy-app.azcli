@@ -1,0 +1,97 @@
+env=dev
+grp=food-app-$env
+loc=westeurope
+mi=foodidentity-$env
+app=food-app-$env
+storage=foodstorage$env
+fxapp=foodfx-$env
+vault=foodvault-$env
+signalr=food-hub-$env
+cfg=foodconfig-$env
+topic=foodevents-$env
+dbsrv=fooddbserver$env
+db=fooddb-$env
+dbuser=foodadmin
+dbpwd=Food@dmin1234
+ngurl=http://localhost:4200
+feature=reactive-ui
+
+# base ressources
+az group create -n $grp -l $loc
+
+# managed identity
+miid=$(az identity create -g $grp -l $loc -n $mi --query id -o tsv)
+miobj=$(az identity show --ids $miid --query principalId -o tsv)
+
+# keyvault
+# az keyvault purge -n $vault
+az keyvault create -l $loc -n $vault -g $grp --sku standard
+az keyvault secret set --vault-name $vault --name "SQLiteDBConnection" --value "Data Source=./food.db"
+az keyvault secret set --vault-name $vault --name "SQLServerDBConnection" --value "Server=tcp:$dbsrv.database.windows.net,1433;Database=$db;User ID=$dbuser;Password=$dbpwd;Encrypt=true;Connection Timeout=30;"
+
+# app config create and assign permissions on kv using user assigned mi
+az appconfig create -g $grp -n $cfg -l $loc --sku free
+az appconfig identity assign -g $grp -n $cfg --identities $miid
+az keyvault set-policy -n $vault --object-id $miobj --secret-permissions list get
+
+az appconfig kv set -n $cfg --key "App:AuthEnabled" --value false -y
+az appconfig kv set -n $cfg --key "App:AuthEnabled" --value true --label prod -y
+az appconfig kv set -n $cfg --key "App:UseSQLite" --value false -y
+az appconfig kv set -n $cfg --key "App:UseAppConfig" --value false -y
+
+az appconfig kv set-keyvault -n $cfg --key "App:ConnectionStrings:DBConnection" --secret-identifier "https://$vault.vault.azure.net/Secrets/SQLiteDBConnection" -y
+az appconfig kv set-keyvault -n $cfg --key "App:ConnectionStrings:DBConnection" --secret-identifier "https://$vault.vault.azure.net/Secrets/SQLServerDBConnection" --label prod -y
+
+az appconfig feature set -n $cfg --feature $feature -y
+az appconfig feature disable -n $cfg --feature $feature -y
+
+# application insights
+aikey=$(az monitor app-insights component create --app $app --location $loc --kind web -g $grp --application-type web --retention-time 30 --query instrumentationKey -o tsv)
+az keyvault secret set --vault-name $vault --name "ApplicationInsights" --value $aikey
+
+# signalr
+az signalr create -g $grp -n $signalr -l $loc --sku Free_F1 --service-mode Serverless
+conStrSignalR=$(az signalr key list --name $signalr -g $grp --query primaryConnectionString -o tsv)
+signalREndpoint=$(az signalr list -g $grp --query [0].hostName -o tsv)
+
+az keyvault secret set --vault-name $vault --name "conStrSignalR" --value $conStrSignalR
+az appconfig kv set-keyvault -n $cfg --key "Azure:SignalRConString" --secret-identifier "https://$vault.vault.azure.net/Secrets/conStrSignalR" -y
+
+az appconfig kv set -n $cfg --key "Azure:SignalREndpoint" --value $signalREndpoint -y
+
+# event grid
+topicid=$(az eventgrid topic create -g $grp -n $topic -l $loc --input-schema cloudeventschemav1_0 --query id -o tsv)
+
+topicKey=$(az eventgrid topic key list -n $topic -g $grp --query "key1" --output tsv)
+az keyvault secret set --vault-name $vault --name "EventGridKey" --value $topicKey
+az appconfig kv set-keyvault -n $cfg --key "Azure:EventGridKey" --secret-identifier "https://$vault.vault.azure.net/Secrets/EventGridKey" -y
+
+topicEP=$(az eventgrid topic show -n $topic -g $grp --query "endpoint" --output tsv)
+az appconfig kv set -n $cfg --key "Azure:EventGridEP" --value $topicEP -y
+
+# function app
+az storage account  create -n $storage -g $grp 
+funcappId=$(az functionapp create -n $fxapp -g $grp -s $storage --consumption-plan-location $loc --runtime dotnet --functions-version 3 --app-insights $app --query id -o tsv)
+
+# value could also be: @Microsoft.KeyVault(SecretUri=https://$vault.vault.azure.net/secrets/conStrSignalR/)
+az functionapp config appsettings set -n $fxapp -g $grp --settings "Azure:SignalRConString=$conStrSignalR"
+
+az functionapp cors add -g $grp -n $fxapp --allowed-origins $ngurl
+az resource update --ids $funcappId/config/web --set properties.cors.supportCredentials="true"
+webhookEP=$(az functionapp show -n $fxapp -g $grp --query "hostNames" --output tsv)
+
+# Deploy function app from root folder. Adjust path when using another folder
+cd food-hub-funcapp
+func azure functionapp publish $fxapp --csharp
+cd ..
+
+#TODO: fix bug with validation
+# subscribe event grid topc
+az eventgrid event-subscription create --name $app --source-resource-id $topicid --endpoint https://$webhookEP/api/evtsubscription --endpoint-type webhook --event-delivery-schema cloudeventschemav1_0
+
+# status
+echo "*** Provisioned App"
+echo "*** Application Insights Key:" $aikey
+echo "*** SignalR Endpoint:" $signalREndpoint
+echo "*** Topic Url: "$topicEP
+echo "*** Topic Key: "$topicKey

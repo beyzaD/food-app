@@ -8,4 +8,5 @@
   window["env"].authority = "${authority}";
   window["env"].redirectUri = "${redirectUri}";
   window["env"].scopes = "${scopes}";
+  window["env"].reactive = "${reactive}";
 })(this);
