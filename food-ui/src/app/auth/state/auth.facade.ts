@@ -30,10 +30,6 @@ export class MsalAuthFacade {
     this.handleLoginSuccess(this.msalBC);
   }
 
-  getAuthState() {
-    return !environment.authEnabled;
-  }
-
   getUser() {
     return this.store.select(getUser);
   }

@@ -21,3 +21,5 @@ az container create -g $grp -l $loc -n $app --image $dhuser/$img \
         'authEnabled'='false' \
         'apiUrl'='http://foodapp-config-dev-20621.westeurope.azurecontainer.io/' \
     --query ipAddress.fqdn -o tsv
+
+az container export -n $app -g $grp -f ./aci.yaml    

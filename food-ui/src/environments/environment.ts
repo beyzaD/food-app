@@ -6,7 +6,7 @@ declare global {
 
 export const environment = {
   production: false,
-  authEnabled: window['env'].authEnabled,
+  authEnabled: getBooleanEnv(window['env'].authEnabled),
   apiUrl: window['env'].apiUrl,
   azure: {
     applicationInsights: window['env'].applicationInsights,
@@ -19,6 +19,14 @@ export const environment = {
     },
   },
   features: {
-    reactive: window['env'].reactive,
+    reactive: getBooleanEnv(window['env'].reactive),
   },
 };
+
+export function getBooleanEnv(val: any): boolean {
+  if (val && val == 'true') {
+    return true;
+  } else {
+    return false;
+  }
+}
