@@ -13,14 +13,16 @@ namespace FoodApi
     [ApiController]
     public class FoodController : ControllerBase
     {
-        public FoodController(FoodDBContext context, IConfiguration config)
+        public FoodController(FoodDBContext context, IConfiguration config, EventGridPublisher evtpub)
         {
             ctx = context;
             cfg = config.Get<FoodConfig>();
+            publisher = evtpub;
         }
 
         FoodDBContext ctx;
         FoodConfig cfg;
+        EventGridPublisher publisher;
 
         // http://localhost:PORT/food
         [HttpGet()]
@@ -51,8 +53,14 @@ namespace FoodApi
             {
                 ctx.Food.Attach(item);
                 ctx.Entry(item).State = EntityState.Modified;
-            }
+            }            
+
             ctx.SaveChanges();
+            
+            if(cfg.Features.Reactive){                
+                publisher.PublishEvent(item, FoodEventType.Update);
+            }
+
             return item;
         }
 
@@ -80,6 +88,7 @@ namespace FoodApi
             return val;
         }
 
+        //TODO: Refactor to action filter
         [NonAction]
         public void verfiyScope()
         {
