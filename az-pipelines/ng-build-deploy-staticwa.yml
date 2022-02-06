@@ -6,12 +6,12 @@ name: Deploy UI to Static Website
 #       - master
 #   paths:
 #     include:
-#       - FoodUI/*
+#       - food-ui/*
 
 trigger: none
 
 variables:
-  loc: FoodUI/
+  loc: food-ui/
   apiurl: https://foodapi-030.azurewebsites.net
 
 pool:

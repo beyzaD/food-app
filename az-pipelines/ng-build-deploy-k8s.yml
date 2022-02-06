@@ -6,13 +6,13 @@ name: ui-build-deploy-k8s
 #       - master
 #   paths:
 #     include:
-#       - FoodUI/*
+#       - food-ui/*
 
 trigger: none      
 
 variables:
   provision: true
-  fld: FoodUI/
+  fld: food-ui/
   conACR: acrDefault
   conKube: "conKube"
   img: foodui

@@ -6,14 +6,14 @@ name: "ng-ui-blobstorage"
 #       - main
 #   paths:
 #     include:
-#       - ngUI/*
+#       - food-ui/*
 
 trigger: none
 
 variables:
   azureSubscription: "Visual Studio Enterprise (78033352-805c-4acd-af80-f8f95083268d)"
   serviceConnection: "conNet5App"
-  uiPath: "ngUI/"
+  uiPath: food-ui/
   ngScript: "create-blob-cdn.sh"
   artifact: "ngapp"
   acctName: "net5ngui"

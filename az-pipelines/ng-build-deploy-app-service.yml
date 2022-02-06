@@ -6,13 +6,13 @@ name: ng-build-deploy-cli
 #       - master
 #   paths:
 #     include:
-#       - FoodUI
+#       - food-ui
 
 trigger: none
 
 variables:
   azSubscription: conFoodApp
-  uiPath: FoodUI/
+  uiPath: food-ui/
   rndnumber: 'simple'
   appservice: 'foodui'
   # apiurl value will be used in FileTransform@1

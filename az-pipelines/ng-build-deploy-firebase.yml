@@ -6,7 +6,7 @@ name: ng-build-deploy-firebase
 #       - master
 #   paths:
 #     include:
-#       - FoodUI
+#       - food-ui
 
 trigger: none
 
