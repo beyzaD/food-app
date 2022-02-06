@@ -6,15 +6,15 @@ name: "food-api sonarcloud"
 #       - master
 #   paths:
 #     include:
-#       - FoodApi
+#       - food-api
 
 trigger: none
 
 variables:
   dotnetSdkVersion: "6.x"
   buildConfiguration: "Release"
-  apifolder: "FoodApi"
-  apitestfolder: "FoodApiTest"
+  apifolder: food-api
+  apitestfolder: food-api-test
   sonarcon: conSonarCloud
 
 pool:

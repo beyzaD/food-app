@@ -6,13 +6,13 @@ name: ".net core api build"
 #       - master
 #   paths:
 #     include:
-#       - FoodApi
+#       - food-api
 
 trigger: none
 
 variables:
   buildConfiguration: Release
-  apifolder: FoodApi
+  apifolder: food-api
 
 pool:
   vmImage: "ubuntu-20.04"

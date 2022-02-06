@@ -12,7 +12,6 @@ trigger: none
 
 variables:
   System.Debug: true
-  fld: FoodUI/
   conACR: conACRMK8s
   conKube: conKube
   img: foodapi
@@ -44,7 +43,7 @@ stages:
             inputs:
               repository: $(img)
               command: buildAndPush
-              Dockerfile: FoodApi/dockerfile
+              Dockerfile: food-api/dockerfile
           - task: Docker@2
             displayName: Logout of ACR
             inputs:

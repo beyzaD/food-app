@@ -6,7 +6,7 @@ name: api-build-unittest-deploy
 #       - master
 #   paths:
 #     include:
-#       - FoodApi
+#       - food-api
 
 trigger: none
 
@@ -15,8 +15,8 @@ variables:
   buildConfiguration: Release
   releaseBranchName: master
   azSubscription: az400-mod11-subscription
-  apifolder: FoodApi
-  apitestfolder: FoodApiTest
+  apifolder: food-api
+  apitestfolder: food-api-test
   appservice: foodapi
   envflag: staging
 
