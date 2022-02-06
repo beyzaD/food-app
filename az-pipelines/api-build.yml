@@ -45,5 +45,5 @@ stages:
 
           - task: PublishPipelineArtifact@1
             inputs:
-              artifactName: drop
-            displayName: "Publish Artifact: drop"
+              artifactName: apidrop
+            displayName: "Publish Artifact: apidrop"
