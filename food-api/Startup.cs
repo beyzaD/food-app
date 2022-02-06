@@ -1,10 +1,11 @@
 using System;
 using FoodApp;
 using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,87 +15,113 @@ using Microsoft.OpenApi.Models;
 
 namespace FoodApi
 {
-    public class Startup {
-
-        public Startup (IWebHostEnvironment environment, IConfiguration configuration) {
+    public class Startup
+    {
+        public Startup(IWebHostEnvironment environment, IConfiguration configuration)
+        {
             Configuration = configuration;
             env = environment;
         }
 
         public IConfiguration Configuration { get; }
-
         private readonly IWebHostEnvironment env;
-        
-        public void ConfigureServices (IServiceCollection services) {
 
-            services.AddSingleton < IConfiguration > (Configuration);  
+        public void ConfigureServices(IServiceCollection services)
+        {
+            //Config
+            services.AddSingleton<IConfiguration>(Configuration);
+            var cfg = Configuration.Get<FoodConfig>();
 
             //Aplication Insights
-            services.AddApplicationInsightsTelemetry (Configuration["Azure:ApplicationInsights"]);
+            services.AddApplicationInsightsTelemetry(cfg.Azure.ApplicationInsights);
             services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
             services.AddSingleton<AILogger>();
 
-            //EF
-            bool sqlite = bool.Parse(Configuration["App:UseSQLite"]);
-            if(sqlite){
-                var conStrLite = Configuration["App:ConnectionStrings:SQLiteDBConnection"];
-                services.AddEntityFrameworkSqlite ().AddDbContext<FoodDBContext> (options => options.UseSqlite (conStrLite));
-            }else{
-                var conStr = Configuration["App:ConnectionStrings:SQLServerConnection"];
-                services.AddEntityFrameworkSqlServer()
-                .AddDbContext<FoodDBContext>(options => options.UseSqlServer(conStr));
+            //EventGrid
+            services.AddSingleton<EventGridPublisher>();
+
+            //Database
+            if (cfg.App.UseSQLite)
+            {
+                services.AddDbContext<FoodDBContext>(opts => opts.UseSqlite(cfg.App.ConnectionStrings.SQLiteDBConnection));
+            }
+            else
+            {
+                services.AddDbContext<FoodDBContext>(opts => opts.UseSqlServer(cfg.App.ConnectionStrings.SQLiteDBConnection));
             }
 
-            //AzureAD auth
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-            .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAD"));
-           
+            //Microsoft Identity auth
+            var az = Configuration.GetSection("Azure");
+            if (cfg.App.AuthEnabled && az != null)
+            {
+                services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddMicrosoftIdentityWebApi(az)
+                .EnableTokenAcquisitionToCallDownstreamApi()
+                .AddInMemoryTokenCaches();
+                services.AddAuthorization();
+
+                //Add auth policy instead of Autorize Attribute on Controllers
+                services.AddControllers(obj =>
+                {
+                    var policy = new AuthorizationPolicyBuilder()
+                        .RequireAuthenticatedUser()
+                        .Build();
+                    obj.Filters.Add(new AuthorizeFilter(policy));
+                });
+            }
+            else
+            {
+                services.AddControllers();
+            }
+
             //Swagger
-            services.AddSwaggerGen (c => {
-                c.SwaggerDoc ("v1", new OpenApiInfo { Title = "Food API", Version = "v1" });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Food-Api", Version = "v1" });
             });
 
             // Cors
-            services.AddCors (options => {
-                options.AddPolicy ("allowAll",
-                    builder => builder
-                    .SetIsOriginAllowed (host => true)
-                    .AllowAnyMethod ()
-                    .AllowAnyHeader ()
-                    .AllowCredentials ());
-            });
-
-            services.AddControllers ();
+            services.AddCors(o => o.AddPolicy("nocors", builder =>
+                {
+                    builder
+                        .SetIsOriginAllowed(host => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                }));
         }
 
-        public void Configure (IApplicationBuilder app, IWebHostEnvironment env) {
-            
-            Console.WriteLine("Environment: " + env.EnvironmentName);
-
-            if (env.IsDevelopment ()) {
-                app.UseDeveloperExceptionPage ();
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+            var cfg = Configuration.Get<FoodConfig>();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
             }
 
             // Swagger
-            app.UseSwagger ();
-            app.UseSwaggerUI (c => {
-                c.SwaggerEndpoint ("/swagger/v1/swagger.json", "Food API");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Food-Api");
                 c.RoutePrefix = string.Empty;
             });
 
-            //Cors
-            app.UseCors ("allowAll");
+            //Cors and Routing
+            app.UseCors("nocors");
+            app.UseHttpsRedirection();
+            app.UseRouting();
 
-            app.UseHttpsRedirection ();
-
-            app.UseRouting ();
-
-            if(Boolean.Parse(Configuration["App:AuthEnabled"])){
-                app.UseAuthorization ();
+            if (cfg.App.AuthEnabled)
+            {
+                Console.WriteLine($"Using auth with App Reg: {cfg.Azure.ClientId}");
+                app.UseAuthentication();
+                app.UseAuthorization();
             }
 
-            app.UseEndpoints (endpoints => {
-                endpoints.MapControllers ();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
             });
         }
     }

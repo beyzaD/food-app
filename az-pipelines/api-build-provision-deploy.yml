@@ -6,7 +6,7 @@ name: api-build-deploy
 #       - master
 #   paths:
 #     include:
-#       - FoodApi
+#       - food-api
 
 trigger: none
 
@@ -15,7 +15,7 @@ variables:
   buildConfiguration: Release
   releaseBranchName: master
   azSubscription: az400-mod11-subscription
-  apifolder: FoodApi
+  apifolder: food-api
   appservice: foodapi
   envflag: staging
 

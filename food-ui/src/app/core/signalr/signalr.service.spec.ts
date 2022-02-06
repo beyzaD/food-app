@@ -1,12 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { MsalAuthFacade } from './auth.facade';
 
-describe('AuthService', () => {
-  let service: MsalAuthFacade;
+import { SignalrService } from './signalr.service';
+
+describe('SignalrService', () => {
+  let service: SignalrService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(MsalAuthFacade);
+    service = TestBed.inject(SignalrService);
   });
 
   it('should be created', () => {

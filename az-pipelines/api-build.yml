@@ -25,7 +25,7 @@ stages:
 
         steps:
           - task: UseDotNet@2
-            displayName: "Install .NET 5 SDK"
+            displayName: "Install .NET 6 SDK"
             inputs:
               packageType: "sdk"
               version: "6.x"
@@ -43,8 +43,7 @@ stages:
               publishWebProjects: true
               arguments: "--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)"
 
-          - task: PublishBuildArtifacts@1
+          - task: PublishPipelineArtifact@1
             inputs:
-              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
-              ArtifactName: "drop"
-              publishLocation: "Container"
+              artifactName: drop
+            displayName: "Publish Artifact: drop"

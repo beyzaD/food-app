@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import {
   MsalGuardConfiguration,
   MsalService,
@@ -10,6 +11,7 @@ import {
   AuthenticationResult,
   RedirectRequest,
 } from '@azure/msal-browser';
+import { MsalAuthFacade } from 'src/app/auth/state/auth.facade';
 
 @Component({
   selector: 'app-login',
@@ -19,11 +21,11 @@ import {
 export class LoginComponent implements OnInit {
   entryPic = '/assets/images/burger.png';
   isIframe = false;
-  // loginDisplay = false;
 
   constructor(
     @Inject(MSAL_GUARD_CONFIG) private msalGuardConfig: MsalGuardConfiguration,
-    private authService: MsalService
+    private authService: MsalService,
+    private af: MsalAuthFacade
   ) {}
 
   ngOnInit(): void {
@@ -31,32 +33,30 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
-      if (this.msalGuardConfig.authRequest) {
-        this.authService
-          .loginPopup({ ...this.msalGuardConfig.authRequest } as PopupRequest)
-          .subscribe((response: AuthenticationResult) => {
-            this.authService.instance.setActiveAccount(response.account);
-          });
+    if (environment.authEnabled) {
+      if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
+        if (this.msalGuardConfig.authRequest) {
+          this.authService
+            .loginPopup({ ...this.msalGuardConfig.authRequest } as PopupRequest)
+            .subscribe((response: AuthenticationResult) => {
+              this.authService.instance.setActiveAccount(response.account);
+            });
+        } else {
+          this.authService
+            .loginPopup()
+            .subscribe((response: AuthenticationResult) => {
+              this.authService.instance.setActiveAccount(response.account);
+            });
+        }
       } else {
-        this.authService
-          .loginPopup()
-          .subscribe((response: AuthenticationResult) => {
-            this.authService.instance.setActiveAccount(response.account);
-          });
-      }
-    } else {
-      if (this.msalGuardConfig.authRequest) {
-        this.authService.loginRedirect({
-          ...this.msalGuardConfig.authRequest,
-        } as RedirectRequest);
-      } else {
-        this.authService.loginRedirect();
+        if (this.msalGuardConfig.authRequest) {
+          this.authService.loginRedirect({
+            ...this.msalGuardConfig.authRequest,
+          } as RedirectRequest);
+        } else {
+          this.authService.loginRedirect();
+        }
       }
     }
   }
-
-  // setLoginDisplay() {
-  //   this.loginDisplay = this.authService.instance.getAllAccounts().length > 0;
-  // }
 }

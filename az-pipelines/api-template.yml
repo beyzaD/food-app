@@ -15,7 +15,7 @@ variables:
   buildConfiguration: "Release"
   releaseBranchName: "master"
   apifolder: food-api
-  apitestfolder: food-api-tests
+  apitestfolder: food-api-test
 
 pool:
   vmImage: "ubuntu-20.04"

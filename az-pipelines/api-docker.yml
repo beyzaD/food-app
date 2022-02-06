@@ -6,12 +6,12 @@ name: api-docker.yml
 #       - master
 #   paths:
 #     include:
-#       - FoodApi/*
+#       - food-api/*
 
 trigger: none      
 
 variables:
-  apiPath: "FoodApi/"
+  apiPath: "food-api/"
   conACR: "conACR"
   imageName: "foodapi"   
 

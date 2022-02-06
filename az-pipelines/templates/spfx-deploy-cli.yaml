@@ -1,7 +1,7 @@
 parameters:
   - name: nodeVersion
     type: string
-    default: "12.x"
+    default: "14.x"
 
   - name: pkg
     type: string

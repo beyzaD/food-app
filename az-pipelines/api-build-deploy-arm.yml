@@ -6,7 +6,7 @@ name: api-build-deploy-arm
 #       - master
 #   paths:
 #     include:
-#       - FoodApi
+#       - food-api
 
 trigger: none
 
@@ -15,7 +15,7 @@ variables:
   buildConfiguration: Release
   releaseBranchName: master
   azSubscription: az400-mod13-subscription
-  apifolder: FoodApi
+  apifolder: food-api
   rgname: 'az400-mod13-armpipeline'
   appservice: foodapi-22-arm  
   plan: foodplan-22-arm

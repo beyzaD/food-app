@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   MsalBroadcastService,
   MsalGuardConfiguration,
@@ -13,35 +13,22 @@ import {
   LogLevel,
   PublicClientApplication,
 } from '@azure/msal-browser';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { Store } from '@ngrx/store';
 import { filter } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { ConfigService } from '../../core/config/config.service';
-import { MsalAuthState } from './auth.reducer';
-import { Store } from '@ngrx/store';
-import { loginSuccess, logout } from './auth.actions';
 import { MsalAuthResponse } from '../auth.model';
+import { loginSuccess, logout } from './auth.actions';
+import { MsalAuthState } from './auth.reducer';
 import { getUser, isAuthenticated } from './auth.selectors';
+import { MsalBroadcastServiceMock } from '../mocks/MsalBroadcastService.mock';
 
 @Injectable()
 export class MsalAuthFacade {
-  private readonly _destroying$ = new Subject<void>();
-
   constructor(
-    @Inject(forwardRef(() => ConfigService)) private cs: ConfigService,
     private msalBC: MsalBroadcastService,
     private store: Store<MsalAuthState>
   ) {
     this.handleLoginSuccess(this.msalBC);
-  }
-
-  ngOnDestroy(): void {
-    this._destroying$.next(undefined);
-    this._destroying$.complete();
-  }
-
-  getAuthState() {
-    return !environment.authEnabled;
   }
 
   getUser() {
@@ -49,36 +36,12 @@ export class MsalAuthFacade {
   }
 
   isInitAndAuthenticated() {
-    return combineLatest(
-      [this.store.select(isAuthenticated), this.cs.cfgInit],
-      (isAuth: boolean, isInit: boolean) => isAuth && isInit
-    );
+    return this.store.select(isAuthenticated);
   }
 
-  static getMSALInstance(): IPublicClientApplication {
-    let config = {
-      auth: {
-        clientId: 'fb9e23e2-7727-40a3-9515-7f53d90c6cab',
-        authority:
-          'https://login.microsoftonline.com/d92b247e-90e0-4469-a129-6a32866c0d0a',
-        redirectUri: 'http://localhost:4200/',
-      },
-      cache: {
-        cacheLocation: BrowserCacheLocation.LocalStorage,
-        storeAuthStateInCookie: isIE, // set to true for IE 11
-      },
-      system: {
-        loggerOptions: {
-          loggerCallback,
-          logLevel: LogLevel.Info,
-          piiLoggingEnabled: false,
-        },
-      },
-    };
-    return new PublicClientApplication(config);
-  }
-
-  handleLoginSuccess = (broadcast: MsalBroadcastService) => {
+  handleLoginSuccess = (
+    broadcast: MsalBroadcastService | MsalBroadcastServiceMock
+  ) => {
     return broadcast.msalSubject$
       .pipe(
         filter(
@@ -111,10 +74,9 @@ export const loggerCallback = (logLevel: LogLevel, message: string) => {
 export function MSALInstanceFactory(): IPublicClientApplication {
   let config = {
     auth: {
-      clientId: 'fb9e23e2-7727-40a3-9515-7f53d90c6cab',
-      authority:
-        'https://login.microsoftonline.com/d92b247e-90e0-4469-a129-6a32866c0d0a',
-      redirectUri: 'http://localhost:4200/',
+      clientId: environment.azure.appReg.clientId,
+      authority: environment.azure.appReg.authority,
+      redirectUri: '/',
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
@@ -132,10 +94,11 @@ export function MSALInstanceFactory(): IPublicClientApplication {
 }
 
 export function MSALInterceptorConfigFactory(): MsalInterceptorConfiguration {
-  const protectedResourceMap = new Map<string, Array<string>>();
-  protectedResourceMap.set('https://graph.microsoft.com/v1.0/me', [
-    'user.read',
-  ]);
+  let scopes = environment.azure.appReg.scopes as unknown as Map<
+    string,
+    Array<string>
+  >;
+  const protectedResourceMap = new Map<string, Array<string>>(scopes);
 
   return {
     interactionType: InteractionType.Redirect,

@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ConfigService } from '../core/config/config.service';
 import { FoodItem } from './food.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -10,23 +9,23 @@ import { FoodItem } from './food.model';
 export class FoodService {
   private api: string = '';
 
-  constructor(private httpClient: HttpClient, private cs: ConfigService) {
-    this.api = cs.config.apiUrl;
+  constructor(private httpClient: HttpClient) {
+    this.api = environment.apiUrl;
   }
 
-  getFood(): Observable<FoodItem[]> {
+  getFood() {
     return this.httpClient.get<FoodItem[]>(`${this.api}food`);
   }
 
-  deleteFood(id: number): Observable<any> {
+  deleteFood(id: number) {
     return this.httpClient.delete<FoodItem>(`${this.api}food/${id}`);
   }
 
-  addFood(food: FoodItem): Observable<FoodItem> {
+  addFood(food: FoodItem) {
     return this.httpClient.post<FoodItem>(`${this.api}food`, food);
   }
 
-  updateFood(food: FoodItem): Observable<FoodItem> {
+  updateFood(food: FoodItem) {
     return this.httpClient.put<FoodItem>(`${this.api}food/${food.id}`, food);
   }
 }

@@ -62,7 +62,8 @@ export const foodReducer = createReducer(
       loading: false,
     });
   }),
-  on(loadFoodFailure, (state) => {
+  on(loadFoodFailure, (state, action) => {
+    console.log('loadFoodFailure', action.err);
     return { ...state, loading: false };
   }),
   on(addFoodSuccess, (state, action) => {

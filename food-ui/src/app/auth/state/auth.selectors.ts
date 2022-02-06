@@ -6,10 +6,15 @@ export const getAuthState =
 
 export const isAuthenticated = createSelector(
   getAuthState,
-  (state) => state.authResponse != null
+  (state) => state.authenticated
 );
 
 export const getUser = createSelector(
   getAuthState,
   (state) => state.authResponse?.account.username
+);
+
+export const getToken = createSelector(
+  getAuthState,
+  (state) => state.authResponse?.accessToken
 );
