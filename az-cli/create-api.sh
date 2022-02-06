@@ -1,9 +1,9 @@
-rnd=$1
-grp=foodapp-$rnd
+env=$1
+grp=foodapp-$env
 loc=westeurope
-appPlan=foodplan-$rnd
-app=foodapi-$rnd
-cfg=foodconfig-$rnd
+appPlan=foodplan-$env
+app=foodapi-$env
+cfg=foodconfig-$env
 
 az group create -n $grp -l $loc
 
