@@ -1,6 +1,6 @@
 (function (window) {
   window["env"] = window["env"] || {};
-  window["env"].authEnabled = "true";
+  window["env"].authEnabled = "false";
   window["env"].apiUrl = "https://localhost:5001/";
   window["env"].applicationInsights = "";
   window["env"].signalREndpoint = "";
