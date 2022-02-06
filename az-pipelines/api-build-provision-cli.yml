@@ -17,7 +17,7 @@ variables:
   azSubscription: az400-mod10-subscription
   apifolder: food-api
   appservice: foodapi-staging-cli
-  envflag: staging
+  envflag: staging-cli
 
 pool:
   vmImage: "ubuntu-20.04"
