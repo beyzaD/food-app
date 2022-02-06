@@ -16,7 +16,7 @@ variables:
   releaseBranchName: master
   azSubscription: az400-mod13-subscription
   apifolder: food-api
-  rgname: 'az400-mod13-armpipeline'
+  rgname: 'az400-mod10-armpipeline'
   appservice: foodapi-staging-arm  
   plan: foodplan-staging-arm
   artefact: apidrop
