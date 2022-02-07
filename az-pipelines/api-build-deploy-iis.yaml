@@ -59,7 +59,7 @@ stages:
     - deployment: Production
       displayName: Production
       environment: 
-        name: 'Production'    
+        name: 'ProductionIIS'    
         resourceType: VirtualMachine
       variables:
       - name: websitePhysicalPath
