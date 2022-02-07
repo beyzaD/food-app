@@ -74,7 +74,7 @@ stages:
                 buildType: "current"
                 downloadType: "single"
                 artifactName: "apidrop"
-                downloadPath: "$(System.ArtifactsDirectory)"
+                downloadPath: "$(Pipeline.Workspace)"
             
             - task: CmdLine@2
               inputs:
