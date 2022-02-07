@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "webapp": {
-      "value": "foodapi-arm-designer"
+      "value": "foodapi-arm"
     },
     "serviceplan": {
       "value": "foodapp-armserviceplan"
