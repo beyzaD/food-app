@@ -55,7 +55,7 @@ stages:
     displayName: 'Deploy to IIS'
     dependsOn: 'Build'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
-    jobs:
+    jobs:    
     - deployment: Production
       displayName: Production
       environment: 
@@ -68,7 +68,18 @@ stages:
       strategy:
         runOnce:
           deploy:
-            steps: 
+            steps:             
+            - task: DownloadBuildArtifacts@0
+              inputs:
+                buildType: "current"
+                downloadType: "single"
+                artifactName: "drop"
+                downloadPath: "$(System.ArtifactsDirectory)"
+            
+            - task: CmdLine@2
+              inputs:
+                script: 'dir'
+
             - task: IISWebAppManagementOnMachineGroup@0
               inputs:            
                 IISDeploymentType: 'IISWebsite'
