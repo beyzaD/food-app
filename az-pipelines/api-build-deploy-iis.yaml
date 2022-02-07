@@ -78,7 +78,9 @@ stages:
             
             - task: CmdLine@2
               inputs:
-                script: 'dir'
+                script: |
+                  cd $(Pipeline.Workspace)
+                  dir
 
             - task: IISWebAppManagementOnMachineGroup@0
               inputs:            
