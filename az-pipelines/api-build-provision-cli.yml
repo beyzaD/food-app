@@ -1,4 +1,4 @@
-name: api-build-deploy-cli
+name: api-build-provision-deploy-cli
 
 # trigger:
 #   branches:
