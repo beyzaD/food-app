@@ -75,15 +75,6 @@ stages:
                 downloadType: "single"
                 artifactName: "apidrop"
                 downloadPath: "$(Pipeline.Workspace)"
-            
-            - task: CmdLine@2
-              inputs:
-                script: |
-                  cd $(Pipeline.Workspace)
-                  dir
-                  cd apidrop
-                  dir
-
             - task: IISWebAppManagementOnMachineGroup@0
               inputs:            
                 IISDeploymentType: 'IISWebsite'
