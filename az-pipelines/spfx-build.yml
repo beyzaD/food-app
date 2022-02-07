@@ -6,7 +6,7 @@ name: spfx build
 #       - master
 #   paths:
 #     include:
-#       - "FoodListSPFx/*"
+#       - "food-spfx-wp/*"
 
 trigger: none
 
