@@ -51,7 +51,7 @@ stages:
               artifactName: apidrop
             displayName: "Publish Artifact: apidrop"
 
-  - stage: 'Deploy to IIS'
+  - stage: 'DeployIIS'
     displayName: 'Deploy to IIS'
     dependsOn: 'Build'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
