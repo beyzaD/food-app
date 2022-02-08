@@ -7,7 +7,7 @@ parameters:
     type: string
     default: "drop"
 
-  - name: pkg
+  - name: fld
     type: string
 
 steps:
