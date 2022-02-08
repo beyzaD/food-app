@@ -12,7 +12,7 @@ trigger:
       - _images/*
 
 variables:
-  sppkg: spfx-devops.sppkg
+  sppkg: foodlist-wp.sppkg
   nodeVersion: "14.x"
   azSubs: scSPFx
   vault: spfxvault
