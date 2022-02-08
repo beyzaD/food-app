@@ -56,5 +56,5 @@ stages:
                   parameters:
                     nodeVersion: $(nodeVersion)
                     pkg: $(sppkg)
-                    username: $(username)
-                    password: $(password)
+                    username: $(m365user)
+                    password: $(m365pwd)
