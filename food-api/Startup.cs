@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.Azure.KeyVault;
+using Microsoft.Azure.Services.AppAuthentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,13 +39,15 @@ namespace FoodApi
             services.AddSingleton<ITelemetryInitializer, FoodTelemetryInitializer>();
             services.AddSingleton<AILogger>();
 
-            //EventGrid
-            services.AddSingleton<EventGridPublisher>();
+            Console.WriteLine($"Using KeyVault: {cfg.Azure.KeyVault}");            
+            var azureServiceTokenProvider = new AzureServiceTokenProvider();
+            var kvClient = new KeyVaultClient(new KeyVaultClient.AuthenticationCallback(azureServiceTokenProvider.KeyVaultTokenCallback));            
+            string dbconstring = (kvClient.GetSecretAsync($"https://{cfg.Azure.KeyVault}", "conSQLite").Result).Value;
 
             //Database
             if (cfg.App.UseSQLite)
             {
-                services.AddDbContext<FoodDBContext>(opts => opts.UseSqlite(cfg.App.ConnectionStrings.SQLiteDBConnection));
+                services.AddDbContext<FoodDBContext>(opts => opts.UseSqlite(dbconstring));
             }
             else
             {
