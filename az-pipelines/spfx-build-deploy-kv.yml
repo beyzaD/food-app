@@ -33,7 +33,7 @@ stages:
             parameters:
               nodeVersion: $(nodeVersion)
               pkg: $(sppkg)
-              fld: food-spfx-wp      
+              fld: "food-spfx-wp"
 
   - stage: Deploy
     displayName: Deploy to M365
