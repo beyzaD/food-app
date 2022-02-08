@@ -12,11 +12,11 @@ trigger: none
 
 variables:
   azSubscription: conFoodApp
-  uiPath: FoodUI/
-  rndnumber: 'simple'
+  uiPath: food-ui/
+  env: 'staging'
   appservice: 'foodui'
   # apiurl value will be used in FileTransform@1
-  apiurl: 'https://foodapi-$(rndnumber).azurewebsites.net/'
+  apiurl: 'https://foodapi-$(env).azurewebsites.net/'
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -63,7 +63,7 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-ui-webapp.sh'
-            arguments: '$(rndnumber)'
+            arguments: '$(env)'
 
   - stage: Deploy
     displayName: Deploy
@@ -90,6 +90,6 @@ stages:
                     ConnectionType: 'AzureRM'
                     azureSubscription: '$(azSubscription)'
                     appType: 'webApp'
-                    WebAppName: '$(appservice)-$(rndnumber)'
+                    WebAppName: '$(appservice)-$(env)'
                     packageForLinux: '$(System.DefaultWorkingDirectory)/food-ui/'
 
