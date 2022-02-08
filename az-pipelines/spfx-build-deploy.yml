@@ -28,11 +28,18 @@ stages:
             inputs:
               versionSpec: 14.x
             displayName: Install Node.js
+          
+          - task: Cache@2
+            inputs:
+              key: '$(System.DefaultWorkingDirectory)/package-lock.json'
+              path: 'node_modules'
+              cacheHitVar: 'CacheRestored'
           - task: CmdLine@2
             displayName: npm install
+            condition: eq(variables['CacheRestored'],False)
             inputs:
               script: "npm install"
-              workingDirectory: "$(fld)/"
+              workingDirectory: "$(fld)/"              
 
           - task: gulp@1
             displayName: "gulp bundel"
@@ -79,6 +86,13 @@ stages:
                 displayName: 'Use Node 14.x'
                 inputs:
                   versionSpec: 14.x
+              
+              - task: CmdLine@2
+                inputs:
+                  script: |
+                   dir
+                   cd $(Build.ArtifactStagingDirectory)
+                   dir
                   
               - task: Npm@1
                 displayName: 'npm i -g @pnp/cli-microsoft365'
@@ -88,11 +102,7 @@ stages:
                   customCommand: 'install -g @pnp/cli-microsoft365'
               
               - script: m365 login --authType password -u $(username) -p $(password) --tenant $(tenant)                 
-                displayName: 'Connect to M365'
-                
-              - bash: |
-                  cd $(Build.ArtifactStagingDirectory)/
-                  dir
+                displayName: 'Connect to M365'              
 
               - script: 'm365 spo app add -p $(Build.ArtifactStagingDirectory)/spfx/drop/food-spfx-wp/sharepoint/solution/foodlist-wp.sppkg --overwrite'
                 displayName: 'Upload to App Catalog'
