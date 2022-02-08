@@ -30,8 +30,8 @@ stages:
           
           - task: Cache@2
             inputs:
-              key: '$(System.DefaultWorkingDirectory)/package-lock.json'
-              path: '$(fld)/node_modules'
+              key: '$(System.DefaultWorkingDirectory)/$(fld)/package-lock.json'
+              path: '$(System.DefaultWorkingDirectory)/$(fld)/node_modules'
               cacheHitVar: 'CacheRestored'
 
           - task: CmdLine@2
