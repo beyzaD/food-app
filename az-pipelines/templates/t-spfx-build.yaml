@@ -24,6 +24,7 @@ steps:
     
   - task: CmdLine@2
     displayName: npm install
+    condition: eq(variables['CacheRestored'],False)
     inputs:
       script: "npm install"
       workingDirectory: "${{ parameters.fld }}/"

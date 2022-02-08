@@ -29,7 +29,7 @@ steps:
       verbose: false
       customCommand: 'install -g @pnp/cli-microsoft365'
   
-  - script: "m365 login -t password -u ${{ parameters.username }} -p ${{ parameters.password }}          "      
+  - script: "m365 login -t password -u ${{ parameters.username }} -p ${{ parameters.password }"      
     displayName: 'Connect to M365'
 
   - script: "m365 spo app add -p $(Agent.BuildDirectory)/drop/spfx/sharepoint/solution/${{ parameters.pkg }} --overwrite"
