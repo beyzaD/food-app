@@ -1,4 +1,4 @@
-env=%1
+env=$1
 grp=foodapp-$env
 loc=westeurope
 appPlan=foodplan-$env
