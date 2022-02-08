@@ -32,7 +32,8 @@ stages:
           - template: templates/t-spfx-build.yaml
             parameters:
               nodeVersion: $(nodeVersion)
-              pkg: $(sppkg)         
+              pkg: $(sppkg)
+              fld: food-spfx-wp      
 
   - stage: Deploy
     displayName: Deploy to M365
