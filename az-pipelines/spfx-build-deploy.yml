@@ -11,7 +11,6 @@ name: spfx build
 trigger: none      
 
 variables:
-  system.debug: true
   sppkg: foodlist-wp.sppkg
   fld: food-spfx-wp
   # set pipeline vars: username, password
@@ -32,8 +31,9 @@ stages:
           - task: Cache@2
             inputs:
               key: '$(System.DefaultWorkingDirectory)/package-lock.json'
-              path: 'node_modules'
+              path: '$(fld)/node_modules'
               cacheHitVar: 'CacheRestored'
+
           - task: CmdLine@2
             displayName: npm install
             condition: eq(variables['CacheRestored'],False)
