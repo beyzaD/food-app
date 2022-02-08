@@ -58,7 +58,7 @@ stages:
           - task: PublishBuildArtifacts@1
             displayName: "Publish artifacts: spfxdrop"
             inputs:
-              PathtoPublish: "$(Build.ArtifactStagingDirectory)/spfx"
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
 
   - stage: Deploy
     displayName: Deploy to M365
@@ -89,6 +89,10 @@ stages:
               
               - script: m365 login --authType password -u $(username) -p $(password) --tenant $(tenant)                 
                 displayName: 'Connect to M365'
+                
+              - bash: |
+                  cd $(Build.ArtifactStagingDirectory)/
+                  dir
 
               - script: 'm365 spo app add -p $(Build.ArtifactStagingDirectory)/spfx/drop/food-spfx-wp/sharepoint/solution/foodlist-wp.sppkg --overwrite'
                 displayName: 'Upload to App Catalog'
