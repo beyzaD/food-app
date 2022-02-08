@@ -7,6 +7,9 @@ parameters:
     type: string
     default: "drop"
 
+  - name: pkg
+    type: string
+
 steps:
   - task: NodeTool@0
     displayName: "Use Node ${{ parameters.nodeVersion }}"
