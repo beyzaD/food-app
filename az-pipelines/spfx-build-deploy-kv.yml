@@ -1,29 +1,30 @@
 name: spfx-build-deploy
 
-# trigger:
-#   branches:
-#     include:
-#       - master
-#   paths:
-#     include:
-#       - "*"
-#     exclude:
-#       - az-pipelines/*
-#       - _images/*
-
-trigger: none
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - "*"
+    exclude:
+      - az-pipelines/*
+      - _images/*
 
 variables:
-  sppkg: foodlist-wp.sppkg
+  sppkg: spfx-devops.sppkg
   nodeVersion: "14.x"
-  fld: food-spfx-wp
-  # set pipeline vars: username, password
+  azSubs: scSPFx
+  vault: spfxvault
+  envflag: staging
 
 pool:
   vmImage: "ubuntu-20.04"
 
 stages:
   - stage: Build
+    displayName: Build and Provision
+
     jobs:
       - job: BuildJob
         displayName: Build SPFx
@@ -31,7 +32,7 @@ stages:
           - template: templates/spfx-build.yaml
             parameters:
               nodeVersion: $(nodeVersion)
-              pkg: $(sppkg)
+              pkg: $(sppkg)         
 
   - stage: Deploy
     displayName: Deploy to M365
@@ -43,7 +44,13 @@ stages:
         strategy:
           runOnce:
             deploy:
-              steps:            
+              steps:
+                - task: AzureKeyVault@1
+                  displayName: 'Azure Key Vault: $(vault)'
+                  inputs:
+                    azureSubscription: '$(azSubs)'
+                    KeyVaultName: '$(vault)-$(envflag)'
+
                 - template: templates/spfx-deploy-cli.yaml
                   parameters:
                     nodeVersion: $(nodeVersion)

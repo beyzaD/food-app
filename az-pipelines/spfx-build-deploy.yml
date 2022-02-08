@@ -6,14 +6,15 @@ name: spfx build
 #       - master
 #   paths:
 #     include:
-#       - "FoodListSPFx/*"
+#       - "$(fld)/*"
 
 trigger: none      
 
 variables:
   system.debug: true
   sppkg: foodlist-wp.sppkg
-  # add username and password vars to pipeline
+  fld: food-spfx-wp
+  # set pipeline vars: username, password
 
 pool:
   vmImage: "ubuntu-20.04"  
@@ -31,12 +32,12 @@ stages:
             displayName: npm install
             inputs:
               script: "npm install"
-              workingDirectory: "FoodListSPFx/"
+              workingDirectory: "$(fld)/"
 
           - task: gulp@1
             displayName: "gulp bundel"
             inputs:
-              gulpFile: "FoodListSPFx/gulpfile.js"
+              gulpFile: "$(fld)/gulpfile.js"
               targets: "bundle"
               arguments: "--ship"
               enableCodeCoverage: false
@@ -44,14 +45,14 @@ stages:
           - task: gulp@1
             displayName: "gulp package solution"
             inputs:
-              gulpFile: "FoodListSPFx/gulpfile.js"
+              gulpFile: "$(fld)/gulpfile.js"
               targets: "package-solution"
               arguments: "--ship"
 
           - task: CopyFiles@2
             displayName: "Copy Files to: $(build.artifactstagingdirectory)/drop"
             inputs:
-              Contents: "FoodListSPFx/sharepoint/solution/*.sppkg"
+              Contents: "$(fld)/sharepoint/solution/*.sppkg"
               TargetFolder: "$(build.artifactstagingdirectory)/drop"
 
           - task: PublishBuildArtifacts@1
