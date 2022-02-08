@@ -18,8 +18,8 @@ steps:
 
   - task: Cache@2
     inputs:
-      key: '$(System.DefaultWorkingDirectory)/$(fld)/package-lock.json'
-      path: '$(System.DefaultWorkingDirectory)/$(fld)/node_modules'
+      key: '$(System.DefaultWorkingDirectory)/${{ parameters.fld }}/package-lock.json'
+      path: '$(System.DefaultWorkingDirectory)/${{ parameters.fld }}/node_modules'
       cacheHitVar: 'CacheRestored'      
     
   - task: CmdLine@2
