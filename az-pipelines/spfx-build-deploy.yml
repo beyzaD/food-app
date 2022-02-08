@@ -50,15 +50,15 @@ stages:
               arguments: "--ship"
 
           - task: CopyFiles@2
-            displayName: "Copy Files to: $(build.artifactstagingdirectory)/spfxdrop"
+            displayName: "Copy Files to: $(build.artifactstagingdirectory)/spfx"
             inputs:
               Contents: "$(fld)/sharepoint/solution/*.sppkg"
-              TargetFolder: "$(build.artifactstagingdirectory)/spfxdrop"
+              TargetFolder: "$(build.artifactstagingdirectory)/spfx"
 
           - task: PublishBuildArtifacts@1
             displayName: "Publish artifacts: spfxdrop"
             inputs:
-              PathtoPublish: "$(Build.ArtifactStagingDirectory)/spfxdrop"
+              PathtoPublish: "$(Build.ArtifactStagingDirectory)/spfx"
 
   - stage: Deploy
     displayName: Deploy to M365
@@ -90,7 +90,7 @@ stages:
               - script: m365 login --authType password -u $(username) -p $(password) --tenant $(tenant)                 
                 displayName: 'Connect to M365'
 
-              - script: 'm365 spo app add -p $(Build.ArtifactStagingDirectory)/drop/food-spfx-wp/sharepoint/solution/$(sppkg) --overwrite'
+              - script: 'm365 spo app add -p $(System.DefaultWorkingDirectory)/spfx/drop/food-spfx-wp/sharepoint/solution/foodlist-wp.sppkg --overwrite'
                 displayName: 'Upload to App Catalog'
 
               - script: 'm365 spo app deploy --name $(sppkg)'
