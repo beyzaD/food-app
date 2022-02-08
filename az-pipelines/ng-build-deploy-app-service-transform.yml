@@ -1,4 +1,4 @@
-name: ng-build-deploy-app-service
+name: ng-build-deploy-cli
 
 # trigger:
 #   branches:
@@ -6,18 +6,17 @@ name: ng-build-deploy-app-service
 #       - master
 #   paths:
 #     include:
-#       - food-ui
+#       - FoodUI
 
 trigger: none
 
 variables:
   azSubscription: conFoodApp
-  uiPath: food-ui/
-  env: 'staging'
+  uiPath: FoodUI/
+  rndnumber: 'simple'
   appservice: 'foodui'
-  # FileTransform@1 will override values from environment.prod.ts
-  authEnabled: true
-  apiurl: 'https://foodapi-$(env).azurewebsites.net/'
+  # apiurl value will be used in FileTransform@1
+  apiurl: 'https://foodapi-$(rndnumber).azurewebsites.net/'
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -37,9 +36,9 @@ stages:
           - task: FileTransform@1
             displayName: Replace Api Url
             inputs:
-              folderPath: '$(System.DefaultWorkingDirectory)/**/environments'
+              folderPath: '$(System.DefaultWorkingDirectory)/**/assets'
               fileType: 'json'
-              targetFiles: '**/environment.prod.ts'
+              targetFiles: '**/app-config.json'
 
           - script: |
               npm i -g @angular/cli
@@ -64,7 +63,7 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-ui-webapp.sh'
-            arguments: '$(env)'
+            arguments: '$(rndnumber)'
 
   - stage: Deploy
     displayName: Deploy
@@ -91,5 +90,5 @@ stages:
                     ConnectionType: 'AzureRM'
                     azureSubscription: '$(azSubscription)'
                     appType: 'webApp'
-                    WebAppName: '$(appservice)-$(env)'
+                    WebAppName: '$(appservice)-$(rndnumber)'
                     packageForLinux: '$(System.DefaultWorkingDirectory)/food-ui/'
