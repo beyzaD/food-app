@@ -14,8 +14,8 @@ name: spfx-build-deploy
 trigger: none
 
 variables:
-  sppkg: foodlist-wp.sppkg
   nodeVersion: "14.x"
+  sppkg: foodlist-wp.sppkg
   fld: food-spfx-wp
   # set pipeline vars: username, password
 
@@ -28,7 +28,7 @@ stages:
       - job: BuildJob
         displayName: Build SPFx
         steps:
-          - template: templates/spfx-build.yaml
+          - template: templates/t-spfx-build.yaml
             parameters:
               nodeVersion: $(nodeVersion)
               pkg: $(sppkg)
@@ -44,7 +44,7 @@ stages:
           runOnce:
             deploy:
               steps:            
-                - template: templates/spfx-deploy-cli.yaml
+                - template: templates/t-spfx-deploy-cli.yaml
                   parameters:
                     nodeVersion: $(nodeVersion)
                     pkg: $(sppkg)
