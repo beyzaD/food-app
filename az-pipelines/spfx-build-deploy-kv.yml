@@ -16,7 +16,7 @@ variables:
   nodeVersion: "14.x"
   azSubs: scSPFx
   vault: spfxvault
-  envflag: staging
+  envflag: secure
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -29,7 +29,7 @@ stages:
       - job: BuildJob
         displayName: Build SPFx
         steps:
-          - template: templates/spfx-build.yaml
+          - template: templates/t-spfx-build.yaml
             parameters:
               nodeVersion: $(nodeVersion)
               pkg: $(sppkg)         
@@ -51,7 +51,7 @@ stages:
                     azureSubscription: '$(azSubs)'
                     KeyVaultName: '$(vault)-$(envflag)'
 
-                - template: templates/spfx-deploy-cli.yaml
+                - template: templates/t-spfx-deploy-cli.yaml
                   parameters:
                     nodeVersion: $(nodeVersion)
                     pkg: $(sppkg)
