@@ -1,7 +1,8 @@
-grp=foodapp-$1
+env=$1
+grp=foodapp-$env
 loc=westeurope
-appPlan=foodplan-$1
-app=foodui-$1
+appPlan=foodplan-$env
+app=foodui-$env
 
 az group create -n $grp -l $loc
 
