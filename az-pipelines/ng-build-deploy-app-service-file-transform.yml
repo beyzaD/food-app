@@ -40,11 +40,15 @@ stages:
               fileType: 'json'
               targetFiles: '**/app-config.json'
 
-          - script: |
-              npm i -g @angular/cli
-              npm i
-              ng b -c production
-            displayName: "npm install and build"
+          - script: npm i -g @angular/cli
+            displayName: "Install Angular CLI"
+
+          - script: npm i
+            displayName: "Install Dependencies"
+            workingDirectory: $(uiPath)
+
+          - script: ng b -c production
+            displayName: "Create Build"
             workingDirectory: $(uiPath)
 
           - task: PublishPipelineArtifact@1
