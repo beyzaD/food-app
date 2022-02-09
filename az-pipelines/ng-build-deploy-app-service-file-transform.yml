@@ -13,7 +13,7 @@ trigger: none
 variables:
   azSubscription: conFoodApp
   uiPath: food-ui/
-  env: 'staging'
+  env: 'file-replacement'
   appservice: 'foodui'
   # apiurl value will be used in FileTransform@1
   apiurl: 'https://foodapi-$(env).azurewebsites.net/'
