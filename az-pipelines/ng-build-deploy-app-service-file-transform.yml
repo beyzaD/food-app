@@ -92,9 +92,6 @@ stages:
                   inputs:
                     artifactName: ngapp
                     downloadPath: "$(System.DefaultWorkingDirectory)"
-                                          
-                - bash: ls
-
                 - task: AzureRmWebAppDeployment@4
                   displayName: "Azure App Service Deploy: $(appservice)"
                   inputs:
