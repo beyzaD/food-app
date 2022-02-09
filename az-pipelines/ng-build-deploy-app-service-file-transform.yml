@@ -1,4 +1,4 @@
-name: ng-build-deploy-cli
+name: ng-build-deploy-app-service-file-transform.yml
 
 # trigger:
 #   branches:
@@ -40,11 +40,22 @@ stages:
               fileType: 'json'
               targetFiles: '**/app-config.json'
 
-          - script: |
-              npm i -g @angular/cli
-              npm i
-              ng b -c production
-            displayName: "npm install and build"
+          - script: npm i -g @angular/cli
+            displayName: "Install Angular CLI"
+            
+          - task: Cache@2
+            inputs:
+                key: '$(System.DefaultWorkingDirectory)/$(uiPath)/package-lock.json'
+                path: '$(System.DefaultWorkingDirectory)/$(uiPath)/node_modules'
+                cacheHitVar: 'ngCacheRestored'
+
+          - script: npm i            
+            displayName: "Install Dependencies"
+            workingDirectory: $(uiPath)
+            condition: eq(variables['ngCacheRestored'],False)
+
+          - script: ng b -c production
+            displayName: "Create Build"
             workingDirectory: $(uiPath)
 
           - task: PublishPipelineArtifact@1
@@ -92,4 +103,3 @@ stages:
                     appType: 'webApp'
                     WebAppName: '$(appservice)-$(env)'
                     packageForLinux: '$(System.DefaultWorkingDirectory)/food-ui/'
-
