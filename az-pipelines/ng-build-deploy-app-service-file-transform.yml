@@ -42,10 +42,17 @@ stages:
 
           - script: npm i -g @angular/cli
             displayName: "Install Angular CLI"
+            
+          - task: Cache@2
+            inputs:
+                key: '$(System.DefaultWorkingDirectory)/$(uiPath)/package-lock.json'
+                path: '$(System.DefaultWorkingDirectory)/$(uiPath)/node_modules'
+                cacheHitVar: 'ngCacheRestored'
 
-          - script: npm i
+          - script: npm i            
             displayName: "Install Dependencies"
             workingDirectory: $(uiPath)
+            condition: eq(variables['ngCacheRestored'],False)
 
           - script: ng b -c production
             displayName: "Create Build"
