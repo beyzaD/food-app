@@ -5,7 +5,7 @@ on:
     branches:
       - master
     paths:
-      - "FoodApi/**"
+      - "food-api/**"
 
 jobs:
   build-and-deploy:
@@ -17,17 +17,29 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: "5.0.x"
+          dotnet-version: "6.0.x"
 
       - name: Build with dotnet
-        run: dotnet build ${{ github.workspace }}/FoodApi/FoodApi.csproj --configuration Release
+        run: dotnet build ${{ github.workspace }}/food-api/food-api.csproj --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish ${{ github.workspace }}/FoodApi/FoodApi.csproj -c Release -o ${{env.DOTNET_ROOT}}/api
+        run: dotnet publish ${{ github.workspace }}/food-api/food-api.csproj -c Release -o ${{env.DOTNET_ROOT}}/api
+        
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+      - name: Azure CLI Action
+        uses: Azure/cli@v1
+        with:
+          # Specify the script here
+          inlineScript: |
+            
               
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: foodapi-githubaction-900
+          app-name: foodapi-githubaction
           publish-profile: ${{ secrets.FOODAPIPROFILE }}
           package: ${{env.DOTNET_ROOT}}/api
