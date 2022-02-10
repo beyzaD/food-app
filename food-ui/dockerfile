@@ -5,7 +5,7 @@ WORKDIR /app
 COPY package.json package.json
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run build -- -c production
 
 ##### Stage 2 - Create the run-time-image  -> no SDK, less vulnerabel (less tool), smaller
 FROM nginx:alpine
