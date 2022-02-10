@@ -6,7 +6,7 @@ declare global {
 
 export const environment = {
   production: true,
-  authEnabled: true,
+  authEnabled: false,
   apiUrl: window['env'].apiUrl,
   azure: {
     applicationInsights: window['env'].applicationInsights,
