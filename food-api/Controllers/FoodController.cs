@@ -57,7 +57,7 @@ namespace FoodApi
 
             ctx.SaveChanges();
             
-            if(cfg.Features.Reactive){                
+            if(cfg.FeatureManagement.Reactive){                
                 publisher.PublishEvent(item, FoodEventType.Update);
             }
 
