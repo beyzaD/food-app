@@ -12,7 +12,7 @@ trigger: none
 
 variables:
   apiPath: "food-api/"
-  conACR: "conACR"
+  conACR: conReg
   imageName: "foodapi"   
 
 pool:
