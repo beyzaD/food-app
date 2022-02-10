@@ -1,5 +1,5 @@
-rnd=$1
-grp=az400-m015-$rnd
+env=$1
+grp=az400-m015-$env
 loc=westeurope
 app=foodui
 img=$2
