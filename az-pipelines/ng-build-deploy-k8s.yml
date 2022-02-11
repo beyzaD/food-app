@@ -16,14 +16,14 @@ variables:
   conKube: foodapp-staging-foodcluster-31852-staging-1644620442182
   img: foodui
   yml: $(Pipeline.Workspace)/s/az-manifests/foodui.yaml
-  tag: "$(Build.BuildId)"
-  ns: "staging"
+  tag: $(Build.BuildId)
+  ns: staging
   imagePullSecret: "secret"
   env: foodapp-staging
-  system.debug: true
 
 pool:
-  vmImage: "ubuntu-20.04"  
+  vmImage: "ubuntu-20.04"
+  # name: aci-pool  
 
 stages:
   - stage: "Prepare"
