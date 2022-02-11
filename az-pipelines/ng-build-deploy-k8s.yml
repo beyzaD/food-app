@@ -20,7 +20,6 @@ variables:
   tag: "$(Build.BuildId)"
   ns: "staging"
   imagePullSecret: "secret"
-  rnd: simple
   env: foodapp.staging
 
 pool:
@@ -30,14 +29,27 @@ stages:
   - stage: "Prepare"
     displayName: "Build UI Img"    
     jobs:
-      
       - job: BuildImg
         steps:
-          - template: templates/docker-img.yaml
-            parameters:
-              con: $(conACR)
-              img: $(img)
-              path: $(fld) 
+          - task: Docker@2
+            displayName: Login to ACR
+            inputs:
+              command: login
+              containerRegistry: $(conACR)
+
+          - task: Docker@2
+            displayName: Build and Push
+            inputs:
+              repository: $(img)
+              command: buildAndPush
+              Dockerfile: food-ui/dockerfile
+          - task: Docker@2
+            displayName: Logout of ACR
+            inputs:
+              command: logout
+              containerRegistry: $(conACR)
+          - publish: "$(Build.SourcesDirectory)/manifests"
+            artifact: manifests
 
   - stage: Deploy
     displayName: Deploy stage
