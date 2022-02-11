@@ -11,7 +11,6 @@ name: Kubernetes Deploy
 trigger: none
 
 variables:
-  System.Debug: true
   conACR: conACR
   acr: integrationsonline.azurecr.io
   conKube: conKube
