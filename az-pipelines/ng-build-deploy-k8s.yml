@@ -20,6 +20,7 @@ variables:
   ns: "staging"
   imagePullSecret: "secret"
   env: foodapp-staging
+  system.debug: true
 
 pool:
   vmImage: "ubuntu-20.04"  
