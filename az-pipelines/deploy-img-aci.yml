@@ -1,4 +1,4 @@
-name: api-deploy-img-aci
+name: deploy-img-aci
 
 # trigger:
 #  branches:
@@ -11,9 +11,9 @@ name: api-deploy-img-aci
 trigger: none
 
 variables:
-  env: dev
-  img: arambazamba/foodui
-  dns: foodui
+  env: container
+  img: foodacrcontainer.azurecr.io/foodui
+  dns: foodui-$(env)
   azSubs: 'az400-m015'
 
 pool:
