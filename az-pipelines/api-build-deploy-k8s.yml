@@ -16,7 +16,6 @@ variables:
   conKube: conKube
   img: foodapi
   yml: $(Pipeline.Workspace)/s/az-manifests/foodapi.yaml
-
   tag: $(Build.BuildId)
   ns: staging
   imagePullSecret: secret
