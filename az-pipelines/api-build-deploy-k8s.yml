@@ -13,7 +13,7 @@ trigger: none
 variables:
   conACR: conACR
   acr: integrationsonline.azurecr.io
-  conKube: conKube
+  conKube: foodapp-staging-foodcluster-31852-staging-1644620442182
   img: foodapi
   yml: $(Pipeline.Workspace)/s/az-manifests/foodapi.yaml
   tag: $(Build.BuildId)
@@ -67,7 +67,7 @@ stages:
                   displayName: Create imagePullSecret
                   inputs:
                     action: 'createSecret'
-                    kubernetesServiceConnection: 'foodapp-staging-foodcluster-31852-staging-1644620442182'
+                    kubernetesServiceConnection: $(conKube)
                     namespace: '$(ns)'
                     secretType: 'dockerRegistry'
                     secretName: '$(imagePullSecret)'
@@ -76,7 +76,7 @@ stages:
                   displayName: Deploy to Kubernetes cluster
                   inputs:
                     action: 'deploy'
-                    kubernetesServiceConnection: 'foodapp-staging-foodcluster-31852-staging-1644620442182'
+                    kubernetesServiceConnection: $(conKube)
                     manifests: '$(yml)'
                     containers: '$(acr)/$(img):$(tag)'
                     imagePullSecrets: '$(imagePullSecret)'
