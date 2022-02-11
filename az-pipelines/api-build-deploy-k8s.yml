@@ -12,11 +12,12 @@ trigger: none
 
 variables:
   System.Debug: true
-  conACR: conACRMK8s
+  conACR: conACR
+  acr: integrationsonline.azurecr.io
   conKube: conKube
   img: foodapi
   yml: $(Pipeline.Workspace)/s/az-manifests/foodapi.yaml
-  acr: integrationsonline.azurecr.io
+
   tag: $(Build.BuildId)
   ns: staging
   imagePullSecret: secret
