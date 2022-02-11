@@ -10,15 +10,13 @@ name: ui-build-deploy-k8s
 
 trigger: none      
 
-variables:
-  provision: true
-  fld: food-ui/
-  conACR: acrDefault
-  conKube: "conKube"
-  img: foodui
-  subs: conFoodApp
-  yml: $(Pipeline.Workspace)/s/az-manifests/foodapi.yaml
+variables:  
+  # fld: food-ui/
+  conACR: conACR
   acr: integrationsonline.azurecr.io
+  conKube: conKube
+  img: foodui
+  yml: $(Pipeline.Workspace)/s/az-manifests/foodui.yaml
   tag: "$(Build.BuildId)"
   ns: "staging"
   imagePullSecret: "secret"
@@ -30,7 +28,7 @@ pool:
 
 stages:
   - stage: "Prepare"
-    displayName: "Build Img and IaC"    
+    displayName: "Build UI Img"    
     jobs:
       
       - job: BuildImg
@@ -39,19 +37,7 @@ stages:
             parameters:
               con: $(conACR)
               img: $(img)
-              path: $(fld)
-        
-      - job: IaC
-        condition: eq(variables.provision, true)
-        steps:        
-        - task: AzureCLI@2
-          displayName: 'Provision K8s'
-          inputs:
-            azureSubscription: '$(subs)'
-            scriptType: 'bash'
-            scriptLocation: 'scriptPath'
-            scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-ui-k8s.sh'
-            arguments: '$(rnd)'        
+              path: $(fld) 
 
   - stage: Deploy
     displayName: Deploy stage
@@ -67,17 +53,17 @@ stages:
                 - task: KubernetesManifest@0
                   displayName: Create imagePullSecret
                   inputs:
-                    action: createSecret
-                    secretName: $(imagePullSecret)
-                    dockerRegistryEndpoint: $(conACR)
-                    kubernetesServiceConnection: $(kube)
-                    namespace: $(ns)
-
+                    action: 'createSecret'
+                    kubernetesServiceConnection: $(conKube)
+                    namespace: '$(ns)'
+                    secretType: 'dockerRegistry'
+                    secretName: '$(imagePullSecret)'
+                    dockerRegistryEndpoint: '$(conACR)'
                 - task: KubernetesManifest@0
                   displayName: Deploy to Kubernetes cluster
                   inputs:
-                    action: "deploy"
+                    action: 'deploy'
                     kubernetesServiceConnection: $(conKube)
-                    manifests: $(yml)
-                    imagePullSecrets: $(imagePullSecret)
-                    containers: "$(acr)/$(img):$(tag)"
+                    manifests: '$(yml)'
+                    containers: '$(acr)/$(img):$(tag)'
+                    imagePullSecrets: '$(imagePullSecret)'
