@@ -8,7 +8,4 @@ usr=$4
 pwd=$5
 
 az group create -n $grp -l $loc
-
-# Create container:
-
 az container create -g $grp -l $loc -n $app --image $img --cpu 1 --memory 1 --dns-name-label $dns --port 80 --registry-username $usr --registry-password $pwd
