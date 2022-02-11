@@ -15,6 +15,7 @@ variables:
   img: foodacrcontainer.azurecr.io/foodui
   dns: foodui-$(env)
   azSubs: 'az400-m015'
+  # set pipeline vars: username, password
 
 pool:
   vmImage: ubuntu-latest
@@ -33,4 +34,4 @@ stages:
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
             scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-container-instance.sh'
-            arguments: '$(env) $(img) $(dns)'
+            arguments: '$(env) $(img) $(dns) $(username) $(password)'
