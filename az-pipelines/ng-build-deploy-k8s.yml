@@ -20,7 +20,7 @@ variables:
   tag: "$(Build.BuildId)"
   ns: "staging"
   imagePullSecret: "secret"
-  env: foodapp.staging
+  env: foodapp-staging
 
 pool:
   vmImage: "ubuntu-20.04"  
