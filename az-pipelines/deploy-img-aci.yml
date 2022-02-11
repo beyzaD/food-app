@@ -12,7 +12,7 @@ trigger: none
 
 variables:
   env: container
-  img: foodacrcontainer.azurecr.io/foodui:latest
+  img: foodacrcontainer.azurecr.io/foodui:3.0.0
   dns: foodui-$(env)
   azSubs: 'az400-m015'
   # set pipeline vars: username, password
