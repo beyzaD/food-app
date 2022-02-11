@@ -14,7 +14,7 @@ variables:
   # fld: food-ui/
   conACR: conACR
   acr: integrationsonline.azurecr.io
-  conKube: conKube
+  conKube: foodapp-staging-foodcluster-31852-staging-1644620442182
   img: foodui
   yml: $(Pipeline.Workspace)/s/az-manifests/foodui.yaml
   tag: "$(Build.BuildId)"
