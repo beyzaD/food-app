@@ -68,16 +68,17 @@ stages:
                 - task: KubernetesManifest@0
                   displayName: Create imagePullSecret
                   inputs:
-                    action: createSecret
-                    secretName: $(imagePullSecret)
-                    kubernetesServiceConnection: $(conKube)
-                    dockerRegistryEndpoint: $(conACR)
-                    namespace: $(ns)              
+                    action: 'createSecret'
+                    kubernetesServiceConnection: 'foodapp-staging-foodcluster-31852-staging-1644620442182'
+                    namespace: '$(ns)'
+                    secretType: 'dockerRegistry'
+                    secretName: '$(imagePullSecret)'
+                    dockerRegistryEndpoint: '$(conACR)'
                 - task: KubernetesManifest@0
                   displayName: Deploy to Kubernetes cluster
                   inputs:
-                    kubernetesServiceConnection: $(conKube)
-                    action: "deploy"
-                    manifests: $(yml)
-                    imagePullSecrets: $(imagePullSecret)
-                    containers: "$(acr)/$(img):$(tag)"
+                    action: 'deploy'
+                    kubernetesServiceConnection: 'foodapp-staging-foodcluster-31852-staging-1644620442182'
+                    manifests: '$(yml)'
+                    containers: '$(acr)/$(img):$(tag)'
+                    imagePullSecrets: '$(imagePullSecret)'
