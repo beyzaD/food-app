@@ -47,6 +47,6 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: foodapi-githubaction
+          app-name: foodapi-github-actions
           publish-profile: ${{ secrets.FOODAPIPROFILE }}
           package: ${{env.DOTNET_ROOT}}/api
