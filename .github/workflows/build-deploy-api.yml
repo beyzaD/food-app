@@ -24,19 +24,7 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish ${{ github.workspace }}/food-api/food-api.csproj -c Release -o ${{env.DOTNET_ROOT}}/api
-        
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
-        
-      - name: Azure CLI Action
-        uses: Azure/cli@v1
-        with:
-          # Specify the script here
-          inlineScript: |
-            
-              
+                        
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
