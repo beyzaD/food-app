@@ -48,5 +48,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: foodapi-github-actions
+          slot-name: PRODUCTION
           publish-profile: ${{ secrets.FOODAPIPROFILE }}
           package: ${{env.DOTNET_ROOT}}/api
