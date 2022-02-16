@@ -7,10 +7,16 @@ identity=foodidentity-$env
 reativeF=ReactiveUI
 converterF=ConverterApi
 
+# Use vault and managed identity from prev demo
+# az keyvault create -l $loc -n $vault -g $grp --sku standard 
+# az keyvault secret set --vault-name $vault --name "conSQLite" --value "Data Source=./food.db"
+# az identity create -g $grp -l $loc -n $identity 
+
 # create appconfig and add a value
 az group create -n $grp -l $loc
 az appconfig create -g $grp -n $cfg -l $loc --sku free
-az appconfig kv set -n $cfg --key "Settings:Title" --value "Food App" -y
+az appconfig kv set -n $cfg --key "Settings:Title" --value "Food Api Dev" -y
+az appconfig kv set -n $cfg --key "Settings:Title" --value "Food Api" --label production -y
 az appconfig kv set -n $cfg --key "App:UseSQLite" --value true -y
 az appconfig kv set -n $cfg --key "App:UseSQLite" --value false --label production -y
 az appconfig kv set -n $cfg --key "App:AuthEnabled" --value false -y
@@ -22,11 +28,9 @@ az appconfig identity assign -n $cfg --identities $miid
 az keyvault set-policy -n $vault --object-id $miobj --secret-permissions list get
 
 az appconfig kv set-keyvault -n $cfg --key "App:ConnectionString" --secret-identifier "https://foodvault-secure.vault.azure.net/secrets/conSQLite" -y
-
 az appconfig kv set-keyvault -n $cfg --key "App:ConnectionString" --secret-identifier "https://foodvault-secure.vault.azure.net/secrets/conSQLServer" --label production -y
 
 # create a feature flags and turn it on
 az appconfig feature set -n $cfg --feature $converterF -y
 az appconfig feature enable -n $cfg --feature $converterF -y
 az appconfig feature set -n $cfg --feature $reativeF -y
-
