@@ -6,7 +6,7 @@ trigger:
       - master
   paths:
     include:
-      - "*"
+      - food-spfx-wp/*
     exclude:
       - az-pipelines/*
       - _images/*
