@@ -23,44 +23,17 @@ pool:
   vmImage: "ubuntu-20.04"
 
 stages:
-  - stage: Build
-    displayName: Build and Provision
+  - stage: "Build"
+    displayName: "Build"
     jobs:
-      - job: Build
+      - job: "Build"
+        displayName: "Build job"
 
         steps:
-          - task: UseDotNet@2
-            displayName: "Use .NET Core SDK $(dotnetSdkVersion)"
-            inputs:
-              version: "$(dotnetSdkVersion)"
-
-          - task: DotNetCoreCLI@2
-            displayName: "Restore project dependencies"
-            inputs:
-              command: "restore"
-              projects: "$(apifolder)/*.csproj"
-
-          - task: DotNetCoreCLI@2
-            displayName: "Build the project - $(buildConfiguration)"
-            inputs:
-              command: "build"
-              arguments: "--no-restore --configuration $(buildConfiguration)"
-              projects: "$(apifolder)/*.csproj"
-
-          - task: DotNetCoreCLI@2
-            displayName: "Publish the project - $(buildConfiguration)"
-            inputs:
-              command: "publish"
-              projects: "$(apifolder)/*.csproj"
-              publishWebProjects: false
-              arguments: "--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)"
-              zipAfterPublish: true
-
-          - task: PublishBuildArtifacts@1
-            inputs:
-              PathtoPublish: "$(Build.ArtifactStagingDirectory)"
-              ArtifactName: "drop"
-              publishLocation: "Container"
+          - template: templates/netcore-build.yaml
+            parameters:
+              cfg: $(buildConfiguration)
+              folder: $(apifolder)
       
       - job: Provision
 
