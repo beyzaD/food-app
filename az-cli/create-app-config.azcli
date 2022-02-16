@@ -20,6 +20,7 @@ az appconfig kv set -n $cfg --key "Settings:Title" --value "Food Api" --label pr
 az appconfig kv set -n $cfg --key "App:UseSQLite" --value true -y
 az appconfig kv set -n $cfg --key "App:UseSQLite" --value false --label production -y
 az appconfig kv set -n $cfg --key "App:AuthEnabled" --value false -y
+az appconfig kv set -n $cfg --key "envflag" --value "app-config" -y
 
 # asign managed identity to app config service 
 miid=$(az identity show -g $grp -n $identity --query id -o tsv)
