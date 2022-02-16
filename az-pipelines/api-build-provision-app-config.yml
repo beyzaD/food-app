@@ -36,4 +36,7 @@ stages:
             
         - task: CmdLine@2
           inputs:
-            script: 'echo $Settings:Title'
+            script: |
+              printenv
+              echo $Settings__Title
+              echo $Settings:Title
