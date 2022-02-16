@@ -14,10 +14,10 @@ variables:
   dotnetSdkVersion: "6.x"
   buildConfiguration: Release
   releaseBranchName: master
-  azSubscription: az400-mod10-subscription
+  azSubscription: scMI
   apifolder: food-api
   appservice: foodapi-staging-cli
-  envflag: staging-cli
+  # envflag: app-config comes from app config
 
 pool:
   vmImage: "ubuntu-20.04"
@@ -38,7 +38,17 @@ stages:
       - job: Provision
 
         steps:
-        
+        - task: AzureAppConfiguration@5
+          inputs:
+            azureSubscription: 'scMI'
+            AppConfigurationEndpoint: 'https://foodconfig-secure.azconfig.io'
+            KeyFilter: '*'
+            
+        - task: Bash@3
+          inputs:
+            targetType: 'inline'
+            script: 'echo $(envflag)'
+
         - task: AzureCLI@2
           displayName: 'Provision AppService'
           inputs:
