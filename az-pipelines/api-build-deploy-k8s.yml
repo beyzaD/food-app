@@ -6,7 +6,7 @@ name: Kubernetes Deploy
 #       - master
 #   paths:
 #     include:
-#       - FoodApi/*
+#       - food-api/*
 
 trigger: none
 
