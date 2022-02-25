@@ -72,5 +72,5 @@ stages:
             azureSubscription: '$(azSubscription)'
             scriptType: 'bash'
             scriptLocation: 'scriptPath'
-            scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-api.azcli'
+            scriptPath: '$(System.DefaultWorkingDirectory)/az-cli/create-api.sh'
             arguments: '$(envflag)'
