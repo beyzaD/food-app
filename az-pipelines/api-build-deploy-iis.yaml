@@ -51,15 +51,15 @@ stages:
               artifactName: apidrop
             displayName: "Publish Artifact: apidrop"
 
-  - stage: 'DeployIIS'
+  - stage: 'DeployIISStaging'
     displayName: 'Deploy to IIS'
     dependsOn: 'Build'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     jobs:    
-    - deployment: Production
-      displayName: Production
+    - deployment: Staging
+      displayName: Staging
       environment: 
-        name: 'ProductionIIS'    
+        name: 'Staging'    
         resourceType: VirtualMachine
       variables:
       - name: websitePhysicalPath
@@ -105,3 +105,58 @@ stages:
               inputs:
                 WebSiteName: '$(websiteName)'
                 Package: '$(Pipeline.Workspace)/apidrop//**/*.zip'
+
+  - stage: 'DeployIISProd'
+    displayName: 'Deploy to IIS'
+    dependsOn: 'Build'
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    jobs:    
+    - deployment: Prod
+      displayName: Prod
+      environment: 
+        name: 'Prod'    
+        resourceType: VirtualMachine
+      variables:
+      - name: websitePhysicalPath
+        value: '%SystemDrive%\data\$(websiteName)'
+
+      strategy:
+        runOnce:
+          deploy:
+            steps:             
+            - task: DownloadBuildArtifacts@0
+              inputs:
+                buildType: "current"
+                downloadType: "single"
+                artifactName: "apidrop"
+                downloadPath: "$(Pipeline.Workspace)"
+            - task: IISWebAppManagementOnMachineGroup@0
+              inputs:            
+                IISDeploymentType: 'IISWebsite'
+                ActionIISWebsite: 'CreateOrUpdateWebsite'
+                WebsiteName: '$(websiteName)'
+                WebsitePhysicalPath: '$(websitePhysicalPath)'
+                WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+                CreateOrUpdateAppPoolForWebsite: true
+                AppPoolNameForWebsite: '$(appPoolName)'
+                DotNetVersionForWebsite: 'No Managed Code'
+                PipeLineModeForWebsite: 'Integrated'
+                AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+                AddBinding: true
+                Bindings: |
+                    {
+                        bindings:[
+                            {
+                                "protocol":"http",
+                                "ipAddress":"",
+                                "hostname":"",
+                                "port":"8099",
+                                "sslThumbprint":"",
+                                "sniFlag":false
+                            }
+                        ]
+                    }
+            - task: IISWebAppDeploymentOnMachineGroup@0
+              inputs:
+                WebSiteName: '$(websiteName)'
+                Package: '$(Pipeline.Workspace)/apidrop//**/*.zip'                

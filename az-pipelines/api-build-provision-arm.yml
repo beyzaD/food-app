@@ -14,7 +14,7 @@ variables:
   dotnetSdkVersion: "6.x"
   buildConfiguration: Release
   releaseBranchName: master
-  azSubscription: az400-mod13-subscription
+  azSubscription: az400-mod10-subscription
   apifolder: food-api
   rgname: 'az400-mod10-armpipeline'
   appservice: foodapi-staging-arm  
@@ -76,7 +76,7 @@ stages:
           displayName: 'ARM Template Deployment'
           inputs:
             deploymentScope: 'Resource Group'
-            azureResourceManagerConnection: 'az400-mod10-subscription'
+            azureResourceManagerConnection: $(azSubscription)
             subscriptionId: '78033352-805c-4acd-af80-f8f95083268d'
             action: 'Create Or Update Resource Group'
             resourceGroupName: '$(rgname)'
